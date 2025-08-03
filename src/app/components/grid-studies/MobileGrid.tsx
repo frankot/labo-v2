@@ -2,18 +2,14 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { VideoFrame } from "./VideoFrame";
-
-interface Frame {
-  id: number;
-  video: string;
-}
+import { type CaseStudy } from "../../../lib/realizacje-data";
 
 interface MobileGridProps {
-  frames: Frame[];
+  caseStudies: CaseStudy[];
 }
 
-export function MobileGrid({ frames }: MobileGridProps) {
-  const [expandedFrame, setExpandedFrame] = useState<number | null>(null);
+export function MobileGrid({ caseStudies }: MobileGridProps) {
+  const [expandedFrame, setExpandedFrame] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +18,7 @@ export function MobileGrid({ frames }: MobileGridProps) {
     setIsVisible(true);
   }, []);
 
-  const handleCardTap = useCallback((frameId: number) => {
+  const handleCardTap = useCallback((frameId: string) => {
     setExpandedFrame((current) => (current === frameId ? null : frameId));
   }, []);
 
@@ -35,28 +31,30 @@ export function MobileGrid({ frames }: MobileGridProps) {
       style={{ WebkitOverflowScrolling: "touch" }}
     >
       <div className="flex min-h-full flex-col gap-1 p-2">
-        {frames.map((frame, index) => {
-          const isExpanded = expandedFrame === frame.id;
+        {caseStudies.map((caseStudy, index) => {
+          const isExpanded = expandedFrame === caseStudy.id;
 
           return (
             <div
-              key={frame.id}
+              key={caseStudy.id}
               className={`relative cursor-pointer overflow-hidden transition-all duration-300 select-none ${
                 isExpanded ? "h-80" : "h-52"
               } active:scale-95`}
               style={{
-                animationDelay: `${index * 100}ms`,
+                animationDelay: `${index * 300}ms`,
                 touchAction: "manipulation",
                 WebkitTapHighlightColor: "transparent",
-                transform: "translateZ(0)", // GPU acceleration
-                contain: "layout style paint", // Performance optimization
+                transform: "translateZ(0)",
+                contain: "layout style paint",
               }}
-              onClick={() => handleCardTap(frame.id)}
+              onClick={() => handleCardTap(caseStudy.id)}
             >
               <VideoFrame
-                video={frame.video}
+                video={caseStudy.video}
                 isMobile={true}
                 className="h-full w-full"
+                caseStudy={caseStudy}
+                isHovered={isExpanded} // Only show overlay when expanded
               />
             </div>
           );

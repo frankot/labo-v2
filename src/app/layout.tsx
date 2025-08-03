@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Michroma } from "next/font/google";
+import { Michroma, Quicksand } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/navbar";
 
 const michroma = Michroma({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-michroma",
+});
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-quicksand",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className={michroma.variable}>{children}</body>
+      <body
+        className={`overflow-x-hidden ${michroma.variable} ${quicksand.className}`}
+      >
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

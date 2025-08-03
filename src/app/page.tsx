@@ -1,13 +1,15 @@
-import OptimizedFrameLayout from "./components/optimized-grid";
-import Hero from "./Hero";
+import FrameLayout from "./components/grid-studies";
+import Hero from "./components/_main/Hero";
+import About from "./components/_main/About";
 
 export default function Home() {
   return (
-    <main>
+    <main className="">
       <Hero />
-      <div className="w-full mt-20 lg:mt-0 lg:h-screen">
-        <OptimizedFrameLayout />
+      <div className="mt-20 w-full lg:mt-0 lg:h-screen">
+        <FrameLayout />
       </div>
+      <About />
     </main>
   );
 }
