@@ -99,7 +99,7 @@ const MobileNav = () => {
                                 onClick={closeMenu}
                                 className="block py-2 text-neutral-400 transition-colors hover:text-white"
                               >
-                                {item.title}
+                                {item.label}
                               </Link>
                             ))}
                           </div>

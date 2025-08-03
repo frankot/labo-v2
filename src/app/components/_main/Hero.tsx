@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FadeInView } from "../../anim";
-import { StickyHeader } from "../../anim";
+import StickyHeader from "../ui/sticky-header";
 
 export default function Hero() {
   return (

@@ -3,11 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-interface DropdownItem {
-  href: string;
-  label: string;
-  description: string;
-}
+import { DropdownItem } from "./navigation-data";
 
 interface DropdownProps {
   label: string;

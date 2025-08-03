@@ -1,10 +1,5 @@
 // Components
-export {
-  AnimatedText,
-  AnimatedNumber,
-  FadeInView,
-  StickyHeader,
-} from "./components";
+export { AnimatedText, AnimatedNumber, FadeInView } from "./components";
 
 // Types
 export type {

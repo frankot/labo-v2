@@ -4,10 +4,16 @@ export interface NavigationItem {
   description: string;
 }
 
+export interface DropdownItem {
+  href: string;
+  label: string;
+  description: string;
+}
+
 export interface NavLink {
   href?: string;
   label: string;
-  items?: NavigationItem[];
+  items?: DropdownItem[];
 }
 
 export const ofertaComponents: NavigationItem[] = [

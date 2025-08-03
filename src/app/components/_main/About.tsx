@@ -9,7 +9,7 @@ import {
   Users2,
   Clock,
 } from "lucide-react";
-import { StickyHeader } from "../../anim";
+import StickyHeader from "../ui/sticky-header";
 import Card from "../ui/card";
 import { AnimatedText, AnimatedNumber, FadeInView } from "../../anim";
 

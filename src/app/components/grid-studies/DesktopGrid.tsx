@@ -17,10 +17,17 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Simple visibility on mount
+  // Simple visibility on mount and set first video as hovered
   useEffect(() => {
     setIsVisible(true);
-  }, []);
+    // Set first video (index 0) as hovered by default
+    if (caseStudies.length > 0) {
+      const firstCase = caseStudies[0];
+      const row = Math.floor(firstCase.defaultPos.y / 4);
+      const col = Math.floor(firstCase.defaultPos.x / 4);
+      setHovered({ row, col, index: 0 });
+    }
+  }, [caseStudies]);
 
   // Update CSS custom properties for dynamic grid with organic hover
   useEffect(() => {
