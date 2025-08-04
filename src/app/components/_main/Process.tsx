@@ -71,11 +71,11 @@ const AnimatedText = ({
         className={className}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-25%" }}
         variants={{
           visible: {
             transition: {
-              staggerChildren: 0.03,
+              staggerChildren: 0.02,
               delayChildren: delay,
             },
           },
@@ -113,7 +113,7 @@ const DesktopProcess = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
-    margin: "-20% 0px -20% 0px",
+    margin: "55% 0px 55% 0px",
   });
   const controls = useAnimation();
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
@@ -169,7 +169,7 @@ const DesktopProcess = () => {
       {/* Background Text */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-start">
         <motion.h1
-          className="font-michroma  -ml-2 text-[15rem] font-bold text-white/15"
+          className="font-michroma -ml-2 text-[15rem] font-bold text-white/15"
           initial="hidden"
           animate={controls}
           variants={{

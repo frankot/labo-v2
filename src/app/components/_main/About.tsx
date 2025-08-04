@@ -11,7 +11,10 @@ import {
 } from "lucide-react";
 import StickyHeader from "../ui/sticky-header";
 import Card from "../ui/card";
-import { AnimatedText, AnimatedNumber, FadeInView } from "../../anim";
+import { AnimatedText, FadeInView } from "../../anim";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { useInView } from "framer-motion";
 
 const stats = [
   {
@@ -65,7 +68,60 @@ const stats = [
   },
 ];
 
+// Custom AnimatedNumber component for stats
+const StatsAnimatedNumber = ({
+  value,
+  suffix = "",
+  className,
+  delay = 0,
+  isInView,
+}: {
+  value: number;
+  suffix?: string;
+  className?: string;
+  delay?: number;
+  isInView: boolean;
+}) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(count, value, {
+        duration: 2.5,
+        ease: "easeOut",
+        delay: delay,
+      });
+
+      return controls.stop;
+    }
+  }, [count, value, isInView, delay]);
+
+  return (
+    <motion.span
+      className={`font-michroma text-3xl font-semibold tracking-tight ${className || ""}`}
+      initial={{ opacity: 0, y: 28 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+      transition={{
+        type: "spring",
+        duration: 0.8,
+        bounce: 0.4,
+        delay: delay,
+      }}
+    >
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </motion.span>
+  );
+};
+
 export default function About() {
+  const statsRef = useRef(null);
+  const isStatsInView = useInView(statsRef, {
+    once: true,
+    margin: "25% 0px 25% 0px",
+  });
+
   return (
     <div id="about" className="relative">
       {/* Hero Image Section */}
@@ -81,15 +137,15 @@ export default function About() {
       </FadeInView>
 
       {/* Main Content */}
-      <div className="relative   w-full">
+      <div className="relative w-full">
         <StickyHeader
-          className="top-0 z-0 px-2 md:px-0 md:ml-0 -mt-32 text-[4rem] text-left text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
+          className="top-0 z-0 -mt-32 px-2 text-left text-[4rem] text-white/20 md:ml-0 md:px-0 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
           title="O NAS"
           delay={0.2}
         />
 
         {/* Title Section */}
-        <FadeInView className="relative z-20  -mt-20">
+        <FadeInView className="relative z-20 -mt-20">
           {/* Content Layout */}
           <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
             <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
@@ -171,7 +227,10 @@ export default function About() {
         </FadeInView>
 
         {/* Stats Section */}
-        <section className="container mx-auto px-2 md:px-0 max-w-7xl py-24 xl:pt-32">
+        <section
+          ref={statsRef}
+          className="container mx-auto max-w-7xl px-2 py-24 md:px-0 xl:pt-32"
+        >
           <FadeInView>
             <dl className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {stats.map((stat, index) => {
@@ -194,10 +253,11 @@ export default function About() {
                         />
                       </dt>
                       <dd className="font-michroma order-first text-3xl font-semibold tracking-tight text-white">
-                        <AnimatedNumber
+                        <StatsAnimatedNumber
                           value={stat.value}
                           suffix={stat.suffix}
-                          delay={0.3 + index * 0.1}
+                          delay={2.0 + index * 0.1}
+                          isInView={isStatsInView}
                         />
                       </dd>
                       <p className="mt-2 text-sm text-stone-400">

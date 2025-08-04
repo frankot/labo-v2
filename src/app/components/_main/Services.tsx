@@ -4,6 +4,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { Blocks, DraftingCompass, Wrench } from "lucide-react";
 import Card from "../ui/card";
+import { StaggeredText } from "../../anim/components";
 
 const AnimatedText = ({
   text,
@@ -205,14 +206,18 @@ const itemVariants: Variants = {
 
 export default function Services() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-20% 0px -20% 0px" });
+  const isInView = useInView(ref, { once: true, margin: "25% 0px 25% 0px" });
   const [activeService, setActiveService] = useState<number>(0);
 
   return (
-    <section id="services" ref={ref} className="relative min-h-screen pb-24 xl:-mt-10">
-                  <h2 className="font-michroma uppercase text-[4rem] text-white/20 lg:-mt-[12rem] text-left sticky top-0 z-0 lg:text-[5rem] xl:text-[12rem] font-bold">
-              <AnimatedText text="Usługi" delay={0.1} />
-            </h2>
+    <section
+      id="services"
+      ref={ref}
+      className="relative mb-20 min-h-[70vh] pb-24 xl:-mt-10"
+    >
+      <h2 className="font-michroma sticky top-0 z-0 text-left text-[4rem] font-bold text-white/20 uppercase lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]">
+        <StaggeredText text="Usługi" delay={0.1} />
+      </h2>
       <motion.div
         className="relative z-10 container mx-auto mt-16 max-w-7xl"
         variants={containerVariants}
@@ -312,8 +317,6 @@ export default function Services() {
         <div className="hidden lg:grid lg:grid-cols-2 lg:gap-8">
           {/* Left Column - Service Categories */}
           <motion.div className="space-y-4" variants={itemVariants}>
-
-
             {serviceCategories.map((category, index) => (
               <motion.button
                 key={index}

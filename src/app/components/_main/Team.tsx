@@ -258,7 +258,7 @@ export default function TeamSection() {
       {/* Main Content */}
       <div className="relative w-full px-2 lg:px-0">
         <StickyHeader
-          className="top-0 z-0 -mt-32 text-left  text-[4rem] text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
+          className="top-0 z-0 text-left text-[4rem] text-white/20 lg:text-[5rem] xl:text-[12rem]"
           title="TEAM"
           delay={0.2}
         />

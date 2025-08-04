@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Michroma, Quicksand } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar";
+import Footer from "./components/_main/Footer";
 
 const michroma = Michroma({
   subsets: ["latin"],
@@ -28,10 +29,11 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body
-        className={`overflow-x-hidden scroll-smooth  ${michroma.variable} ${quicksand.className}`}
+        className={`overflow-x-hidden scroll-smooth ${michroma.variable} ${quicksand.className}`}
       >
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
