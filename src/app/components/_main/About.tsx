@@ -81,50 +81,103 @@ export default function About() {
       </FadeInView>
 
       {/* Main Content */}
-      <div className="relative w-full">
+      <div className="relative   w-full">
         <StickyHeader
-          className="top-0 z-0 -mt-32 text-[4rem] text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
+          className="top-0 z-0 px-2 md:px-0 md:ml-0 -mt-32 text-[4rem] text-left text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
           title="O NAS"
           delay={0.2}
         />
 
         {/* Title Section */}
-        <FadeInView className="relative z-20 container mx-auto -mt-20">
+        <FadeInView className="relative z-20  -mt-20">
           {/* Content Layout */}
-          <div className="mx-auto mt-24 max-w-4xl text-center lg:mt-10">
-            <Card>
-              <div className="space-y-8 text-lg leading-relaxed text-stone-300">
-                <p>
-                  <AnimatedText
-                    text="Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, targów, wystaw i produkcji multimedialnych – zarówno w Polsce jak i poza jej granicami."
-                    delay={0.1}
-                  />
-                </p>
-                <p>
-                  <AnimatedText
-                    text="Od ponad dekady wspieramy agencje eventowe, studia kreatywne, instytucje kultury i producentów wydarzeń, dostarczając przemyślane i dopracowane rozwiązania scenograficzne."
-                    delay={0.3}
-                  />
-                </p>
-                <p>
-                  <AnimatedText
-                    text="Wychodzimy z założenia, że dobrą scenografię kreują szczegóły i to właśnie na nie zwracamy największą uwagę. Dbając o ciągły rozwój nie zapominamy o kształtowaniu dobrej atmosfery i wzajemnym inspirowaniu do działania po to, aby osiągnąć jeden cel: pełną satysfakcję naszych Klientów."
-                    delay={0.5}
-                  />
-                </p>
+          <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
+            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
+              {/* Main Content Card - 2/3 width */}
+              <div className="lg:col-span-2">
+                <Card className="cursor-default">
+                  <div className="space-y-8 text-lg leading-relaxed text-stone-300">
+                    <p>
+                      <AnimatedText
+                        text="Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, targów, wystaw i produkcji multimedialnych – zarówno w Polsce jak i poza jej granicami."
+                        delay={0.1}
+                      />
+                    </p>
+                    <p>
+                      <AnimatedText
+                        text="Od ponad dekady wspieramy agencje eventowe, studia kreatywne, instytucje kultury i producentów wydarzeń, dostarczając przemyślane i dopracowane rozwiązania scenograficzne."
+                        delay={0.3}
+                      />
+                    </p>
+                    <p>
+                      <AnimatedText
+                        text="Wychodzimy z założenia, że dobrą scenografię kreują szczegóły i to właśnie na nie zwracamy największą uwagę. Dbając o ciągły rozwój nie zapominamy o kształtowaniu dobrej atmosfery i wzajemnym inspirowaniu do działania po to, aby osiągnąć jeden cel: pełną satysfakcję naszych Klientów."
+                        delay={0.5}
+                      />
+                    </p>
+                  </div>
+                </Card>
               </div>
-            </Card>
+
+              {/* Side Content - 1/3 width */}
+              <Card className="h-fit cursor-default space-y-6 text-stone-300">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-stone-200">
+                      Druk 3D
+                    </h4>
+                    <p className="text-xs text-stone-400">
+                      <AnimatedText
+                        text="Własne drukarki przemysłowe do elementów dekoracyjnych i funkcjonalnych"
+                        delay={0.4}
+                      />
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-stone-200">CNC</h4>
+                    <p className="text-xs text-stone-400">
+                      <AnimatedText
+                        text="Precyzyjne cięcie i frezowanie materiałów kompozytowych"
+                        delay={0.5}
+                      />
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-stone-200">
+                      LED Mapping
+                    </h4>
+                    <p className="text-xs text-stone-400">
+                      <AnimatedText
+                        text="Zaawansowane projekcje na niestandardowe powierzchnie"
+                        delay={0.6}
+                      />
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-stone-200">
+                      VR/AR
+                    </h4>
+                    <p className="text-xs text-stone-400">
+                      <AnimatedText
+                        text="Wizualizacje 3D i doświadczenia immersyjne"
+                        delay={0.7}
+                      />
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
         </FadeInView>
 
         {/* Stats Section */}
-        <section className="container mx-auto max-w-7xl py-24">
+        <section className="container mx-auto px-2 md:px-0 max-w-7xl py-24 xl:pt-32">
           <FadeInView>
             <dl className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {stats.map((stat, index) => {
                 const Icon = stat.Icon;
                 return (
-                  <Card key={stat.id}>
+                  <Card className="cursor-default" key={stat.id}>
                     <div className="top absolute -right-4 z-0 scale-100 opacity-30 transition-all duration-800 ease-out group-hover:scale-110 group-hover:opacity-50">
                       <Icon
                         size={80}
@@ -144,10 +197,12 @@ export default function About() {
                         <AnimatedNumber
                           value={stat.value}
                           suffix={stat.suffix}
+                          delay={0.3 + index * 0.1}
                         />
                       </dd>
                       <p className="mt-2 text-sm text-stone-400">
                         <AnimatedText
+                          className="line-clamp-1"
                           text={stat.description}
                           delay={0.9 + index * 0.1}
                         />

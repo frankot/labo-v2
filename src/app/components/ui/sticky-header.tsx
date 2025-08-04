@@ -14,7 +14,7 @@ export default function StickyHeader({
   className = "",
 }: StickyHeaderProps) {
   const defaultClasses =
-    "font-michroma sticky font-bold tracking-tight text-center";
+    "font-michroma sticky font-bold tracking-tight text-center pointer-events-none";
 
   return (
     <h1 className={`${defaultClasses} ${className}`}>

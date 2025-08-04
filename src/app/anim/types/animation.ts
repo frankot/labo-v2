@@ -8,6 +8,7 @@ export interface AnimatedNumberProps {
   value: number;
   suffix?: string;
   className?: string;
+  delay?: number;
 }
 
 export interface FadeInViewProps {

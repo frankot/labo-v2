@@ -17,6 +17,9 @@ export default function Card({ children, className }: CardProps) {
       {/* Gradient Border Effect */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/5 via-white/0 to-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
+      {/* Moving Light Sweep Effect */}
+      <div className="absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-700 ease-out group-hover:translate-x-full group-hover:opacity-100" />
+
       {/* Content */}
       <div className="relative z-10">{children}</div>
 

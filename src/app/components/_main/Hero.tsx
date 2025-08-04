@@ -23,11 +23,11 @@ export default function Hero() {
       </div>
 
       {/* Main Heading */}
-      <StickyHeader
+      {/* <StickyHeader
         title="Tworzymy przestrzenie, które działają"
         delay={0.2}
         className="z-10 mb-8 cursor-default pb-2 text-3xl leading-tight font-black tracking-normal text-gray-200 antialiased sm:text-5xl md:text-6xl lg:pb-12"
-      />
+      /> */}
 
       {/* Horizontal Services List */}
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:gap-8">

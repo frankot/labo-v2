@@ -8,6 +8,7 @@ const AnimatedNumber = ({
   value,
   suffix = "",
   className,
+  delay = 0,
 }: AnimatedNumberProps) => {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
@@ -23,15 +24,16 @@ const AnimatedNumber = ({
 
   return (
     <motion.span
-      className={`font-michroma text-3xl font-semibold tracking-tight text-stone-100 ${className || ""}`}
+      className={`font-michroma text-3xl font-semibold tracking-tight ${className || ""}`}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{
         type: "spring",
         duration: 0.8,
         bounce: 0.4,
+        delay,
       }}
-      viewport={{ once: true, margin: "-20%" }}
+      viewport={{ once: true, amount: 0.3 }}
     >
       <motion.span>{rounded}</motion.span>
       {suffix}
