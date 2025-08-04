@@ -81,14 +81,14 @@ const MobileNav = () => {
                     >
                       {link.label}
                       <ChevronDown
-                        className={`transform transition-transform ${
+                        className={`transform duration-300 transition-transform ${
                           openSections.includes(link.label) ? "rotate-180" : ""
                         }`}
                         size={20}
                       />
                     </button>
                     {openSections.includes(link.label) && (
-                      <div className="py-2 pl-4">
+                      <div className="py-2 pl-4 transition-all duration-300">
                         {link.items.map((item) => (
                           <Link
                             key={item.href}

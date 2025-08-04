@@ -69,7 +69,7 @@ export default function Footer() {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <div className="container mx-auto max-w-7xl px-4 py-16">
+      <div className="container mx-auto max-w-7xl px-10 py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <motion.div variants={itemVariants} className="space-y-4">

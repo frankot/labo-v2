@@ -128,28 +128,30 @@ export function VideoFrame({
         )}
       </div>
 
-      {/* Floating card overlay - simplified */}
+      {/* Company and year badge using Card component */}
       {caseStudy && (
         <div
-          className={`absolute right-5 bottom-3 w-fit rounded-lg border border-white/30 bg-black/50 p-3 text-white backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-white/80 ${
+          className={`absolute right-0 bottom-3 left-0 mx-4 transition-all duration-500 w-1/3 ease-[cubic-bezier(0.23,1,0.32,1)] ${
             isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
           }`}
         >
-          <div className="flex items-center justify-between">
-            <div className="min-w-0 flex-1">
-              <h3 className="font-michroma truncate text-xs font-medium text-white">
-                {caseStudy.company}
-              </h3>
-              <p className="font-michroma text-[10px] tracking-wide text-white/60">
-                {caseStudy.date}
-              </p>
+          <Card className="p-3 backdrop-blur-2xl">
+            <div className="flex items-center justify-between">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-michroma truncate text-xs font-medium text-white">
+                  {caseStudy.company}
+                </h3>
+                <p className="font-michroma text-[10px] tracking-wide text-white/60">
+                  {caseStudy.date}
+                </p>
+              </div>
+              <div className="ml-3 flex-shrink-0">
+                <span className="font-michroma text-xs text-white/70 transition-all duration-300 hover:translate-x-0.5 hover:text-white">
+                  →
+                </span>
+              </div>
             </div>
-            <div className="ml-3 flex-shrink-0">
-              <span className="font-michroma text-xs text-white/70 transition-all duration-300 hover:translate-x-0.5 hover:text-white">
-                →
-              </span>
-            </div>
-          </div>
+          </Card>
         </div>
       )}
     </div>
