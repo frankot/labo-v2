@@ -257,9 +257,9 @@ const DesktopProcess = () => {
                       initial={{ opacity: 0, y: 10, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                      className={`absolute z-20 w-80 ${
-                        isEven ? "top-full -mt-8" : "bottom-full -mb-8"
-                      } ${index === 0 ? "translate-x-[40%]" : ""} ${
+                      className={`absolute bottom-full z-20 w-80 ${
+                        index === 0 ? "translate-x-[40%]" : ""
+                      } ${
                         index === processSteps.length - 1
                           ? "-translate-x-[40%]"
                           : ""
