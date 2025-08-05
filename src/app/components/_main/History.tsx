@@ -110,7 +110,7 @@ const MobileHistory = () => {
   };
 
   return (
-    <div className="px-4 py-12 lg:py-44  xl:hidden" ref={ref}>
+    <div className="px-4 py-12 lg:py-44 xl:hidden" ref={ref}>
       {/* Mobile Static Header */}
       <div className="mb-16 text-center">
         <motion.h1
@@ -274,14 +274,10 @@ const DesktopHistory = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 text-white md:py-24"
+      className="relative hidden py-12 text-white md:py-24 xl:block"
       id="history"
     >
-      <StickyHeader
-        className="top-0 -z-10 hidden xl:block"
-        title="HISTORIA"
-        delay={0.2}
-      />
+      <StickyHeader className="top-0 -z-10" title="HISTORIA" delay={0.2} />
       <div className="container mx-auto px-4">
         <div className="relative z-10 mx-auto mt-8 max-w-6xl md:mt-16">
           <motion.div
