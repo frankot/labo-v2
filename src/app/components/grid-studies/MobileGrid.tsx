@@ -38,7 +38,7 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
             <div
               key={caseStudy.id}
               className={`relative cursor-pointer overflow-hidden transition-all duration-300 select-none ${
-                isExpanded ? "h-80" : "h-52"
+                isExpanded ? "h-80" : "h-40"
               } active:scale-95`}
               style={{
                 animationDelay: `${index * 300}ms`,
