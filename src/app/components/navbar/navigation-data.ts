@@ -92,13 +92,14 @@ export const navLinks: NavLink[] = [
   },
   {
     label: "Realizacje",
+    href: "/realizacje",
     items: realizacjeComponents.map((item) => ({
       href: item.href,
       label: item.title,
       description: item.description,
     })),
   },
-  { href: "/park-maszynowy", label: "Park maszynowy" },
+  { href: "/park-maszyn", label: "Park maszynowy" },
   { href: "/ekipa", label: "Ekipa" },
   {
     label: "Kontakt",

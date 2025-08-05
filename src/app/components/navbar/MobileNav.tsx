@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, ChevronDown } from "lucide-react";
+import { X, ChevronDown, Phone, Mail } from "lucide-react";
 import { navLinks } from "./navigation-data";
 
 const MobileNav = () => {
@@ -43,32 +43,75 @@ const MobileNav = () => {
       {/* Hamburger Button */}
       <button
         onClick={toggleMenu}
-        className="fixed top-4 right-4 z-30 flex h-16 w-16 items-center justify-center rounded-lg border border-neutral-800 bg-black/80 backdrop-blur-sm md:hidden"
+        className="fixed top-4 right-4 z-30 flex size-12 items-center justify-center rounded border border-neutral-400 bg-black/50 backdrop-blur-sm md:hidden"
       >
-        <Image src="/logo-small.png" alt="Menu" width={50} height={50} />
+        <svg
+          data-slot="icon"
+          fill="none"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          className="size-9 text-white"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
+          ></path>
+        </svg>
       </button>
 
       {/* Mobile Menu - Always Rendered */}
       <div
-        className={`fixed top-0 right-0 z-40 h-screen w-80 transform overflow-y-auto bg-black transition-transform duration-300 md:hidden ${
+        className={`fixed top-0 right-0 z-40 h-screen w-4/5 min-w-64 transform overflow-y-auto bg-black transition-transform duration-300 md:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <button
-          onClick={closeMenu}
-          className="absolute top-6 right-10 text-white"
-        >
-          <X size={32} />
-        </button>
+        {/* Header with X button and phone number */}
+        <div className="flex items-center justify-between px-6 pt-4">
+          <div className="flex items-center gap-2 text-white">
+            <Phone size={16} />
+            <span className="text-sm">+48 123 456 789</span>
+          </div>
+          <button
+            onClick={closeMenu}
+            className="flex size-12 items-center justify-center rounded border border-neutral-400 bg-black/50 backdrop-blur-sm"
+          >
+            <X size={20} className="text-white" />
+          </button>
+        </div>
 
-        <div className="px-6 pt-20">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={150}
-            height={50}
-            className="mb-8"
-          />
+        <div className="px-6 pt-6">
+          {/* Logo and placeholder text section */}
+          <div className="mb-8 flex gap-4">
+            <div className="w-full">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={150}
+                height={50}
+                className="w-full"
+              />
+            </div>
+            <div className="w-2/3">
+              <div className="space-y-3 text-sm">
+                <div className="border-t border-neutral-700 pt-2">
+                  <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                    Zastępca Szeryfa
+                  </h4>
+                  <p className="text-neutral-400">+48 987 654 321</p>
+                </div>
+                <div>
+                  <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                    Email
+                  </h4>
+                  <p className="text-neutral-400">kontakt@labo.pl</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <nav className="space-y-2">
             {navLinks.map((link) => (
@@ -81,7 +124,7 @@ const MobileNav = () => {
                     >
                       {link.label}
                       <ChevronDown
-                        className={`transform duration-300 transition-transform ${
+                        className={`transform transition-transform duration-300 ${
                           openSections.includes(link.label) ? "rotate-180" : ""
                         }`}
                         size={20}

@@ -329,7 +329,7 @@ const MobileProcess = () => {
     <div className="px-2 py-12 md:px-0 lg:hidden" ref={ref}>
       {/* Mobile Sticky Header */}
       <StickyHeader
-        className="font-bol top-0 z-0 text-left text-[4rem] text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
+        className="font-bol top-0 z-0 text-center  text-[3rem] text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
         title="PROCES"
         delay={0.2}
       />

@@ -9,7 +9,7 @@ import Contact from "./components/_main/Contact";
 
 export default function Home() {
   return (
-    <div className="hidden lg:block">
+    <div className="h">
       <Hero />
       <div className="mt-20 w-full lg:mt-0 lg:h-screen">
         <FrameLayout />
