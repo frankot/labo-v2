@@ -46,7 +46,7 @@ export default function Contact() {
   return (
     <section id="contact" className="relative">
       <StickyHeader
-        className="top-0 z-0 px-2 text-left text-[4rem] text-white/20 md:ml-0 md:px-0 lg:text-[5rem] xl:text-[12rem]"
+        className="px-2 md:ml-0 md:px-0"
         title="KONTAKT"
         delay={0.2}
       />
@@ -172,7 +172,7 @@ export default function Contact() {
                           href: "https://maps.google.com",
                           label: "Location",
                         },
-                      ].map((social, index) => {
+                      ].map((social) => {
                         const SocialIcon = social.icon;
                         return (
                           <a

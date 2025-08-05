@@ -137,3 +137,95 @@ export const caseStudies: CaseStudy[] = [
     borderSize: 80,
   },
 ];
+
+// Realizacje interface for project pages
+export interface Realizacja {
+  id: string;
+  title: string;
+  description: string;
+  client: string;
+  year: number;
+  category: string;
+  image: string;
+  location: string;
+  area: string;
+  scope: string;
+  services: string[];
+  fullDescription: string;
+  gallery: string[];
+}
+
+// Sample realizacje data - replace with your actual data
+export const realizacje: Realizacja[] = [
+  {
+    id: "mieszkanie-mokotow",
+    title: "Mieszkanie na Mokotowie",
+    description:
+      "Nowoczesne mieszkanie w centrum Warszawy z minimalistycznym designem",
+    client: "Prywatny inwestor",
+    year: 2024,
+    category: "Mieszkanie",
+    image: "/scene.jpg",
+    location: "Warszawa, Mokotów",
+    area: "85 m²",
+    scope: "Projekt wnętrz, nadzór",
+    services: ["Projekt koncepcyjny", "Projekt wykonawczy", "Nadzór autorski"],
+    fullDescription:
+      "Kompleksowy projekt wnętrza mieszkania na Mokotowie. Zastosowaliśmy nowoczesne rozwiązania przestrzenne, łącząc funkcjonalność z estetyką. Projekt obejmuje otwarty plan salonu z kuchnią, sypialnię z garderobą oraz łazienkę z wanną i prysznicem.",
+    gallery: ["/scene.jpg", "/scene.jpg", "/scene.jpg", "/scene.jpg"],
+  },
+  {
+    id: "dom-konstancin",
+    title: "Dom w Konstancinie",
+    description: "Elegancki dom jednorodzinny o powierzchni 200m² z ogrodem",
+    client: "Rodzina Kowalskich",
+    year: 2023,
+    category: "Dom",
+    image: "/scene.jpg",
+    location: "Konstancin-Jeziorna",
+    area: "200 m²",
+    scope: "Projekt wnętrz, aranżacja ogrodu",
+    services: [
+      "Projekt koncepcyjny",
+      "Projekt wykonawczy",
+      "Dobór materiałów",
+      "Nadzór",
+    ],
+    fullDescription:
+      "Projekt domu jednorodzinnego w Konstancinie-Jeziornie. Wnętrze charakteryzuje się elegancją i funkcjonalnością, z wykorzystaniem naturalnych materiałów i dużych przeszkleń łączących wnętrze z ogrodem.",
+    gallery: [
+      "/scene.jpg",
+      "/scene.jpg",
+      "/scene.jpg",
+      "/scene.jpg",
+      "/scene.jpg",
+      "/scene.jpg",
+    ],
+  },
+  {
+    id: "biuro-srodmiescie",
+    title: "Biuro w Śródmieściu",
+    description: "Nowoczesne biuro korporacyjne z przestrzeniami open space",
+    client: "TechCorp Sp. z o.o.",
+    year: 2024,
+    category: "Biuro",
+    image: "/scene.jpg",
+    location: "Warszawa, Śródmieście",
+    area: "350 m²",
+    scope: "Projekt wnętrz biurowych",
+    services: [
+      "Projekt koncepcyjny",
+      "Projekt wykonawczy",
+      "Nadzór autorski",
+      "Dobór mebli",
+    ],
+    fullDescription:
+      "Projekt nowoczesnego biura korporacyjnego w centrum Warszawy. Przestrzeń została zaprojektowana z myślą o komforcie pracy i współpracy zespołowej, z wydzielonymi strefami spotkań i relaksu.",
+    gallery: ["/scene.jpg", "/scene.jpg", "/scene.jpg"],
+  },
+];
+
+// Helper function to get realizacja by ID
+export function getRealizacjaById(id: string): Realizacja | undefined {
+  return realizacje.find((realizacja) => realizacja.id === id);
+}

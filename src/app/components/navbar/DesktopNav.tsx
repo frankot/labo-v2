@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Dropdown from "../ui/Dropdown";
+import Dropdown from "../ui/dropdown";
 import { navLinks } from "./navigation-data";
 
 interface DesktopNavProps {

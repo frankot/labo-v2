@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FadeInView } from "../../anim";
-import StickyHeader from "../ui/sticky-header";
 
 // Local stagger animation component
 const StaggeredElement = ({

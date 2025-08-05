@@ -112,11 +112,7 @@ export default function History() {
       className="relative py-12 text-white md:py-24"
       id="history"
     >
-      <StickyHeader
-        className="top-24 -z-10 text-left text-4xl font-bold tracking-tight text-white/20 sm:text-6xl md:text-7xl lg:text-8xl xl:text-[12rem]"
-        title="HISTORIA"
-        delay={0.2}
-      />
+      <StickyHeader className="top-0 -z-10" title="HISTORIA" delay={0.2} />
       <div className="container mx-auto px-4">
         <div className="relative z-10 mx-auto mt-8 max-w-6xl md:mt-16">
           <motion.div

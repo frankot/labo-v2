@@ -4,7 +4,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { Blocks, DraftingCompass, Wrench } from "lucide-react";
 import Card from "../ui/card";
-import { StaggeredText } from "../../anim/components";
+import StickyHeader from "../ui/sticky-header";
 
 const AnimatedText = ({
   text,
@@ -215,9 +215,11 @@ export default function Services() {
       ref={ref}
       className="relative mb-20 min-h-[70vh] pb-24 xl:-mt-10"
     >
-      <h2 className="font-michroma sticky top-0 z-0 text-left text-[4rem] font-bold text-white/20 uppercase lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]">
-        <StaggeredText text="Usługi" delay={0.1} />
-      </h2>
+      <StickyHeader
+        className="uppercase lg:-mt-[12rem]"
+        title="Usługi"
+        delay={0.1}
+      />
       <motion.div
         className="relative z-10 container mx-auto mt-16 max-w-7xl"
         variants={containerVariants}

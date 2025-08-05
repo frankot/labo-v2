@@ -167,7 +167,7 @@ const DesktopProcess = () => {
       ref={ref}
     >
       {/* Background Text */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-start">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <motion.h1
           className="font-michroma -ml-2 text-[15rem] font-bold text-white/15"
           initial="hidden"

@@ -139,7 +139,7 @@ export default function About() {
       {/* Main Content */}
       <div className="relative w-full">
         <StickyHeader
-          className="top-0 z-0 -mt-32 px-2 text-left text-[4rem] text-white/20 md:ml-0 md:px-0 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
+          className="-mt-32 px-2 md:ml-0 md:px-0 lg:-mt-[12rem]"
           title="O NAS"
           delay={0.2}
         />

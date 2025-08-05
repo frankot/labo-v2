@@ -257,11 +257,7 @@ export default function TeamSection() {
     <div id="team" className="relative">
       {/* Main Content */}
       <div className="relative w-full px-2 lg:px-0">
-        <StickyHeader
-          className="top-0 z-0 text-left text-[4rem] text-white/20 lg:text-[5rem] xl:text-[12rem]"
-          title="TEAM"
-          delay={0.2}
-        />
+        <StickyHeader title="TEAM" delay={0.2} />
 
         {/* Title Section */}
         <FadeInView className="relative z-20 container mx-auto -mt-20">
