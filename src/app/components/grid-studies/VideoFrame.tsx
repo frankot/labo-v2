@@ -49,7 +49,7 @@ export function VideoFrame({
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("ended", handleEnded);
     };
-  }, []);
+  }, [videoRef]);
 
   // Handle play/pause for both desktop and mobile
   React.useEffect(() => {
@@ -131,7 +131,7 @@ export function VideoFrame({
       {/* Company and year badge using Card component */}
       {caseStudy && (
         <div
-          className={`absolute right-0 bottom-3 left-0 mx-4 transition-all duration-500 w-1/3 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+          className={`absolute right-0 bottom-3 left-0 mx-4 w-1/3 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
             isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
           }`}
         >

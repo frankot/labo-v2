@@ -3,7 +3,14 @@
 import { motion } from "framer-motion";
 import { AnimatedTextProps } from "../types/animation";
 
-const AnimatedText = ({ text, className, delay = 0 }: AnimatedTextProps) => {
+type Props = AnimatedTextProps & { onLoad?: boolean };
+
+const AnimatedText = ({
+  text,
+  className,
+  delay = 0,
+  onLoad = false,
+}: Props) => {
   const container = {
     hidden: { opacity: 0 },
     visible: {
@@ -36,8 +43,9 @@ const AnimatedText = ({ text, className, delay = 0 }: AnimatedTextProps) => {
       className={className}
       variants={container}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
+      animate={onLoad ? "visible" : undefined}
+      whileInView={onLoad ? undefined : "visible"}
+      viewport={onLoad ? undefined : { once: true, margin: "-10%" }}
     >
       {text.split(" ").map((word, index) => (
         <motion.span key={index} variants={child} className="mr-1 inline-block">

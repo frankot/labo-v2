@@ -8,6 +8,24 @@ interface DesktopNavProps {
   isVisible: boolean;
 }
 
+const handleSmoothScroll = (
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+) => {
+  if (href.startsWith("#") || href.startsWith("/#")) {
+    const hash = href.startsWith("/#") ? href.substring(1) : href;
+    const element = document.querySelector(hash);
+    if (element) {
+      e.preventDefault();
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    // If element doesn't exist, allow default navigation to root page
+  }
+};
+
 const DesktopNav = ({ isVisible }: DesktopNavProps) => {
   return (
     <nav
@@ -28,10 +46,13 @@ const DesktopNav = ({ isVisible }: DesktopNavProps) => {
                   label={link.label}
                   items={link.items}
                   isContact={link.label === "Kontakt"}
+                  hasClickableHeader={link.hasClickableHeader}
+                  headerHref={link.href}
                 />
               ) : (
                 <Link
                   href={link.href!}
+                  onClick={(e) => handleSmoothScroll(e, link.href!)}
                   className="px-4 py-2 text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus:text-white focus:outline-none"
                 >
                   {link.label}

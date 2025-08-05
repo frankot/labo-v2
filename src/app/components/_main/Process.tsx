@@ -4,7 +4,6 @@ import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import Card from "@/app/components/ui/card";
-import StickyHeader from "../ui/sticky-header";
 
 interface ProcessStep {
   title: string;
@@ -425,7 +424,6 @@ const MobileProcess = () => {
             </motion.div>
           ))}
         </motion.div>
-
       </div>
     </div>
   );

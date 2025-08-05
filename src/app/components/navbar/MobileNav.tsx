@@ -3,8 +3,26 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, ChevronDown, Phone, Mail } from "lucide-react";
+import { X, ChevronDown, Phone } from "lucide-react";
 import { navLinks } from "./navigation-data";
+
+const handleSmoothScroll = (
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+) => {
+  if (href.startsWith("#") || href.startsWith("/#")) {
+    const hash = href.startsWith("/#") ? href.substring(1) : href;
+    const element = document.querySelector(hash);
+    if (element) {
+      e.preventDefault();
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    // If element doesn't exist, allow default navigation to root page
+  }
+};
 
 const MobileNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,6 +46,14 @@ const MobileNav = () => {
   const closeMenu = () => {
     setIsMenuOpen(false);
     setOpenSections([]);
+  };
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    handleSmoothScroll(e, href);
+    closeMenu();
   };
 
   const toggleSection = (sectionLabel: string) => {
@@ -70,8 +96,8 @@ const MobileNav = () => {
         }`}
       >
         {/* Header with X button and phone number */}
-        <div className="flex items-center  justify-between px-6 pt-4">
-          <div className="flex items-center  gap-2 text-white">
+        <div className="flex items-center justify-between px-6 pt-4">
+          <div className="flex items-center gap-2 text-white">
             <Phone size={16} />
             <span className="text-sm">+48 123 456 789</span>
           </div>
@@ -118,25 +144,52 @@ const MobileNav = () => {
               <div key={link.label}>
                 {link.items ? (
                   <div>
-                    <button
-                      onClick={() => toggleSection(link.label)}
-                      className="flex w-full items-center justify-between border-b border-neutral-800 py-3 text-white"
-                    >
-                      {link.label}
-                      <ChevronDown
-                        className={`transform transition-transform duration-300 ${
-                          openSections.includes(link.label) ? "rotate-180" : ""
-                        }`}
-                        size={20}
-                      />
-                    </button>
+                    {link.hasClickableHeader && link.href ? (
+                      <div className="flex items-center border-b border-neutral-800">
+                        <Link
+                          href={link.href || "#"}
+                          onClick={(e) => handleLinkClick(e, link.href || "#")}
+                          className="flex-1 py-3 text-white hover:text-neutral-300"
+                        >
+                          {link.label}
+                        </Link>
+                        <button
+                          onClick={() => toggleSection(link.label)}
+                          className="px-3 py-3 text-white"
+                        >
+                          <ChevronDown
+                            className={`transform transition-transform duration-300 ${
+                              openSections.includes(link.label)
+                                ? "rotate-180"
+                                : ""
+                            }`}
+                            size={20}
+                          />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => toggleSection(link.label)}
+                        className="flex w-full items-center justify-between border-b border-neutral-800 py-3 text-white"
+                      >
+                        {link.label}
+                        <ChevronDown
+                          className={`transform transition-transform duration-300 ${
+                            openSections.includes(link.label)
+                              ? "rotate-180"
+                              : ""
+                          }`}
+                          size={20}
+                        />
+                      </button>
+                    )}
                     {openSections.includes(link.label) && (
                       <div className="py-2 pl-4 transition-all duration-300">
                         {link.items.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            onClick={closeMenu}
+                            onClick={(e) => handleLinkClick(e, item.href)}
                             className="block py-2 text-neutral-400 hover:text-white"
                           >
                             {item.label}
@@ -147,8 +200,8 @@ const MobileNav = () => {
                   </div>
                 ) : (
                   <Link
-                    href={link.href!}
-                    onClick={closeMenu}
+                    href={link.href || "#"}
+                    onClick={(e) => handleLinkClick(e, link.href || "#")}
                     className="block border-b border-neutral-800 py-3 text-white hover:text-neutral-300"
                   >
                     {link.label}

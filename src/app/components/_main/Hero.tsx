@@ -8,11 +8,9 @@ import { FadeInView } from "../../anim";
 // Local stagger animation component
 const StaggeredElement = ({
   children,
-  delay = 0,
   staggerDelay = 0.02,
 }: {
   children: React.ReactNode;
-  delay?: number;
   staggerDelay?: number;
 }) => {
   return (
@@ -23,7 +21,6 @@ const StaggeredElement = ({
         visible: {
           transition: {
             staggerChildren: staggerDelay,
-            delayChildren: delay,
           },
         },
         hidden: {},
@@ -54,7 +51,7 @@ const StaggeredChar = ({ char }: { char: string }) => (
   </motion.span>
 );
 
-const StaggeredDivider = ({ delay = 0 }: { delay?: number }) => (
+const StaggeredDivider = () => (
   <motion.span
     variants={{
       hidden: { opacity: 0, y: -50 },
@@ -104,14 +101,14 @@ export default function Hero() {
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:gap-8">
         {services.map((text, index) => (
           <Link href="#services" key={text} className="flex items-center">
-            <StaggeredElement delay={0.5 + index * 0.1} staggerDelay={0.02}>
+            <StaggeredElement staggerDelay={0.02}>
               <span className="font-michroma text-lg font-light tracking-wider text-gray-300 uppercase transition-all duration-300 hover:text-white md:text-xl">
                 {text.split("").map((char, charIndex) => (
                   <StaggeredChar key={charIndex} char={char} />
                 ))}
               </span>
             </StaggeredElement>
-            {index < 3 && <StaggeredDivider delay={0.5 + index * 0.1 + 0.3} />}
+            {index < 3 && <StaggeredDivider />}
           </Link>
         ))}
       </div>

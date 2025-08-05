@@ -29,18 +29,7 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
     }
   }, [caseStudies]);
 
-  // Update CSS custom properties for dynamic grid with organic hover
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const rowSizes = getOrganicRowSizes();
-
-    container.style.setProperty("grid-template-rows", rowSizes);
-    container.style.setProperty("grid-template-columns", "1fr 1fr 1fr");
-  }, [hovered]);
-
-  const getOrganicRowSizes = () => {
+  const getOrganicRowSizes = useCallback(() => {
     if (hovered === null) return "1fr 1fr 1fr";
 
     const { row } = hovered;
@@ -70,7 +59,18 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
         }
       })
       .join(" ");
-  };
+  }, [hovered]);
+
+  // Update CSS custom properties for dynamic grid with organic hover
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const rowSizes = getOrganicRowSizes();
+
+    container.style.setProperty("grid-template-rows", rowSizes);
+    container.style.setProperty("grid-template-columns", "1fr 1fr 1fr");
+  }, [getOrganicRowSizes]);
 
   const handleMouseEnter = useCallback(
     (row: number, col: number, index: number) => {
