@@ -137,24 +137,25 @@ export default function About() {
       </FadeInView>
 
       {/* Main Content */}
-      <div className="relative w-full">
+      <div className="relative container mx-auto w-full">
         <StickyHeader
-          className="-mt-32 px-2 md:ml-0 md:px-0 lg:-mt-[12rem]"
+          className="-mt-32 px-2 md:ml-0 md:px-0 text-[4rem] sm:text-[5rem] md:text-[7rem] lg:text-[8rem] lg:pt-6 xl:pt-0 lg:-mt-[12rem]"
           title="O NAS"
           delay={0.2}
         />
 
         {/* Title Section */}
-        <FadeInView className="relative z-20 -mt-20">
+        <FadeInView className="relative  z-20 -mt-20">
           {/* Content Layout */}
-          <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
+          <div className="mx-auto mt-24 max-w-7xl px-2 md:px-6 sm:px-4  lg:mt-10">
             <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
               {/* Main Content Card - 2/3 width */}
               <div className="lg:col-span-2">
                 <Card className="cursor-default">
-                  <div className="space-y-8 text-lg leading-relaxed text-stone-300">
+                  <div className="space-y-8 text-lg  leading-relaxed text-stone-300">
                     <p>
                       <AnimatedText
+                        
                         text="Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, targów, wystaw i produkcji multimedialnych – zarówno w Polsce jak i poza jej granicami."
                         delay={0.1}
                       />

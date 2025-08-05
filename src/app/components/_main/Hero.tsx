@@ -78,7 +78,7 @@ export default function Hero() {
   const services = ["Scenografia", "Produkcja", "Montaż", "Design"];
 
   return (
-    <FadeInView className="flex min-h-[700px] w-full flex-col items-center justify-center px-8 text-white lg:h-screen">
+    <FadeInView className="flex min-h-[700px] w-full flex-col items-center justify-center px-8 text-white lg:h-[45rem]">
       {/* Centered Logo */}
       <div className="mb-12">
         <div className="relative size-[400px]">

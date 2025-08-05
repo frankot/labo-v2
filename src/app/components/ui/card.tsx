@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 interface CardProps {
   children: ReactNode;
@@ -7,24 +7,48 @@ interface CardProps {
 }
 
 export default function Card({ children, className }: CardProps) {
+  const [isActive, setIsActive] = useState(false);
+
   return (
     <div
       className={cn(
-        "group relative z-10 overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-8 backdrop-blur transition-colors duration-300 hover:bg-white/5",
+        "group relative z-10 overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-8 backdrop-blur transition-colors duration-300 hover:bg-white/5 active:bg-white/5",
         className,
       )}
+      onTouchStart={() => setIsActive(true)}
+      onTouchEnd={() => setIsActive(false)}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
     >
       {/* Gradient Border Effect */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/5 via-white/0 to-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div
+        className={cn(
+          "absolute inset-0 -z-10 bg-gradient-to-br from-white/5 via-white/0 to-white/5 opacity-0 transition-opacity duration-300",
+          "group-hover:opacity-100",
+          isActive && "opacity-100",
+        )}
+      />
 
       {/* Moving Light Sweep Effect */}
-      <div className="absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-700 ease-out group-hover:translate-x-full group-hover:opacity-100" />
+      <div
+        className={cn(
+          "absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-700 ease-out",
+          "group-hover:translate-x-full group-hover:opacity-100",
+          isActive && "translate-x-full opacity-100",
+        )}
+      />
 
       {/* Content */}
       <div className="relative z-10">{children}</div>
 
       {/* Hover Effect Corner */}
-      <div className="absolute -top-12 -right-12 size-24 rotate-45 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div
+        className={cn(
+          "absolute -top-12 -right-12 size-24 rotate-45 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-300",
+          "group-hover:opacity-100",
+          isActive && "opacity-100",
+        )}
+      />
     </div>
   );
 }

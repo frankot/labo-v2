@@ -1,6 +1,7 @@
 export interface Machine {
   id: number;
   name: string;
+  shortName: string;
   workArea: string;
   manufacturer: string;
   description: string;
@@ -13,6 +14,7 @@ export const machinesData: Machine[] = [
   {
     id: 1,
     name: "Ploter frezujący 2030 SPECIAL",
+    shortName: "2030 Special",
     workArea: "2100 × 3100 mm",
     manufacturer: "Polska Grupa CNC",
     description:
@@ -41,6 +43,7 @@ export const machinesData: Machine[] = [
   {
     id: 2,
     name: "Ploter frezujący 1825 PRECISION",
+    shortName: "1825 Precision",
     workArea: "1800 × 2500 mm",
     manufacturer: "Polska Grupa CNC",
     description:
@@ -67,6 +70,7 @@ export const machinesData: Machine[] = [
   {
     id: 3,
     name: "Ploter frezujący 3050 INDUSTRIAL",
+    shortName: "3050 Industrial",
     workArea: "3000 × 5000 mm",
     manufacturer: "Polska Grupa CNC",
     description:
@@ -93,6 +97,7 @@ export const machinesData: Machine[] = [
   {
     id: 4,
     name: "Ploter frezujący 1530 COMPACT",
+    shortName: "1530 Compact",
     workArea: "1500 × 3000 mm",
     manufacturer: "Polska Grupa CNC",
     description:
@@ -119,6 +124,7 @@ export const machinesData: Machine[] = [
   {
     id: 5,
     name: "Ploter frezujący 2545 VERSATILE",
+    shortName: "2545 Versatile",
     workArea: "2500 × 4500 mm",
     manufacturer: "Polska Grupa CNC",
     description:
@@ -145,6 +151,7 @@ export const machinesData: Machine[] = [
   {
     id: 6,
     name: "Ploter frezujący 4060 MEGA",
+    shortName: "4060 Mega",
     workArea: "4000 × 6000 mm",
     manufacturer: "Polska Grupa CNC",
     description:

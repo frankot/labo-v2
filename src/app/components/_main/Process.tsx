@@ -108,7 +108,7 @@ const AnimatedText = ({
   return null;
 };
 
-// Desktop Timeline Component
+// Desktop Timeline Component (unchanged)
 const DesktopProcess = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
@@ -163,13 +163,13 @@ const DesktopProcess = () => {
 
   return (
     <div
-      className="relative mx-auto mb-24 hidden overflow-x-auto py-44 lg:block"
+      className="relative mx-auto mb-24 hidden overflow-x-auto py-44 xl:block"
       ref={ref}
     >
       {/* Background Text */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <motion.h1
-          className="font-michroma -ml-2 text-[15rem] font-bold text-white/15"
+          className="font-michroma -ml-2 font-bold text-white/15 lg:text-[10rem] xl:text-[13rem]"
           initial="hidden"
           animate={controls}
           variants={{
@@ -291,27 +291,27 @@ const DesktopProcess = () => {
   );
 };
 
-// Mobile Process Component
+// NEW Mobile Process Component - Vertical Timeline
 const MobileProcess = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: true, margin: "-20%" });
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        staggerChildren: 0.15,
+        delayChildren: 0.3,
       },
     },
   };
 
-  const cardVariants = {
+  const stepVariants = {
     hidden: {
       opacity: 0,
-      x: -50,
-      scale: 0.9,
+      x: -30,
+      scale: 0.95,
     },
     visible: {
       opacity: 1,
@@ -319,56 +319,114 @@ const MobileProcess = () => {
       scale: 1,
       transition: {
         type: "spring" as const,
-        damping: 20,
-        stiffness: 300,
+        damping: 25,
+        stiffness: 400,
+      },
+    },
+  };
+
+  const lineVariants = {
+    hidden: { scaleY: 0 },
+    visible: {
+      scaleY: 1,
+      transition: {
+        duration: 1.2,
+        ease: "easeInOut" as const,
+        delay: 0.5,
+      },
+    },
+  };
+
+  const dotVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        damping: 15,
+        stiffness: 400,
+        delay: 0.2,
       },
     },
   };
 
   return (
-    <div className="px-2 py-12 md:px-0 lg:hidden" ref={ref}>
-      {/* Mobile Sticky Header */}
-      <StickyHeader
-        className="font-bol top-0 z-0 text-center  text-[3rem] text-white/20 lg:-mt-[12rem] lg:text-[5rem] xl:text-[12rem]"
-        title="PROCES"
-        delay={0.2}
-      />
+    <div className="px-4 py-12 lg:py-44 xl:hidden" ref={ref}>
+      {/* Mobile Header */}
+      <div className="mb-16 text-center">
+        <motion.h1
+          className="font-michroma text-4xl font-bold text-white/20 md:text-5xl"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: { opacity: 0, y: 30 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: { staggerChildren: 0.05, delayChildren: 0.2 },
+            },
+          }}
+        >
+          <AnimatedText text="PROCES" isTitle={true} delay={0.2} />
+        </motion.h1>
+      </div>
 
-      {/* Horizontal Scrollable Cards */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4"
-      >
-        {processSteps.map((step, index) => (
-          <motion.div
-            key={step.title}
-            variants={cardVariants}
-            className="w-80 flex-shrink-0 snap-start"
-          >
-            <Card className="h-full p-6">
-              <div className="mb-4 flex items-center gap-4">
-                <div className="font-michroma flex h-12 w-12 items-center justify-center rounded-full bg-stone-300 font-bold text-stone-900">
-                  {index + 1}
-                </div>
-                <h3 className="font-michroma text-xl font-semibold text-white">
+      {/* Vertical Timeline */}
+      <div className="relative mx-auto max-w-md">
+        {/* Vertical Line */}
+        <motion.div
+          className="absolute top-0 left-8 h-full w-px origin-top bg-gradient-to-b from-stone-300 via-stone-400 to-stone-300"
+          variants={lineVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        />
+
+        <motion.div
+          className="space-y-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {processSteps.map((step, index) => (
+            <motion.div
+              key={step.title}
+              className="relative flex items-start"
+              variants={stepVariants}
+            >
+              {/* Animated Dot */}
+              <motion.div
+                className="relative z-10 flex h-16 w-16 items-center justify-center"
+                variants={dotVariants}
+              >
+                <motion.div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-300 shadow-lg">
+                  <span className="font-michroma text-lg font-bold text-stone-900">
+                    {index + 1}
+                  </span>
+                </motion.div>
+              </motion.div>
+
+              {/* Step Content */}
+              <motion.div className="ml-6 flex-1 py-1">
+                <motion.h3 className="font-michroma text-base font-semibold text-stone-300">
                   {step.title}
-                </h3>
-              </div>
-              <motion.hr
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="my-4 h-px border-stone-200"
-              />
-              <p className="leading-relaxed text-stone-300">
-                {step.description}
-              </p>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
+                </motion.h3>
+
+                {/* Full Description */}
+                <motion.div className="opacity-60 transition-all duration-300">
+                  <Card className="mt-3 border-stone-700 bg-stone-900/50 p-4">
+                    <p className="text-sm leading-relaxed text-stone-300">
+                      {step.description}
+                    </p>
+                  </Card>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+      </div>
     </div>
   );
 };

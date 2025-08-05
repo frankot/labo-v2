@@ -43,7 +43,7 @@ const MobileNav = () => {
       {/* Hamburger Button */}
       <button
         onClick={toggleMenu}
-        className="fixed top-4 right-4 z-30 flex size-12 items-center justify-center rounded border border-neutral-400 bg-black/50 backdrop-blur-sm md:hidden"
+        className="fixed top-4 right-4 z-30 flex size-12 items-center justify-center rounded border border-neutral-400 bg-black/50 backdrop-blur-sm lg:hidden"
       >
         <svg
           data-slot="icon"
@@ -65,13 +65,13 @@ const MobileNav = () => {
 
       {/* Mobile Menu - Always Rendered */}
       <div
-        className={`fixed top-0 right-0 z-40 h-screen w-4/5 min-w-64 transform overflow-y-auto bg-black transition-transform duration-300 md:hidden ${
+        className={`fixed top-0 right-0 z-40 h-screen w-4/5 min-w-64 transform overflow-y-auto bg-black transition-transform duration-300 lg:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header with X button and phone number */}
-        <div className="flex items-center justify-between px-6 pt-4">
-          <div className="flex items-center gap-2 text-white">
+        <div className="flex items-center  justify-between px-6 pt-4">
+          <div className="flex items-center  gap-2 text-white">
             <Phone size={16} />
             <span className="text-sm">+48 123 456 789</span>
           </div>
@@ -162,7 +162,7 @@ const MobileNav = () => {
 
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-30 bg-black/50 md:hidden ${
+        className={`fixed inset-0 z-30 bg-black/50 backdrop-blur lg:hidden ${
           isMenuOpen ? "block" : "hidden"
         }`}
         onClick={closeMenu}

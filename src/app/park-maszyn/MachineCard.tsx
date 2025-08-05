@@ -7,6 +7,7 @@ interface MachineCardProps {
   machine: {
     id: number;
     name: string;
+    shortName: string;
     workArea: string;
     manufacturer: string;
     description: string;
@@ -116,7 +117,7 @@ export default function MachineCard({ machine }: MachineCardProps) {
       {/* Desktop layout with fixed photo and scrollable content */}
       <div className="hidden h-full lg:flex">
         {/* Fixed Image Section */}
-        <div className="relative w-1/2 bg-stone-900/50">
+        <div className="relative w-1/2">
           <Image
             src={machine.image}
             alt={machine.name}

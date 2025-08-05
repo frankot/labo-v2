@@ -256,11 +256,11 @@ export default function TeamSection() {
   return (
     <div id="team" className="relative">
       {/* Main Content */}
-      <div className="relative w-full px-2 lg:px-0">
+      <div className="relative w-full">
         <StickyHeader title="TEAM" delay={0.2} />
 
         {/* Title Section */}
-        <FadeInView className="relative z-20 container mx-auto -mt-20">
+        <FadeInView className="relative z-20 mx-auto -mt-20 ">
           <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
             <div
               ref={containerRef}

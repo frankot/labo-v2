@@ -213,7 +213,7 @@ export default function Services() {
     <section
       id="services"
       ref={ref}
-      className="relative mb-20 min-h-[70vh] pb-24 xl:-mt-10"
+      className="relative my-20 min-h-[70vh] pb-24 xl:-mt-10"
     >
       <StickyHeader
         className="uppercase lg:-mt-[12rem]"

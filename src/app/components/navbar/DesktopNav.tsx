@@ -11,7 +11,7 @@ interface DesktopNavProps {
 const DesktopNav = ({ isVisible }: DesktopNavProps) => {
   return (
     <nav
-      className={`fixed top-0 right-0 left-0 z-40 hidden bg-black transition-transform duration-500 md:block ${
+      className={`fixed top-0 right-0 left-0 z-40 hidden bg-black transition-transform duration-500 lg:block ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
