@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useVideoPlayer } from "./hooks/useVideoPlayer";
 import { CaseStudy } from "../../../lib/realizacje-data";
 import Card from "../ui/card";
@@ -30,6 +31,15 @@ export function VideoFrame({
 }: VideoFrameProps) {
   const { videoRef, play, pause } = useVideoPlayer();
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // Function to map case study company to realizacja ID
+  const getRealizacjaId = (company: string): string | null => {
+    const companyMapping: { [key: string]: string } = {
+      "CORAB S.A.": "corab-intersolar-2024",
+      // Add more mappings as needed
+    };
+    return companyMapping[company] || null;
+  };
 
   // Track video playing state
   useEffect(() => {
@@ -135,23 +145,45 @@ export function VideoFrame({
             isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
           }`}
         >
-          <Card className="p-3 backdrop-blur-2xl">
-            <div className="flex items-center justify-between">
-              <div className="min-w-0 flex-1">
-                <h3 className="font-michroma truncate text-xs font-medium text-white">
-                  {caseStudy.company}
-                </h3>
-                <p className="font-michroma text-[10px] tracking-wide text-white/60">
-                  {caseStudy.date}
-                </p>
+          {getRealizacjaId(caseStudy.company) ? (
+            <Link href={`/realizacje/${getRealizacjaId(caseStudy.company)}`}>
+              <Card className="cursor-pointer p-3 backdrop-blur-2xl transition-colors hover:bg-white/10">
+                <div className="flex items-center justify-between">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-michroma truncate text-xs font-medium text-white">
+                      {caseStudy.company}
+                    </h3>
+                    <p className="font-michroma text-[10px] tracking-wide text-white/60">
+                      {caseStudy.date}
+                    </p>
+                  </div>
+                  <div className="ml-3 flex-shrink-0">
+                    <span className="font-michroma text-xs text-white/70 transition-all duration-300 hover:translate-x-0.5 hover:text-white">
+                      →
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          ) : (
+            <Card className="p-3 backdrop-blur-2xl">
+              <div className="flex items-center justify-between">
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-michroma truncate text-xs font-medium text-white">
+                    {caseStudy.company}
+                  </h3>
+                  <p className="font-michroma text-[10px] tracking-wide text-white/60">
+                    {caseStudy.date}
+                  </p>
+                </div>
+                <div className="ml-3 flex-shrink-0">
+                  <span className="font-michroma text-xs text-white/70 transition-all duration-300 hover:translate-x-0.5 hover:text-white">
+                    →
+                  </span>
+                </div>
               </div>
-              <div className="ml-3 flex-shrink-0">
-                <span className="font-michroma text-xs text-white/70 transition-all duration-300 hover:translate-x-0.5 hover:text-white">
-                  →
-                </span>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          )}
         </div>
       )}
     </div>
