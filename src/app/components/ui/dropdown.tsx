@@ -9,7 +9,11 @@ import { DropdownItem } from "../navbar/navigation-data";
 const handleSmoothScroll = (
   e: React.MouseEvent<HTMLAnchorElement>,
   href: string,
+  onLinkClick?: () => void,
 ) => {
+  // Close dropdown when any link is clicked
+  onLinkClick?.();
+
   if (href.startsWith("#") || href.startsWith("/#")) {
     const hash = href.startsWith("/#") ? href.substring(1) : href;
     const element = document.querySelector(hash);
@@ -30,6 +34,7 @@ interface DropdownProps {
   isContact?: boolean;
   hasClickableHeader?: boolean;
   headerHref?: string;
+  forceClose?: boolean;
 }
 
 const Dropdown = ({
@@ -38,6 +43,7 @@ const Dropdown = ({
   isContact = false,
   hasClickableHeader = false,
   headerHref,
+  forceClose = false,
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -64,18 +70,27 @@ const Dropdown = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (forceClose) {
+      setIsOpen(false);
+    }
+  }, [forceClose]);
+
   return (
     <div
       className="relative"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       ref={dropdownRef}
+      data-dropdown
     >
       {hasClickableHeader && headerHref ? (
         <div className="flex items-center">
           <Link
             href={headerHref}
-            onClick={(e) => handleSmoothScroll(e, headerHref)}
+            onClick={(e) =>
+              handleSmoothScroll(e, headerHref, () => setIsOpen(false))
+            }
             className="px-4 py-2 text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus:text-white focus:outline-none"
           >
             {label}
@@ -159,7 +174,9 @@ const Dropdown = ({
             >
               <Link
                 href={item.href}
-                onClick={(e) => handleSmoothScroll(e, item.href)}
+                onClick={(e) =>
+                  handleSmoothScroll(e, item.href, () => setIsOpen(false))
+                }
                 className="block space-y-2 rounded-md p-3 leading-none text-stone-200 transition-colors hover:bg-neutral-800 hover:text-white focus:bg-neutral-800 focus:text-white focus:outline-none"
               >
                 {hasClickableHeader && item.image && (

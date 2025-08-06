@@ -33,7 +33,7 @@ const itemVariants = {
 
 export default function RealizacjePage() {
   return (
-    <div className="mt-20 min-h-screen">
+    <div className="lg:mt-20 min-h-screen">
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails

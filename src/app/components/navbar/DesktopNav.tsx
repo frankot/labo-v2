@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Dropdown from "../ui/dropdown";
 import { navLinks } from "./navigation-data";
 
@@ -27,6 +28,8 @@ const handleSmoothScroll = (
 };
 
 const DesktopNav = ({ isVisible }: DesktopNavProps) => {
+  const pathname = usePathname();
+
   return (
     <nav
       className={`fixed top-0 right-0 left-0 z-40 hidden bg-black transition-transform duration-500 lg:block ${
@@ -48,11 +51,21 @@ const DesktopNav = ({ isVisible }: DesktopNavProps) => {
                   isContact={link.label === "Kontakt"}
                   hasClickableHeader={link.hasClickableHeader}
                   headerHref={link.href}
+                  forceClose={pathname !== "/"}
                 />
               ) : (
                 <Link
                   href={link.href!}
-                  onClick={(e) => handleSmoothScroll(e, link.href!)}
+                  onClick={(e) => {
+                    handleSmoothScroll(e, link.href!);
+                    // Close all dropdowns when clicking regular links
+                    const dropdowns =
+                      document.querySelectorAll("[data-dropdown]");
+                    dropdowns.forEach((dropdown) => {
+                      const event = new Event("mouseleave");
+                      dropdown.dispatchEvent(event);
+                    });
+                  }}
                   className="px-4 py-2 text-sm text-neutral-400 transition-colors duration-200 hover:text-white focus:text-white focus:outline-none"
                 >
                   {link.label}

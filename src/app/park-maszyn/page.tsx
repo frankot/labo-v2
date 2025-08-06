@@ -16,7 +16,7 @@ const containerVariants = {
 
 export default function ParkMaszynPage() {
   return (
-    <div className="mt-20 min-h-screen">
+    <div className="lg:mt-20 min-h-screen">
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails
