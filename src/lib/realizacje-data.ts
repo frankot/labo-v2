@@ -138,7 +138,6 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
-// Realizacje interface for project pages
 export interface Realizacja {
   id: string;
   title: string;
@@ -155,30 +154,42 @@ export interface Realizacja {
   gallery: string[];
 }
 
-// Sample realizacje data - replace with your actual data
 export const realizacje: Realizacja[] = [
   {
-    id: "mieszkanie-mokotow",
-    title: "Mieszkanie na Mokotowie",
+    id: "corab-intersolar-2024",
+    title: "CORAB – Stoisko targowe | Intersolar Europe, Monachium 2024",
     description:
-      "Nowoczesne mieszkanie w centrum Warszawy z minimalistycznym designem",
-    client: "Prywatny inwestor",
+      "Nowoczesne stoisko targowe dla lidera branży fotowoltaicznej na targach Intersolar Europe 2024.",
+    client: "Corab S.A.",
     year: 2024,
-    category: "Mieszkanie",
-    image: "/scene.jpg",
-    location: "Warszawa, Mokotów",
-    area: "85 m²",
-    scope: "Projekt wnętrz, nadzór",
-    services: ["Projekt koncepcyjny", "Projekt wykonawczy", "Nadzór autorski"],
+    category: "Stoisko targowe",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    location: "Intersolar Europe 2024, Messe München, Monachium",
+    area: "ok. 80 m²",
+    scope: "Koncepcja kreatywna, projekt 3D, opracowanie techniczne, produkcja, transport, montaż, wsparcie techniczne na miejscu",
+    services: [
+      "Koncepcja kreatywna",
+      "Projekt 3D",
+      "Opracowanie techniczne",
+      "Produkcja",
+      "Transport",
+      "Montaż",
+      "Wsparcie techniczne"
+    ],
     fullDescription:
-      "Kompleksowy projekt wnętrza mieszkania na Mokotowie. Zastosowaliśmy nowoczesne rozwiązania przestrzenne, łącząc funkcjonalność z estetyką. Projekt obejmuje otwarty plan salonu z kuchnią, sypialnię z garderobą oraz łazienkę z wanną i prysznicem.",
-    gallery: ["/scene.jpg", "/scene.jpg", "/scene.jpg", "/scene.jpg"],
+      "Zaprojektowane i wykonane stoisko targowe dla lidera branży fotowoltaicznej. Nowoczesna forma, ekspozycja rozwiązań PV, zintegrowane multimedia oraz strefa spotkań z klientami. Konstrukcja modułowa, z autorskim systemem podświetleń i elementami zieleni.",
+    gallery: [
+      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80"
+    ],
   },
   {
     id: "dom-konstancin",
-    title: "Dom w Konstancinie",
-    description: "Elegancki dom jednorodzinny o powierzchni 200m² z ogrodem",
-    client: "Rodzina Kowalskich",
+    title: "Dom jednorodzinny w Konstancinie-Jeziornie",
+    description: "Projekt wnętrz i aranżacja ogrodu domu jednorodzinnego.",
+    client: "Klient prywatny",
     year: 2023,
     category: "Dom",
     image: "/scene.jpg",
@@ -225,7 +236,6 @@ export const realizacje: Realizacja[] = [
   },
 ];
 
-// Helper function to get realizacja by ID
 export function getRealizacjaById(id: string): Realizacja | undefined {
   return realizacje.find((realizacja) => realizacja.id === id);
 }
