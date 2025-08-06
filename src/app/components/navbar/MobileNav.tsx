@@ -113,6 +113,7 @@ const MobileNav = () => {
           {/* Logo and placeholder text section */}
           <div className="mb-8 flex gap-4">
             <div className="w-full">
+              <Link href="/">
               <Image
                 src="/logo.png"
                 alt="Logo"
@@ -120,6 +121,7 @@ const MobileNav = () => {
                 height={50}
                 className="w-full"
               />
+              </Link>
             </div>
             <div className="w-2/3">
               <div className="space-y-3 text-sm">
