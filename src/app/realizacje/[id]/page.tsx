@@ -193,50 +193,9 @@ export default function RealizacjaDetailPage({ params }: Props) {
       {/* Main Content */}
       <div className="container mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid grid-cols-1 gap-12 sm:gap-16 lg:grid-cols-3">
-          {/* Project Details */}
+          {/* Details Card - Mobile First, Desktop Sidebar */}
           <motion.div
-            className="lg:col-span-2"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={slideInFromBottom}
-          >
-            {/* Description */}
-            <div className="mb-8 sm:mb-12">
-              <Card>
-                <p className="text-base leading-relaxed text-stone-300 sm:text-lg">
-                  {project.fullDescription}
-                </p>
-              </Card>
-            </div>
-
-            {/* Gallery */}
-            <div className="mb-8 sm:mb-12">
-              <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
-                {project.gallery.map((image, index) => (
-                  <motion.div
-                    key={index}
-                    className="group relative aspect-video overflow-hidden rounded-lg sm:rounded-xl"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Image
-                      src={image}
-                      alt={`${project.title} - zdjęcie ${index + 1}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Sidebar */}
-          <motion.div
-            className="lg:col-span-1"
+            className="order-1 lg:order-2 lg:col-span-1"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -283,6 +242,47 @@ export default function RealizacjaDetailPage({ params }: Props) {
                   </div>
                 </div>
               </Card>
+            </div>
+          </motion.div>
+
+          {/* Project Details - Description & Gallery */}
+          <motion.div
+            className="order-2 lg:order-1 lg:col-span-2"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={slideInFromBottom}
+          >
+            {/* Description */}
+            <div className="mb-8 sm:mb-12">
+              <Card>
+                <p className="text-base leading-relaxed text-stone-300 sm:text-lg">
+                  {project.fullDescription}
+                </p>
+              </Card>
+            </div>
+
+            {/* Gallery */}
+            <div className="mb-8 sm:mb-12">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
+                {project.gallery.map((image, index) => (
+                  <motion.div
+                    key={index}
+                    className="group relative aspect-video overflow-hidden rounded-lg sm:rounded-xl"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Image
+                      src={image}
+                      alt={`${project.title} - zdjęcie ${index + 1}`}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
