@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { Settings, Ruler, Building } from "lucide-react";
 import Card from "../components/ui/card";
-import HeaderDetails from "../components/ui/header-details";
 import { machinesData } from "./machines-data";
 
 export default function MachinesGrid() {
@@ -48,17 +47,6 @@ export default function MachinesGrid() {
     <div className="relative">
       {/* Main Content */}
       <div className="relative w-full">
-        {/* Title Section */}
-        <HeaderDetails
-          title="PARK MASZYN"
-          subtitle="Zaawansowane technologie produkcyjne"
-          backgroundImage="/scene.jpg"
-          description={[
-            "Dysponujemy nowoczesnym parkiem maszynowym, który umożliwia nam realizację projektów na najwyższym poziomie. Nasze zaawansowane technologie produkcyjne pozwalają na precyzyjne wykonanie elementów scenograficznych z różnorodnych materiałów.",
-            "Od cięcia CNC po druk 3D - każda maszyna została dobrana pod kątem maksymalnej jakości i efektywności produkcji, zapewniając naszym klientom doskonałe rezultaty.",
-          ]}
-        />
-
         {/* Machines Grid Section */}
         <div className="mt-16 grid gap-8 md:gap-12 lg:gap-16">
           {/* Mobile layout */}

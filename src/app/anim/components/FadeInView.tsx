@@ -8,17 +8,19 @@ const FadeInView = ({
   threshold = 0.1,
   className = "",
   rootMargin = "0px",
-}: FadeInViewProps) => {
+  onLoad = false,
+}: FadeInViewProps & { onLoad?: boolean }) => {
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={onLoad ? { opacity: 1, y: 0 } : undefined}
+      whileInView={onLoad ? undefined : { opacity: 1, y: 0 }}
       transition={{
         duration: 0.6,
         ease: "easeOut",
       }}
-      viewport={{
+      viewport={onLoad ? undefined : {
         once: true,
         amount: threshold,
         margin: rootMargin,

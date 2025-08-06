@@ -44,6 +44,7 @@ export default function RealizacjePage() {
             "Poznaj nasze najnowsze realizacje scenograficzne, które łączą innowacyjne technologie z kreatywnym designem. Każdy projekt to unikalne wyzwanie, które realizujemy z pasją i precyzją.",
             "Od scenografii teatralnych po wystawy muzealne - nasze projekty wyróżniają się wysoką jakością wykonania i dbałością o każdy detal.",
           ]}
+          onLoad={true}
         />
 
         <motion.div

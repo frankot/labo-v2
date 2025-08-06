@@ -10,6 +10,7 @@ interface HeaderDetailsProps {
   description: string[];
   backgroundImage?: string;
   className?: string;
+  onLoad?: boolean;
 }
 
 export default function HeaderDetails({
@@ -18,12 +19,13 @@ export default function HeaderDetails({
   description,
   backgroundImage,
   className = "",
+  onLoad = false,
 }: HeaderDetailsProps) {
   return (
     <div className={`relative w-full ${className}`}>
       {/* Background Image Section */}
       {backgroundImage && (
-        <FadeInView className="relative h-[30vh] w-full">
+        <FadeInView className="relative h-[30vh] w-full" onLoad={onLoad}>
           <Image
             src={backgroundImage}
             alt={`${title} - ${subtitle}`}
@@ -38,7 +40,7 @@ export default function HeaderDetails({
       {/* Main Content */}
       <div className="relative w-full">
         {/* Title Section */}
-        <FadeInView className="relative z-20 -mt-16">
+        <FadeInView className="relative z-20 -mt-16" onLoad={onLoad}>
           <div className="mx-auto mt-20 max-w-7xl lg:mt-8">
             <div className="mx-2 md:mx-0">
               <Card className="cursor-default">
@@ -47,10 +49,18 @@ export default function HeaderDetails({
                   <div className="lg:col-span-1">
                     <div className="space-y-4">
                       <h2 className="font-michroma text-2xl font-bold text-white lg:text-3xl">
-                        <AnimatedText text={title} delay={0.1} />
+                        <AnimatedText
+                          text={title}
+                          delay={0.1}
+                          onLoad={onLoad}
+                        />
                       </h2>
                       <h3 className="font-michroma text-lg font-semibold text-stone-200 lg:text-xl">
-                        <AnimatedText text={subtitle} delay={0.2} />
+                        <AnimatedText
+                          text={subtitle}
+                          delay={0.2}
+                          onLoad={onLoad}
+                        />
                       </h3>
                     </div>
                   </div>
@@ -63,6 +73,7 @@ export default function HeaderDetails({
                           <AnimatedText
                             text={paragraph}
                             delay={0.3 + index * 0.2}
+                            onLoad={onLoad}
                           />
                         </p>
                       ))}
