@@ -66,7 +66,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
   ];
 
   return (
-    <div className="mt-16 min-h-screen bg-black text-white sm:mt-20">
+    <div className="lg:mt-16 min-h-screen bg-black text-white sm:mt-20">
       {/* Hero Image */}
       <motion.div
         className="relative h-[60vh] w-full sm:h-[70vh]"
