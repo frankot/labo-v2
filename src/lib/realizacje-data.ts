@@ -163,10 +163,12 @@ export const realizacje: Realizacja[] = [
     client: "Corab S.A.",
     year: 2024,
     category: "Stoisko targowe",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
     location: "Intersolar Europe 2024, Messe München, Monachium",
     area: "ok. 80 m²",
-    scope: "Koncepcja kreatywna, projekt 3D, opracowanie techniczne, produkcja, transport, montaż, wsparcie techniczne na miejscu",
+    scope:
+      "Koncepcja kreatywna, projekt 3D, opracowanie techniczne, produkcja, transport, montaż, wsparcie techniczne na miejscu",
     services: [
       "Koncepcja kreatywna",
       "Projekt 3D",
@@ -174,7 +176,7 @@ export const realizacje: Realizacja[] = [
       "Produkcja",
       "Transport",
       "Montaż",
-      "Wsparcie techniczne"
+      "Wsparcie techniczne",
     ],
     fullDescription:
       "Zaprojektowane i wykonane stoisko targowe dla lidera branży fotowoltaicznej. Nowoczesna forma, ekspozycja rozwiązań PV, zintegrowane multimedia oraz strefa spotkań z klientami. Konstrukcja modułowa, z autorskim systemem podświetleń i elementami zieleni.",
