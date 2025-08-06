@@ -65,7 +65,7 @@ const StaggeredDivider = () => (
         },
       },
     }}
-    className="mx-4 text-gray-500 md:mx-6"
+    className="mx-4 hidden text-gray-500 md:mx-6 md:block"
   >
     |
   </motion.span>
