@@ -139,23 +139,22 @@ export default function About() {
       {/* Main Content */}
       <div className="relative container mx-auto w-full">
         <StickyHeader
-          className="-mt-32 px-2 md:ml-0 md:px-0 text-[4rem] sm:text-[5rem] md:text-[7rem] lg:text-[8rem] lg:pt-6 xl:pt-0 lg:-mt-[12rem]"
+          className="-mt-32 px-2 text-[4rem] sm:text-[5rem] md:ml-0 md:px-0 md:text-[7rem] lg:-mt-[12rem] lg:pt-6 lg:text-[8rem] xl:pt-0"
           title="O NAS"
           delay={0.2}
         />
 
         {/* Title Section */}
-        <FadeInView className="relative  z-20 -mt-20">
+        <FadeInView className="relative z-20 -mt-20">
           {/* Content Layout */}
-          <div className="mx-auto mt-24 max-w-7xl px-2 md:px-6 sm:px-4  lg:mt-10">
+          <div className="mx-auto mt-24 max-w-7xl px-2 sm:px-4 md:px-6 lg:mt-10">
             <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
               {/* Main Content Card - 2/3 width */}
               <div className="lg:col-span-2">
                 <Card className="cursor-default">
-                  <div className="space-y-8 text-lg  leading-relaxed text-stone-300">
+                  <div className="space-y-8 text-lg leading-relaxed text-stone-300">
                     <p>
                       <AnimatedText
-                        
                         text="Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, targów, wystaw i produkcji multimedialnych – zarówno w Polsce jak i poza jej granicami."
                         delay={0.1}
                       />
@@ -233,11 +232,11 @@ export default function About() {
           className="container mx-auto max-w-7xl px-2 py-24 md:px-0 xl:pt-32"
         >
           <FadeInView>
-            <dl className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
               {stats.map((stat, index) => {
                 const Icon = stat.Icon;
                 return (
-                  <Card className="cursor-default" key={stat.id}>
+                  <Card className="cursor-default p-6" key={stat.id}>
                     <div className="top absolute -right-4 z-0 scale-100 opacity-30 transition-all duration-800 ease-out group-hover:scale-110 group-hover:opacity-50">
                       <Icon
                         size={80}
@@ -246,7 +245,7 @@ export default function About() {
                       />
                     </div>
 
-                    <div className="relative z-10">
+                    <div className="relative z-10 space-y-3">
                       <dt className="text-sm leading-6 text-stone-300">
                         <AnimatedText
                           text={stat.name}
@@ -261,9 +260,8 @@ export default function About() {
                           isInView={isStatsInView}
                         />
                       </dd>
-                      <p className="mt-2 text-sm text-stone-400">
+                      <p className="mt-2 text-sm leading-relaxed text-stone-400">
                         <AnimatedText
-                          className="line-clamp-1"
                           text={stat.description}
                           delay={0.9 + index * 0.1}
                         />
