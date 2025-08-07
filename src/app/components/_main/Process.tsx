@@ -14,42 +14,52 @@ const processSteps: ProcessStep[] = [
   {
     title: "Zapytanie",
     description:
-      "Rozpocznij swoją podróż od złożenia zapytania ofertowego. Opisz swoje potrzeby i oczekiwania.",
+      "Zacznij od przesłania nam briefu. Opisz swoje potrzeby i oczekiwania oraz uwzględnij podstawowe informacje: lokalizację, orientacyjne wymiary scenografii, inspiracje wizualne oraz planowany termin wydarzenia.",
   },
   {
     title: "Konsultacje",
     description:
-      "Nasi Project Managerowie dokładnie analizują Twoje potrzeby i proponują optymalne rozwiązania.",
-  },
-  {
-    title: "Kosztorys",
-    description:
-      "Przygotowujemy szczegółową wycenę uwzględniającą wszystkie aspekty projektu.",
+      "Skontaktujemy się z Tobą, aby omówić szczegóły projektu. Doradzimy, zaproponujemy rozwiązania i – jeśli będzie taka potrzeba – przeprowadzimy wizję lokalną oraz pomiary w miejscu planowanego eventu.",
   },
   {
     title: "Wizualizacje",
     description:
-      "Tworzymy dokładne wizualizacje projektu, pomagające zobaczyć efekt końcowy.",
+      "Otrzymasz od nas wizualizacje 2D lub 3D, które w przejrzysty sposób przedstawią planowany efekt końcowy.",
+  },
+  {
+    title: "Kosztorysowanie",
+    description:
+      "Na podstawie ustaleń przygotujemy przejrzystą i szczegółową wycenę projektu, uwzględniającą wszystkie niezbędne procesy realizacji.",
   },
   {
     title: "Poprawki",
     description:
-      "Wprowadzamy niezbędne modyfikacje zgodnie z Twoimi uwagami i sugestiami.",
+      "Jeśli masz uwagi – wprowadzimy wszystkie potrzebne zmiany, aby projekt idealnie odpowiadał Twoim oczekiwaniom.",
+  },
+  {
+    title: "Projekt techniczny",
+    description:
+      "Opracujemy szczegółowy projekt wykonawczy: rysunki techniczne i konstrukcyjne, specyfikację materiałową oraz schematy montażowe.",
   },
   {
     title: "Produkcja",
     description:
-      "Rozpoczynamy proces produkcji z najwyższą dbałością o jakość i detale.",
+      "Po akceptacji projektu rozpoczynamy proces produkcji w naszej pracowni, dbając o najwyższą jakość wykonania oraz dotrzymanie ustalonych terminów.",
   },
   {
     title: "Montaż",
     description:
-      "Profesjonalny zespół montażowy realizuje instalację na miejscu.",
+      "Nasz zespół zajmie się transportem i profesjonalnym montażem scenografii na miejscu wydarzenia.",
   },
   {
     title: "Demontaż",
     description:
-      "W razie potrzeby, zapewniamy również profesjonalny demontaż i utylizację.",
+      "Po zakończeniu eventu sprawnie zdemontujemy scenografię oraz – jeśli będzie taka potrzeba – zajmiemy się jej odbiorem, gwarantując bezproblemowe i terminowe zakończenie realizacji.",
+  },
+  {
+    title: "Zamknięcie projektu",
+    description:
+      "Podsumowujemy realizację, finalizujemy rozliczenia końcowe i zbieramy Twój feedback.",
   },
 ];
 
@@ -256,7 +266,7 @@ const DesktopProcess = () => {
                       initial={{ opacity: 0, y: 10, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                      className={`absolute bottom-full z-20 w-80 ${
+                      className={`absolute bottom-full h-fit z-20 w-96 ${
                         index === 0 ? "translate-x-[40%]" : ""
                       } ${
                         index === processSteps.length - 1
@@ -290,17 +300,20 @@ const DesktopProcess = () => {
   );
 };
 
-// NEW Mobile Process Component - Vertical Timeline
+// NEW Mobile Process Component - Horizontal Scrolling Timeline
 const MobileProcess = () => {
   const ref = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-20%" });
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.3,
       },
     },
@@ -309,8 +322,8 @@ const MobileProcess = () => {
   const stepVariants = {
     hidden: {
       opacity: 0,
-      x: -30,
-      scale: 0.95,
+      x: 50,
+      scale: 0.9,
     },
     visible: {
       opacity: 1,
@@ -325,9 +338,9 @@ const MobileProcess = () => {
   };
 
   const lineVariants = {
-    hidden: { scaleY: 0 },
+    hidden: { scaleX: 0 },
     visible: {
-      scaleY: 1,
+      scaleX: 1,
       transition: {
         duration: 1.2,
         ease: "easeInOut" as const,
@@ -350,10 +363,78 @@ const MobileProcess = () => {
     },
   };
 
+  // Auto-scroll functionality
+  const startAutoScroll = () => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+    }
+
+    autoScrollIntervalRef.current = setInterval(() => {
+      if (scrollContainerRef.current && isAutoScrolling) {
+        const container = scrollContainerRef.current;
+        const scrollWidth = container.scrollWidth - container.clientWidth;
+
+        if (container.scrollLeft >= scrollWidth) {
+          // Reset to beginning when reaching the end
+          container.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          // Scroll to next card
+          const cardWidth = 280 + 32; // card width + gap
+          container.scrollTo({
+            left: container.scrollLeft + cardWidth,
+            behavior: "smooth",
+          });
+        }
+      }
+    }, 2000);
+  };
+
+  const stopAutoScroll = () => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+      autoScrollIntervalRef.current = null;
+    }
+    setIsAutoScrolling(false);
+  };
+
+  const resetAutoScroll = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+    setIsAutoScrolling(true);
+    startAutoScroll();
+  };
+
+  // Touch event handlers
+  const handleTouchStart = () => {
+    stopAutoScroll();
+  };
+
+  const handleTouchEnd = () => {
+    // Restart auto-scroll after a delay
+    setTimeout(() => {
+      setIsAutoScrolling(true);
+      startAutoScroll();
+    }, 3000); // Wait 3 seconds before resuming
+  };
+
+  // Start auto-scroll when component mounts and is in view
+  useEffect(() => {
+    if (isInView && isAutoScrolling) {
+      startAutoScroll();
+    }
+
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+    };
+  }, [isInView, isAutoScrolling]);
+
   return (
-    <div className="px-4 py-12 lg:py-44 xl:hidden" ref={ref}>
+    <div className="py-12 lg:py-44 xl:hidden" ref={ref}>
       {/* Mobile Header */}
-      <div className="mb-16 text-center">
+      <div className="mb-16 px-4 text-center">
         <motion.h1
           className="font-michroma text-4xl font-bold text-white/20 md:text-5xl"
           initial="hidden"
@@ -372,58 +453,71 @@ const MobileProcess = () => {
         </motion.h1>
       </div>
 
-      {/* Vertical Timeline */}
-      <div className="relative mx-auto max-w-md">
-        {/* Vertical Line */}
+      {/* Horizontal Timeline Container */}
+      <div className="relative">
+        {/* Horizontal Line */}
         <motion.div
-          className="absolute top-0 left-8 h-full w-px origin-top bg-gradient-to-b from-stone-300 via-stone-400 to-stone-300"
+          className="absolute top-1/2 right-0 left-0 h-px origin-left bg-gradient-to-r from-stone-300 via-stone-400 to-stone-300"
+          style={{ top: "calc(20%)" }}
           variants={lineVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         />
 
-        <motion.div
-          className="space-y-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+        {/* Scrollable Timeline */}
+        <div
+          ref={scrollContainerRef}
+          className="scrollbar-hide flex overflow-x-auto pt-8 pb-8"
+          style={{ scrollSnapType: "x mandatory" }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          {processSteps.map((step, index) => (
+          <div className="flex min-w-full px-4">
             <motion.div
-              key={step.title}
-              className="relative flex items-start"
-              variants={stepVariants}
+              className="flex gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
-              {/* Animated Dot */}
-              <motion.div
-                className="relative z-10 flex h-16 w-16 items-center justify-center"
-                variants={dotVariants}
-              >
-                <motion.div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-300 shadow-lg">
-                  <span className="font-michroma text-lg font-bold text-stone-900">
-                    {index + 1}
-                  </span>
-                </motion.div>
-              </motion.div>
+              {processSteps.map((step, index) => (
+                <motion.div
+                  key={step.title}
+                  className="relative flex min-w-[280px] flex-col items-center justify-center"
+                  variants={stepVariants}
+                  style={{ scrollSnapAlign: "center" }}
+                >
+                  {/* Animated Dot */}
+                  <motion.div
+                    className="relative z-10 mb-6 flex h-16 w-16 items-center justify-center"
+                    variants={dotVariants}
+                  >
+                    <motion.div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-300 shadow-lg">
+                      <span className="font-michroma text-lg font-bold text-stone-900">
+                        {index + 1}
+                      </span>
+                    </motion.div>
+                  </motion.div>
 
-              {/* Step Content */}
-              <motion.div className="ml-6 flex-1 py-1">
-                <motion.h3 className="font-michroma text-base font-semibold text-stone-300">
-                  {step.title}
-                </motion.h3>
+                  {/* Step Content */}
+                  <motion.div className="w-full text-center">
+                    <motion.h3 className="font-michroma mb-3 text-base font-semibold text-stone-300">
+                      {step.title}
+                    </motion.h3>
 
-                {/* Full Description */}
-                <motion.div className="opacity-60 transition-all duration-300">
-                  <Card className="mt-3 border-stone-700 bg-stone-900/50 p-4">
-                    <p className="text-sm leading-relaxed text-stone-300">
-                      {step.description}
-                    </p>
-                  </Card>
+                    {/* Description Card */}
+                    <motion.div className="mt-10 transition-all duration-300">
+                      <Card className="border-stone-700 bg-stone-900/50 p-4">
+                        <p className="text-sm leading-relaxed text-stone-300">
+                          {step.description}
+                        </p>
+                      </Card>
+                    </motion.div>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
+          </div>
+        </div>
       </div>
     </div>
   );
