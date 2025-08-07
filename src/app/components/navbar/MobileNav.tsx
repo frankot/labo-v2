@@ -144,7 +144,7 @@ const MobileNav = () => {
           <nav className="space-y-2">
             {navLinks.map((link) => (
               <div key={link.label}>
-                {link.items ? (
+                {link.items && link.label !== "Usługi" ? (
                   <div>
                     {link.hasClickableHeader && link.href ? (
                       <div className="flex items-center border-b border-neutral-800">
