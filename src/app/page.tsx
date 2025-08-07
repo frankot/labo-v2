@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="h">
       <Hero />
-      <div className="mt-20 w-full lg:mt-0 lg:h-screen">
+      <div className="mt-20 h-[350px] w-full lg:mt-0 lg:h-screen">
         <FrameLayout />
       </div>
       <About />
