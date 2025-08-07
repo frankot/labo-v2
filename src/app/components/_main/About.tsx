@@ -68,60 +68,66 @@ const stats = [
   },
 ];
 
-// Custom AnimatedNumber component for stats
-const StatsAnimatedNumber = ({
-  value,
-  suffix = "",
-  className,
-  delay = 0,
-  isInView,
+// Simplified StatCard component
+const StatCard = ({
+  stat,
+  index,
 }: {
-  value: number;
-  suffix?: string;
-  className?: string;
-  delay?: number;
-  isInView: boolean;
+  stat: (typeof stats)[0];
+  index: number;
 }) => {
+  const Icon = stat.Icon;
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, {
+    once: true,
+    margin: "25% 0px 25% 0px",
+  });
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
   useEffect(() => {
     if (isInView) {
-      const controls = animate(count, value, {
-        duration: 2.5,
+      const controls = animate(count, stat.value, {
+        duration: 2,
         ease: "easeOut",
-        delay: delay,
+        delay: 0.3 + index * 0.1,
       });
 
       return controls.stop;
     }
-  }, [count, value, isInView, delay]);
+  }, [count, stat.value, isInView, index]);
 
   return (
-    <motion.span
-      className={`font-michroma text-3xl font-semibold tracking-tight ${className || ""}`}
-      initial={{ opacity: 0, y: 28 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{
-        type: "spring",
-        duration: 0.8,
-        bounce: 0.4,
-        delay: delay,
+        duration: 0.6,
+        delay: 0.1 + index * 0.1,
       }}
     >
-      <motion.span>{rounded}</motion.span>
-      {suffix}
-    </motion.span>
+      <Card className="cursor-default p-6">
+        <div className="absolute top-0 -right-4 z-0 scale-100 opacity-30 transition-all duration-800 ease-out group-hover:scale-110 group-hover:opacity-50">
+          <Icon size={80} strokeWidth={0.5} className="text-stone-400" />
+        </div>
+
+        <div className="relative z-10 space-y-3">
+          <dt className="text-sm leading-6 text-stone-300">{stat.name}</dt>
+          <dd className="font-michroma order-first text-3xl font-semibold tracking-tight text-white">
+            <motion.span>{rounded}</motion.span>
+            {stat.suffix}
+          </dd>
+          <p className="mt-2 text-sm leading-relaxed text-stone-400">
+            {stat.description}
+          </p>
+        </div>
+      </Card>
+    </motion.div>
   );
 };
 
 export default function About() {
-  const statsRef = useRef(null);
-  const isStatsInView = useInView(statsRef, {
-    once: true,
-    margin: "25% 0px 25% 0px",
-  });
-
   return (
     <div id="about" className="relative">
       {/* Hero Image Section */}
@@ -227,51 +233,12 @@ export default function About() {
         </FadeInView>
 
         {/* Stats Section */}
-        <section
-          ref={statsRef}
-          className="container mx-auto max-w-7xl px-2 py-24 md:px-0 xl:pt-32"
-        >
-          <FadeInView>
-            <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-              {stats.map((stat, index) => {
-                const Icon = stat.Icon;
-                return (
-                  <Card className="cursor-default p-6" key={stat.id}>
-                    <div className="top absolute -right-4 z-0 scale-100 opacity-30 transition-all duration-800 ease-out group-hover:scale-110 group-hover:opacity-50">
-                      <Icon
-                        size={80}
-                        strokeWidth={0.5}
-                        className="text-stone-400"
-                      />
-                    </div>
-
-                    <div className="relative z-10 space-y-3">
-                      <dt className="text-sm leading-6 text-stone-300">
-                        <AnimatedText
-                          text={stat.name}
-                          delay={0.5 + index * 0.1}
-                        />
-                      </dt>
-                      <dd className="font-michroma order-first text-3xl font-semibold tracking-tight text-white">
-                        <StatsAnimatedNumber
-                          value={stat.value}
-                          suffix={stat.suffix}
-                          delay={2.0 + index * 0.1}
-                          isInView={isStatsInView}
-                        />
-                      </dd>
-                      <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                        <AnimatedText
-                          text={stat.description}
-                          delay={0.9 + index * 0.1}
-                        />
-                      </p>
-                    </div>
-                  </Card>
-                );
-              })}
-            </dl>
-          </FadeInView>
+        <section className="container mx-auto max-w-7xl px-2 py-24 md:px-0 xl:pt-32">
+          <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
+            {stats.map((stat, index) => (
+              <StatCard key={stat.id} stat={stat} index={index} />
+            ))}
+          </dl>
         </section>
       </div>
     </div>
