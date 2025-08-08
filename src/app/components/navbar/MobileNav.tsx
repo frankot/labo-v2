@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { X, ChevronDown, Phone } from "lucide-react";
+import { ChevronDown, Phone } from "lucide-react";
 import { navLinks } from "./navigation-data";
 
 const handleSmoothScroll = (
