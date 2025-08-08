@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import MachinesGrid from "./MachinesGrid";
+import MachinesGridEntry from "./MachinesGridEntry";
 import HeaderDetails from "@/app/components/ui/header-details";
 
 const containerVariants = {
@@ -37,7 +37,7 @@ export default function ParkMaszynPage() {
           animate="visible"
         >
           {/* Machines Grid */}
-          <MachinesGrid />
+          <MachinesGridEntry />
         </motion.div>
       </div>
     </div>

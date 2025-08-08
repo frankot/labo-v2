@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -8,6 +8,8 @@ import { use } from "react";
 import { getRealizacjaById } from "@/lib/realizacje-data";
 import { ArrowLeft, MapPin, Calendar, Ruler, Wrench } from "lucide-react";
 import Card from "@/app/components/ui/card";
+import ImageCarousel from "./ImageCarousel";
+import { useState } from "react";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -64,6 +66,14 @@ export default function RealizacjaDetailPage({ params }: Props) {
       value: project.scope,
     },
   ];
+
+  const [carouselOpen, setCarouselOpen] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  const openCarousel = (idx: number) => {
+    setCarouselIndex(idx);
+    setCarouselOpen(true);
+  };
 
   return (
     <div className="lg:mt-16 min-h-screen bg-black text-white sm:mt-20">
@@ -268,11 +278,12 @@ export default function RealizacjaDetailPage({ params }: Props) {
                 {project.gallery.map((image, index) => (
                   <motion.div
                     key={index}
-                    className="group relative aspect-video overflow-hidden rounded-lg sm:rounded-xl"
+                    className="group relative aspect-video overflow-hidden rounded-lg sm:rounded-xl cursor-pointer"
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
+                    onClick={() => openCarousel(index)}
                   >
                     <Image
                       src={image}
@@ -287,6 +298,15 @@ export default function RealizacjaDetailPage({ params }: Props) {
           </motion.div>
         </div>
       </div>
+      <AnimatePresence>
+        {carouselOpen && (
+          <ImageCarousel
+            images={project.gallery}
+            initialIndex={carouselIndex}
+            onClose={() => setCarouselOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -4,7 +4,8 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 import { Michroma } from "next/font/google";
-import { Phone, Mail, ChevronDown, ChevronUp } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
+import MobileSelect from "../ui/mobile-select";
 import Card from "../ui/card";
 import StickyHeader from "../ui/sticky-header";
 import { FadeInView } from "../../anim";
@@ -183,7 +184,7 @@ export default function TeamSection() {
   const departmentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [selectedDepartment, setSelectedDepartment] =
     useState<string>("Właściciele");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // Mobile select no longer needs local dropdown open state
 
   const isInView = useInView(containerRef, {
     once: true,
@@ -212,7 +213,6 @@ export default function TeamSection() {
   const handleDepartmentChange = (department: string) => {
     setSelectedDepartment(department);
     scrollToDepartment(department);
-    setIsDropdownOpen(false);
   };
 
   const handleScroll = useCallback(() => {
@@ -287,39 +287,15 @@ export default function TeamSection() {
                   ))}
                 </div>
 
-                {/* Mobile: Dropdown */}
+                {/* Mobile: Shared MobileSelect */}
                 <div className="relative mx-auto w-full max-w-xs md:hidden">
-                  <button
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex w-full items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
-                  >
-                    <span className="text-sm font-medium">
-                      {selectedDepartment}
-                    </span>
-                    {isDropdownOpen ? (
-                      <ChevronUp className="h-4 w-4" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4" />
-                    )}
-                  </button>
-
-                  {isDropdownOpen && (
-                    <div className="absolute top-full right-0 left-0 z-20 mt-1 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm">
-                      {departments.map((department) => (
-                        <button
-                          key={department}
-                          onClick={() => handleDepartmentChange(department)}
-                          className={`w-full px-4 py-3 text-left text-sm transition-all duration-300 first:rounded-t-lg last:rounded-b-lg ${
-                            selectedDepartment === department
-                              ? "bg-white/20 text-white"
-                              : "text-white/70 hover:bg-white/10 hover:text-white"
-                          }`}
-                        >
-                          {department}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                  <MobileSelect<string>
+                    value={selectedDepartment}
+                    options={departments.map(d => ({ value: d, label: d }))}
+                    onChange={(val) => handleDepartmentChange(val)}
+                    placeholder="Wybierz dział"
+                    ariaLabel="Wybierz dział"
+                  />
                 </div>
               </div>
 
