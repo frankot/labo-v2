@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { X, ChevronDown, Phone } from "lucide-react";
 import { navLinks } from "./navigation-data";
@@ -24,7 +23,11 @@ const handleSmoothScroll = (
   }
 };
 
-const MobileNav = () => {
+interface MobileNavProps {
+  isVisible: boolean;
+}
+
+const MobileNav = ({ isVisible }: MobileNavProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSections, setOpenSections] = useState<string[]>([]);
 
@@ -66,62 +69,65 @@ const MobileNav = () => {
 
   return (
     <>
-      {/* Hamburger Button */}
-      <button
-        onClick={toggleMenu}
-        className="fixed top-4 right-4 z-30 flex size-12 items-center justify-center rounded border border-neutral-400 bg-black/50 backdrop-blur-sm lg:hidden"
+      {/* Mobile Navbar */}
+      <nav
+        className="fixed top-0 left-0 w-full h-16 bg-black z-50 flex items-center justify-center lg:hidden"
+        style={{ boxShadow: "none", border: "none" }}
       >
-        <svg
-          data-slot="icon"
-          fill="none"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          className="size-9 text-white"
+        {/* Centered LABO text with Michroma font, only when isVisible */}
+        <div
+          className={`absolute left-1/2 -translate-x-1/2 flex items-center justify-center transition-opacity duration-500 ${isVisible || isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
-          ></path>
-        </svg>
-      </button>
-
-      {/* Mobile Menu - Always Rendered */}
-      <div
-        className={`fixed top-0 right-0 z-40 h-screen w-4/5 min-w-64 transform overflow-y-auto bg-black transition-transform duration-300 lg:hidden ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Header with X button and phone number */}
-        <div className="flex items-center justify-between px-6 pt-4">
-          <div className="flex items-center gap-2 text-white">
-            <Phone size={16} />
-            <span className="text-sm">+48 123 456 789</span>
-          </div>
-          <button
-            onClick={closeMenu}
-            className="flex size-12 items-center justify-center rounded border border-neutral-400 bg-black/50 backdrop-blur-sm"
-          >
-            <X size={20} className="text-white" />
-          </button>
+          <Link href="/">
+            <h3
+              className="text-white text-2xl font-michroma tracking-wide"
+              style={{ fontFamily: 'Michroma, sans-serif', letterSpacing: '0.1em' }}
+            >
+              LABO
+            </h3>
+          </Link>
         </div>
+        {/* Burger/X Button */}
+        <button
+          onClick={toggleMenu}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-50 flex items-center justify-center bg-transparent border-none outline-none"
+          style={{ width: '1.8rem', height: '1.8rem', minWidth: 'unset', minHeight: 'unset' }}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          <span className="relative block w-7 h-7">
+            {/* Animated burger/X icon with improved transition */}
+            <span
+              className={`absolute left-0 top-1/2 w-7 h-0.5 bg-white rounded transition-transform duration-400 ease-in-out ${isMenuOpen ? "rotate-45" : "-translate-y-2.5"}`}
+              style={{ transitionProperty: "transform, opacity" }}
+            />
+            <span
+              className={`absolute left-0 top-1/2 w-7 h-0.5 bg-white rounded transition-opacity duration-400 ease-in-out ${isMenuOpen ? "opacity-0" : "opacity-100"}`}
+              style={{ transitionProperty: "opacity" }}
+            />
+            <span
+              className={`absolute left-0 top-1/2 w-7 h-0.5 bg-white rounded transition-transform duration-400 ease-in-out ${isMenuOpen ? "-rotate-45" : "translate-y-2.5"}`}
+              style={{ transitionProperty: "transform, opacity" }}
+            />
+          </span>
+        </button>
+      </nav>
 
+      {/* Slide-up Mobile Menu */}
+      <div
+        className={`fixed left-0 bottom-0 border-t  border-white/30 w-full z-40 bg-black transition-transform duration-300 lg:hidden overflow-y-auto ${isMenuOpen ? "translate-y-0" : "translate-y-full"}`}
+        style={{
+          height: "calc(100vh - 4rem)", // 4rem = 64px nav height
+          marginTop: "4rem"
+        }}
+      >
         <div className="px-6 pt-6">
-          {/* Logo and placeholder text section */}
+          {/* Contact section */}
           <div className="mb-8 flex gap-4">
             <div className="w-full">
-              <Link href="/" onClick={(e) => handleLinkClick(e, "/")}>
-                <Image
-                  src="/logo.png"
-                  alt="Logo"
-                  width={150}
-                  height={50}
-                  className="w-full"
-                />
-              </Link>
+              <div className="flex items-center gap-2 text-white">
+                <Phone size={16} />
+                <span className="text-sm">+48 123 456 789</span>
+              </div>
             </div>
             <div className="w-2/3">
               <div className="space-y-3 text-sm">
@@ -217,10 +223,9 @@ const MobileNav = () => {
 
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-30 bg-black/50 backdrop-blur lg:hidden ${
-          isMenuOpen ? "block" : "hidden"
-        }`}
+        className={`fixed inset-0 z-30 bg-black/50 lg:hidden ${isMenuOpen ? "block" : "hidden"}`}
         onClick={closeMenu}
+        style={{ top: "4rem" }}
       />
     </>
   );
