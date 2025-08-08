@@ -120,33 +120,7 @@ const MobileNav = ({ isVisible }: MobileNavProps) => {
           marginTop: "4rem"
         }}
       >
-        <div className="px-6 pt-6">
-          {/* Contact section */}
-          <div className="mb-8 flex gap-4">
-            <div className="w-full">
-              <div className="flex items-center gap-2 text-white">
-                <Phone size={16} />
-                <span className="text-sm">+48 123 456 789</span>
-              </div>
-            </div>
-            <div className="w-2/3">
-              <div className="space-y-3 text-sm">
-                <div className="border-t border-neutral-700 pt-2">
-                  <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                    Zastępca Szeryfa
-                  </h4>
-                  <p className="text-neutral-400">+48 987 654 321</p>
-                </div>
-                <div>
-                  <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                    Email
-                  </h4>
-                  <p className="text-neutral-400">kontakt@labo.pl</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <div className="px-6 pt-6 pb-32">
           <nav className="space-y-2">
             {navLinks.map((link) => (
               <div key={link.label}>
@@ -218,6 +192,40 @@ const MobileNav = ({ isVisible }: MobileNavProps) => {
               </div>
             ))}
           </nav>
+        </div>
+
+        {/* Bottom Contact & Info Section */}
+        <div className="absolute bottom-0 left-0 w-full px-6 pb-6 pt-4 bg-black border-t border-white/20">
+          <div className="grid grid-cols-2 gap-6 text-sm">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-white">
+                <Phone size={16} />
+                <span>+48 123 456 789</span>
+              </div>
+              <div>
+                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">Zastępca Szeryfa</h4>
+                <p className="text-neutral-400">+48 987 654 321</p>
+              </div>
+              <div>
+                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">Email</h4>
+                <p className="text-neutral-400">kontakt@labo.pl</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div>
+                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">Godziny pracy</h4>
+                <p className="text-neutral-400">Pon-Pt: 8:00-16:00</p>
+              </div>
+              <div>
+                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">Adres</h4>
+                <p className="text-neutral-400">ul. Przykładowa 123, Warszawa</p>
+              </div>
+              <div>
+                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">Social</h4>
+                <p className="text-neutral-400">@labo_official</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
