@@ -1,4 +1,4 @@
-`"use client";
+"use client";
 
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
@@ -266,7 +266,7 @@ const DesktopProcess = () => {
                       initial={{ opacity: 0, y: 10, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                      className={`absolute bottom-full h-fit z-20 w-96 ${
+                      className={`absolute bottom-full z-20 h-fit w-96 ${
                         index === 0 ? "translate-x-[40%]" : ""
                       } ${
                         index === processSteps.length - 1
@@ -455,6 +455,15 @@ const MobileProcess = () => {
 
       {/* Horizontal Timeline Container */}
       <div className="relative">
+        {/* Horizontal Line */}
+        <motion.div
+          className="absolute top-1/2 right-0 left-0 h-px origin-left bg-gradient-to-r from-stone-300 via-stone-400 to-stone-300"
+          style={{ top: "calc(20%)" }}
+          variants={lineVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        />
+
         {/* Scrollable Timeline */}
         <div
           ref={scrollContainerRef}
@@ -465,47 +474,38 @@ const MobileProcess = () => {
         >
           <div className="flex min-w-full px-4">
             <motion.div
-              className="relative flex gap-8"
+              className="flex gap-8"
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              {/* Continuous line across all steps */}
-              <motion.div
-                className="pointer-events-none absolute left-0 right-0 top-10 h-px origin-left bg-gradient-to-r from-stone-300 via-stone-400 to-stone-300"
-                variants={lineVariants}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-              />
               {processSteps.map((step, index) => (
                 <motion.div
                   key={step.title}
-                  className="relative flex min-w-[280px] flex-col items-center justify-start h-[380px]"
+                  className="relative flex min-w-[280px] flex-col items-center justify-center"
                   variants={stepVariants}
                   style={{ scrollSnapAlign: "center" }}
                 >
-                  {/* Header: centered badge */}
-                  <div className="w-full">
-                    <motion.div
-                      className="z-10 mx-auto flex h-20 w-full items-center justify-center"
-                      variants={dotVariants}
-                    >
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-300 shadow-lg">
-                        <span className="font-michroma text-lg font-bold text-stone-900">
-                          {index + 1}
-                        </span>
-                      </div>
+                  {/* Animated Dot */}
+                  <motion.div
+                    className="relative z-10 mb-6 flex h-16 w-16 items-center justify-center"
+                    variants={dotVariants}
+                  >
+                    <motion.div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-300 shadow-lg">
+                      <span className="font-michroma text-lg font-bold text-stone-900">
+                        {index + 1}
+                      </span>
                     </motion.div>
-                  </div>
+                  </motion.div>
 
                   {/* Step Content */}
                   <motion.div className="w-full text-center">
-                    <motion.h3 className="font-michroma mt-6 mb-3 text-base font-semibold text-stone-300">
+                    <motion.h3 className="font-michroma mb-3 text-base font-semibold text-stone-300">
                       {step.title}
                     </motion.h3>
 
                     {/* Description Card */}
-                    <motion.div className="mt-6 transition-all duration-300">
+                    <motion.div className="mt-10 transition-all duration-300">
                       <Card className="border-stone-700 bg-stone-900/50 p-4">
                         <p className="text-sm leading-relaxed text-stone-300">
                           {step.description}
