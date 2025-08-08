@@ -46,7 +46,7 @@ export default function Contact() {
   return (
     <section id="contact" className="relative mt-20">
       <StickyHeader
-        className="px-2 md:ml-0 md:px-0 "
+        className="px-2 md:ml-0 md:px-0"
         title="KONTAKT"
         delay={0.2}
       />

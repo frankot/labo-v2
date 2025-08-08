@@ -33,7 +33,7 @@ const itemVariants = {
 
 export default function RealizacjePage() {
   return (
-    <div className="lg:mt-20 min-h-screen">
+    <div className="min-h-screen lg:mt-20">
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails

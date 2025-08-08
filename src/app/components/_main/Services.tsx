@@ -6,8 +6,6 @@ import { Blocks, DraftingCompass, Wrench } from "lucide-react";
 import Card from "../ui/card";
 import StickyHeader from "../ui/sticky-header";
 
-
-
 const serviceCategories = [
   {
     category: "Koncepcja i projekty",

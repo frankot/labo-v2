@@ -59,11 +59,14 @@ export default function About() {
               <Card className="relative h-fit cursor-default space-y-6 overflow-hidden text-stone-300">
                 {/* Background Wrench Icon */}
                 <div className="pointer-events-none absolute -top-4 -right-8 opacity-10">
-                  <Wrench size={320} className="rotate-12 group-hover:rotate-6 duration-300  text-stone-400" />
+                  <Wrench
+                    size={320}
+                    className="rotate-12 text-stone-400 duration-300 group-hover:rotate-6"
+                  />
                 </div>
 
                 <div className="relative z-10 space-y-4">
-                  <h3 className="text-lg font-michroma font-bold text-stone-200">
+                  <h3 className="font-michroma text-lg font-bold text-stone-200">
                     {aboutData.sideContent.title}
                   </h3>
                   {aboutData.sideContent.description.map((paragraph, index) => (
@@ -79,7 +82,7 @@ export default function About() {
                   ))}
                   <Link
                     href={aboutData.sideContent.cta.href}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-stone-200 transition-colors duration-200 hover:underline underline-offset-4 underline-white"
+                    className="underline-white inline-flex items-center gap-2 text-sm font-medium text-stone-200 underline-offset-4 transition-colors duration-200 hover:underline"
                   >
                     {aboutData.sideContent.cta.text} →
                   </Link>

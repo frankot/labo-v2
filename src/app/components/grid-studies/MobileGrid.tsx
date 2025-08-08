@@ -140,8 +140,6 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
             <ChevronRight className="h-5 w-5" />
           </button>
 
-    
-
           {/* Slide counter */}
           <div className="absolute top-4 right-4 z-10 rounded-full bg-black/20 px-3 py-1 backdrop-blur-sm">
             <span className="font-michroma text-xs text-white">

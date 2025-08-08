@@ -8,7 +8,7 @@ export interface MobileSelectOption<T = string | number> {
   value: T;
   label: string;
   description?: string;
-  meta?: any;
+  meta?: unknown;
 }
 
 interface MobileSelectProps<T = string | number> {
@@ -20,7 +20,10 @@ interface MobileSelectProps<T = string | number> {
   buttonClassName?: string;
   listClassName?: string;
   optionClassName?: string;
-  renderOption?: (option: MobileSelectOption<T>, selected: boolean) => React.ReactNode;
+  renderOption?: (
+    option: MobileSelectOption<T>,
+    selected: boolean,
+  ) => React.ReactNode;
   disabled?: boolean;
   ariaLabel?: string;
 }
@@ -91,12 +94,20 @@ export default function MobileSelect<T = string | number>({
           buttonClassName,
         )}
       >
-        <span className={cn("text-sm font-medium", !current && "text-white/40")}>{current ? current.label : placeholder}</span>
-        {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        <span
+          className={cn("text-sm font-medium", !current && "text-white/40")}
+        >
+          {current ? current.label : placeholder}
+        </span>
+        {open ? (
+          <ChevronUp className="h-4 w-4" />
+        ) : (
+          <ChevronDown className="h-4 w-4" />
+        )}
       </button>
       <div
         className={cn(
-          "absolute left-0 right-0 top-full z-30 mt-1 origin-top overflow-hidden rounded-lg border border-white/10 bg-black/60 backdrop-blur-xl transition-all duration-200",
+          "absolute top-full right-0 left-0 z-30 mt-1 origin-top overflow-hidden rounded-lg border border-white/10 bg-black/60 backdrop-blur-xl transition-all duration-200",
           open
             ? "pointer-events-auto scale-y-100 opacity-100"
             : "pointer-events-none scale-y-95 opacity-0",
@@ -122,11 +133,15 @@ export default function MobileSelect<T = string | number>({
                     optionClassName,
                   )}
                 >
-                  {renderOption ? renderOption(opt, selected) : (
+                  {renderOption ? (
+                    renderOption(opt, selected)
+                  ) : (
                     <div className="flex flex-col">
                       <span>{opt.label}</span>
                       {opt.description && (
-                        <span className="mt-0.5 text-[11px] font-normal text-white/50 line-clamp-2">{opt.description}</span>
+                        <span className="mt-0.5 line-clamp-2 text-[11px] font-normal text-white/50">
+                          {opt.description}
+                        </span>
                       )}
                     </div>
                   )}

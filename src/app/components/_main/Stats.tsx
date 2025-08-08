@@ -104,7 +104,7 @@ const DesktopStatCard = ({
         delay: 0.1 + index * 0.1,
       }}
     >
-      <Card className="cursor-default h-[180px] p-4 sm:p-6">
+      <Card className="h-[180px] cursor-default p-4 sm:p-6">
         <div className="absolute top-0 -right-2 z-0 scale-100 opacity-30 transition-all duration-800 ease-out group-hover:scale-110 group-hover:opacity-50 sm:-right-4">
           <Icon
             size={60}

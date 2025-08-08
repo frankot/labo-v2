@@ -260,7 +260,7 @@ export default function TeamSection() {
         <StickyHeader title="TEAM" delay={0.2} />
 
         {/* Title Section */}
-        <FadeInView className="relative z-20 mx-auto -mt-20 ">
+        <FadeInView className="relative z-20 mx-auto -mt-20">
           <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
             <div
               ref={containerRef}
@@ -291,7 +291,7 @@ export default function TeamSection() {
                 <div className="relative mx-auto w-full max-w-xs md:hidden">
                   <MobileSelect<string>
                     value={selectedDepartment}
-                    options={departments.map(d => ({ value: d, label: d }))}
+                    options={departments.map((d) => ({ value: d, label: d }))}
                     onChange={(val) => handleDepartmentChange(val)}
                     placeholder="Wybierz dział"
                     ariaLabel="Wybierz dział"

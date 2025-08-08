@@ -49,8 +49,6 @@ const historyEvents = [
   },
 ];
 
-
-
 // Desktop History Component (existing)
 const DesktopHistory = () => {
   const ref = useRef(null);

@@ -76,7 +76,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
   };
 
   return (
-    <div className="lg:mt-16 min-h-screen bg-black text-white sm:mt-20">
+    <div className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
       {/* Hero Image */}
       <motion.div
         className="relative h-[60vh] w-full sm:h-[70vh]"
@@ -278,7 +278,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
                 {project.gallery.map((image, index) => (
                   <motion.div
                     key={index}
-                    className="group relative aspect-video overflow-hidden rounded-lg sm:rounded-xl cursor-pointer"
+                    className="group relative aspect-video cursor-pointer overflow-hidden rounded-lg sm:rounded-xl"
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}

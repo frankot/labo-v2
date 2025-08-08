@@ -397,13 +397,7 @@ const MobileProcess = () => {
     setIsAutoScrolling(false);
   };
 
-  const resetAutoScroll = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
-    }
-    setIsAutoScrolling(true);
-    startAutoScroll();
-  };
+  // Removed unused resetAutoScroll function
 
   // Touch event handlers
   const handleTouchStart = () => {

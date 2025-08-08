@@ -90,13 +90,12 @@ export default function Hero() {
         </div>
       </div>
 
-
       {/* Horizontal Services List */}
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:gap-8">
         {services.map((text, index) => (
           <Link href="#services" key={text} className="flex items-center">
             <StaggeredElement staggerDelay={0.02}>
-              <span className="font-michroma  md:text-lg font-light tracking-wider text-gray-300 uppercase transition-all duration-300 hover:text-white lg::text-xl">
+              <span className="font-michroma lg::text-xl font-light tracking-wider text-gray-300 uppercase transition-all duration-300 hover:text-white md:text-lg">
                 {text.split("").map((char, charIndex) => (
                   <StaggeredChar key={charIndex} char={char} />
                 ))}

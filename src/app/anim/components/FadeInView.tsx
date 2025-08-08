@@ -20,11 +20,15 @@ const FadeInView = ({
         duration: 0.6,
         ease: "easeOut",
       }}
-      viewport={onLoad ? undefined : {
-        once: true,
-        amount: threshold,
-        margin: rootMargin,
-      }}
+      viewport={
+        onLoad
+          ? undefined
+          : {
+              once: true,
+              amount: threshold,
+              margin: rootMargin,
+            }
+      }
     >
       {children}
     </motion.div>
