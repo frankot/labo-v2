@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Card from "../ui/card";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useInView } from "framer-motion";
 
 const stats = [
@@ -130,18 +130,9 @@ const DesktopStatCard = ({
   );
 };
 
-// Mobile StatBar component
-const MobileStatBar = ({
-  stat,
-  index,
-  isExpanded,
-  onToggle,
-}: {
-  stat: (typeof stats)[0];
-  index: number;
-  isExpanded: boolean;
-  onToggle: () => void;
-}) => {
+
+// MobileStatItem: single stat for mobile view
+const MobileStatItem = ({ stat, index }: { stat: typeof stats[0]; index: number }) => {
   const Icon = stat.Icon;
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, {
@@ -158,13 +149,13 @@ const MobileStatBar = ({
         ease: "easeOut",
         delay: 0.3 + index * 0.1,
       });
-
       return controls.stop;
     }
   }, [count, stat.value, isInView, index]);
 
   return (
     <motion.div
+      key={stat.id}
       ref={cardRef}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -172,58 +163,37 @@ const MobileStatBar = ({
         duration: 0.6,
         delay: 0.1 + index * 0.1,
       }}
+      className="relative flex items-center gap-3 rounded-lg bg-stone-900/60 p-3"
     >
-      <div onClick={onToggle} className="cursor-pointer">
-        <Card className="p-4 transition-all duration-300 hover:bg-stone-800/50">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Icon size={24} strokeWidth={1.5} className="text-stone-400" />
-              <div>
-                <motion.dt
-                  className="text-sm font-medium text-stone-200"
-                  animate={{
-                    opacity: isExpanded ? 1 : 0,
-                    height: isExpanded ? "auto" : 0,
-                    marginBottom: isExpanded ? "0.25rem" : 0,
-                  }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
-                >
-                  {stat.name}
-                </motion.dt>
-                <dd className="font-michroma text-xl font-semibold tracking-tight text-white">
-                  <motion.span>{rounded}</motion.span>
-                  {stat.suffix}
-                </dd>
-              </div>
-            </div>
-            <motion.div
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-stone-400"
-            >
-              ▼
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={false}
-            animate={{
-              height: isExpanded ? "auto" : 0,
-              opacity: isExpanded ? 1 : 0,
-            }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="mt-3 border-t border-stone-700 pt-3">
-              <p className="text-sm leading-relaxed text-stone-400">
-                {stat.description}
-              </p>
-            </div>
-          </motion.div>
-        </Card>
+      <div className="absolute top-2 right-2 z-0 opacity-20">
+        <Icon size={40} strokeWidth={0.5} className="text-stone-400" />
+      </div>
+      <div className="relative z-10 flex-1">
+        <dt className="text-xs leading-5 text-stone-300">
+          {stat.name}
+        </dt>
+        <dd className="font-michroma text-xl font-semibold tracking-tight text-white">
+          <motion.span>{rounded}</motion.span>
+          {stat.suffix}
+        </dd>
+        <p className="mt-1 text-xs leading-relaxed text-stone-400">
+          {stat.description}
+        </p>
       </div>
     </motion.div>
+  );
+};
+
+// Mobile Stats Layout - all stats in one card, styled for mobile
+const MobileStats = () => {
+  return (
+    <Card className="p-4 sm:p-6">
+      <dl className="grid grid-cols-1 gap-4">
+        {stats.map((stat, index) => (
+          <MobileStatItem key={stat.id} stat={stat} index={index} />
+        ))}
+      </dl>
+    </Card>
   );
 };
 
@@ -238,28 +208,7 @@ const DesktopStats = () => {
   );
 };
 
-// Mobile Stats Layout
-const MobileStats = () => {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
-
-  const handleToggle = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
-
-  return (
-    <div className="space-y-3">
-      {stats.map((stat, index) => (
-        <MobileStatBar
-          key={stat.id}
-          stat={stat}
-          index={index}
-          isExpanded={expandedIndex === index}
-          onToggle={() => handleToggle(index)}
-        />
-      ))}
-    </div>
-  );
-};
+// ...existing code...
 
 export default function Stats() {
   return (
