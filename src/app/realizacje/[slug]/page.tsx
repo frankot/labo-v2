@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useState, useEffect } from "react";
-import { getRealizacjaByIdAsync, type Realizacja } from "@/lib/realizacje-data";
+import { getRealizacjaBySlugAsync, type Realizacja } from "@/lib/realizacje-data";
 import { ArrowLeft, MapPin, Calendar, Ruler, Wrench } from "lucide-react";
 import Card from "@/app/components/ui/card";
 import ImageCarousel from "./ImageCarousel";
@@ -32,7 +32,7 @@ const slideInFromBottom = {
 };
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export default function RealizacjaDetailPage({ params }: Props) {
@@ -46,7 +46,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
     async function loadProject() {
       try {
         setLoading(true);
-        const projectData = await getRealizacjaByIdAsync(resolvedParams.id);
+        const projectData = await getRealizacjaBySlugAsync(resolvedParams.slug);
         if (!projectData) {
           notFound();
         }
@@ -60,7 +60,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
     }
 
     loadProject();
-  }, [resolvedParams.id]);
+  }, [resolvedParams.slug]);
 
   if (loading) {
     return (
@@ -298,9 +298,10 @@ export default function RealizacjaDetailPage({ params }: Props) {
             {/* Description */}
             <div className="mb-8 sm:mb-12">
               <Card>
-                <p className="text-base leading-relaxed text-stone-300 sm:text-lg">
-                  {project.fullDescription}
-                </p>
+                <div 
+                  className="text-base leading-relaxed text-stone-300 sm:text-lg prose prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: project.fullDescription || '' }}
+                />
               </Card>
             </div>
 

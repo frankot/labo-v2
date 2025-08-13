@@ -1,6 +1,7 @@
 import { 
   fetchAllRealizacje, 
   fetchRealizacjaById, 
+  fetchRealizacjaBySlug,
   fetchRealizacjeForGrid 
 } from './hygraph-api';
 
@@ -103,6 +104,16 @@ export async function getRealizacje(): Promise<Realizacja[]> {
 export async function getRealizacjaByIdAsync(id: string): Promise<Realizacja | undefined> {
   try {
     const result = await fetchRealizacjaById(id);
+    return result || undefined;
+  } catch (error) {
+    console.error('Failed to fetch from Hygraph:', error);
+    throw error; // Don't fall back to static data anymore
+  }
+}
+
+export async function getRealizacjaBySlugAsync(slug: string): Promise<Realizacja | undefined> {
+  try {
+    const result = await fetchRealizacjaBySlug(slug);
     return result || undefined;
   } catch (error) {
     console.error('Failed to fetch from Hygraph:', error);

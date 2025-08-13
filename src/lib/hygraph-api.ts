@@ -2,7 +2,6 @@ import { hygraphClient } from './hygraph-client';
 import {
   GET_ALL_REALIZACJAS,
   GET_REALIZACJA_BY_ID,
-  GET_REALIZACJA_BY_SLUG,
   GET_ALL_REALIZACJAS_SLUGS,
   GET_REALIZACJAS_FOR_GRID,
 } from './hygraph-queries';
@@ -27,13 +26,13 @@ export interface HygraphRealizacjaResponse {
   title: string;
   description?: string;
   client?: string;
-  year?: string;
+  year?: string | number; // Can be number from CMS
   category?: string;
   location?: string;
   area?: string;
   scope?: string;
   services?: string; // Simple string field with comma-separated values
-  fullDescription?: HygraphRichText;
+  fullDescription?: HygraphRichText; // Changed back to HygraphRichText for Rich Text field
   slug?: string;
   image?: {
     url: string;
@@ -66,28 +65,24 @@ interface RealizacjeSlugsResponse {
 
 // Transform Hygraph data to match our existing interface
 function transformHygraphToRealizacja(hygraphData: HygraphRealizacjaResponse): Realizacja {
-  // Debug the incoming video data
-  console.log(`Processing realizacja: ${hygraphData.title} (${hygraphData.id})`);
-  
   // Extract video URL with fallback - handle potentially missing fields
   const videoUrl = hygraphData.video?.url || '';
-  console.log(`Extracted video URL: ${videoUrl}`);
   
   return {
     id: hygraphData.id,
     title: hygraphData.title,
     description: hygraphData.description || '',
     client: hygraphData.client || '',
-    year: hygraphData.year || '',
+    year: (hygraphData.year || '').toString(), // Convert number to string
     category: hygraphData.category || '',
     image: hygraphData.image?.url || '',
     location: hygraphData.location || '',
     area: hygraphData.area || '',
     scope: hygraphData.scope || '',
     services: parseServicesString(hygraphData.services || ''), // Parse comma-separated services
-    fullDescription: hygraphData.fullDescription?.html || '', // Added proper handling
+    fullDescription: hygraphData.fullDescription?.html || '', // Extract HTML from Rich Text
     gallery: hygraphData.gallery?.map(asset => asset.url) || [], // Gallery as asset array
-    video: videoUrl, // Video CDN URL from asset with additional logging
+    video: videoUrl, // Video CDN URL from asset
     slug: hygraphData.slug || '',
   };
 }
@@ -119,9 +114,57 @@ export async function fetchRealizacjaById(id: string): Promise<Realizacja | null
 // Fetch realizacja by slug
 export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | null> {
   try {
-    const data = await hygraphClient.request<RealizacjaResponse>(GET_REALIZACJA_BY_SLUG, { slug });
-    if (!data.realizacja) return null;
-    return transformHygraphToRealizacja(data.realizacja);
+    // Query with all available fields from the schema
+    const completeSlugQuery = `
+      query GetRealizacjaBySlugComplete($slug: String!) {
+        realizacja(where: { slug: $slug }) {
+          id
+          title
+          description
+          client
+          year
+          category
+          location
+          area
+          scope
+          fullDescription {
+            html
+          }
+          slug
+          services
+          image {
+            url
+          }
+          video {
+            url
+          }
+          gallery {
+            url
+          }
+        }
+      }
+    `;
+    
+    const data = await hygraphClient.request<RealizacjaResponse>(completeSlugQuery, { slug });
+    
+    if (!data.realizacja) {
+      return null;
+    }
+    
+    // Handle the data properly - extract HTML from Rich Text field
+    const hygraphData = {
+      ...data.realizacja,
+      year: data.realizacja.year?.toString() || '',
+      category: data.realizacja.category || '',
+      location: data.realizacja.location || '',
+      area: data.realizacja.area || '',
+      scope: data.realizacja.scope || '',
+      services: data.realizacja.services || '', // Services as string from CMS
+      fullDescription: data.realizacja.fullDescription || { html: '' }, // Ensure Rich Text structure
+      gallery: data.realizacja.gallery || [],
+    };
+    
+    return transformHygraphToRealizacja(hygraphData);
   } catch (error) {
     console.error('Error fetching realizacja by slug:', error);
     return null;
@@ -142,53 +185,27 @@ export async function fetchAllRealizacjeSlugs(): Promise<string[]> {
 // Fetch realizacje for grid - simplified version with only working queries
 export async function fetchRealizacjeForGrid(): Promise<Realizacja[]> {
   try {
-    console.log('🎯 Attempting to fetch realizacje for grid with MINIMAL query...');
-    
     // Use the minimal query that was confirmed working in debug
     const data = await hygraphClient.request<RealizacjeResponse>(GET_REALIZACJAS_FOR_GRID);
-    console.log('✅ Query successful');
     
     // Check if we actually got realizacjas data
     if (!data.realizacjas || !Array.isArray(data.realizacjas)) {
-      console.error('⚠️ No realizacjas array in response:', data);
       return [];
     }
     
-    console.log(`Found ${data.realizacjas.length} realizacje items`);
-    
     // Map with better error handling for individual items
-    const mappedItems = data.realizacjas.map((item, index) => {
+    const mappedItems = data.realizacjas.map((item) => {
       try {
         return transformHygraphToRealizacja(item);
-      } catch (itemError) {
-        console.error(`⚠️ Error transforming realizacja at index ${index}:`, itemError);
+      } catch {
         return null;
       }
     }).filter((item): item is Realizacja => item !== null);
     
-    console.log(`Successfully mapped ${mappedItems.length} realizacje items`);
     return mappedItems;
 
   } catch (error) {
     console.error('Error fetching realizacje for grid:', error);
-    
-    // Enhanced error logging
-    if (typeof error === 'object' && error !== null) {
-      const graphqlError = error as { response?: { errors?: unknown[]; status?: number }; request?: { query?: string } };
-      
-      console.error('HTTP Status:', graphqlError.response?.status || 'Unknown');
-      console.error('GraphQL errors:', graphqlError.response?.errors || 'No detailed errors');
-      
-      // Log the first 200 characters of the query that failed
-      if (graphqlError.request?.query) {
-        console.error('Failed query (first 200 chars):', 
-          graphqlError.request.query.substring(0, 200) + '...');
-      }
-      
-      // Fallback gracefully - return empty array to show placeholders
-      console.log('⚠️ Returning empty array to show placeholders');
-    }
-    
     return [];
   }
 }

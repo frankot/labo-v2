@@ -33,22 +33,12 @@ export function VideoFrame({
   // Check if this is a placeholder item
   const isPlaceholder = !video || video === "" || video === undefined || caseStudy?.id?.startsWith('placeholder-');
   
-  // Log video URL for debugging
-  console.log(`VideoFrame for ${caseStudy?.client || 'unknown'}: video URL = ${video || 'MISSING'}`);
-  
   // Safety checks to ensure video is valid
   const isValidVideoUrl = Boolean(video && typeof video === 'string' && video.startsWith('http'));
 
-  // Function to map case study client to realizacja ID (now just use the ID directly)
-  const getRealizacjaId = (client: string, id: string): string => {
-    // Direct mapping or fallback to ID
-    const clientMapping: { [key: string]: string } = {
-      "CORAB S.A.": "corab-intersolar-2024",
-      "Klient prywatny": "dom-konstancin",
-      "TechCorp Sp. z o.o.": "biuro-srodmiescie",
-      // Add more mappings as needed
-    };
-    return clientMapping[client] || id;
+  // Use the slug directly from CMS data
+  const getRealizacjaSlug = (caseStudy: Realizacja): string => {
+    return caseStudy.slug || caseStudy.id;
   };
 
   // Track video playing state
@@ -174,7 +164,7 @@ export function VideoFrame({
             isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
           }`}
         >
-          <Link href={`/realizacje/${getRealizacjaId(caseStudy.client, caseStudy.id)}`}>
+          <Link href={`/realizacje/${getRealizacjaSlug(caseStudy)}`}>
             <Card className="cursor-pointer p-3 backdrop-blur-2xl transition-colors hover:bg-white/10">
               <div className="flex items-center justify-between">
                 <div className="min-w-0 flex-1">

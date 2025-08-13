@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
-// Basic fragment with confirmed working fields including services string
-export const REALIZACJA_BASIC_FRAGMENT = gql`
-  fragment RealizacjaBasicFields on Realizacja {
+// Complete fragment with all fields for detailed views
+export const REALIZACJA_COMPLETE_FRAGMENT = gql`
+  fragment RealizacjaCompleteFields on Realizacja {
     id
     title
     description
@@ -14,31 +14,9 @@ export const REALIZACJA_BASIC_FRAGMENT = gql`
     scope
     slug
     services
-    image {
-      url
-      width
-      height
-      alt
+    fullDescription {
+      html
     }
-    createdAt
-    updatedAt
-  }
-`;
-
-// Fragment with video field (minimal working version)
-export const REALIZACJA_WITH_VIDEO_FRAGMENT = gql`
-  fragment RealizacjaWithVideoFields on Realizacja {
-    id
-    title
-    description
-    client
-    year
-    category
-    location
-    area
-    scope
-    slug
-    services
     image {
       url
       width
@@ -48,47 +26,58 @@ export const REALIZACJA_WITH_VIDEO_FRAGMENT = gql`
     video {
       url
     }
-    createdAt
-    updatedAt
-  }
-`;
-
-// Minimal query for testing basic connectivity
-export const GET_REALIZACJAS_MINIMAL = gql`
-  ${REALIZACJA_BASIC_FRAGMENT}
-  query GetRealizacjasMinimal {
-    realizacjas {
-      ...RealizacjaBasicFields
+    gallery {
+      url
     }
   }
 `;
 
-// Query to get all realizacjas - using video fragment
+// Basic fragment for grid/list views (without heavy fields)
+export const REALIZACJA_GRID_FRAGMENT = gql`
+  fragment RealizacjaGridFields on Realizacja {
+    id
+    title
+    description
+    client
+    year
+    category
+    slug
+    services
+    image {
+      url
+    }
+    video {
+      url
+    }
+  }
+`;
+
+// Query to get all realizacjas
 export const GET_ALL_REALIZACJAS = gql`
-  ${REALIZACJA_WITH_VIDEO_FRAGMENT}
+  ${REALIZACJA_COMPLETE_FRAGMENT}
   query GetAllRealizacjas($first: Int = 20, $skip: Int = 0) {
     realizacjas(first: $first, skip: $skip, orderBy: createdAt_DESC) {
-      ...RealizacjaWithVideoFields
+      ...RealizacjaCompleteFields
     }
   }
 `;
 
 // Query to get a single realizacja by ID
 export const GET_REALIZACJA_BY_ID = gql`
-  ${REALIZACJA_WITH_VIDEO_FRAGMENT}
+  ${REALIZACJA_COMPLETE_FRAGMENT}
   query GetRealizacjaById($id: ID!) {
     realizacja(where: { id: $id }) {
-      ...RealizacjaWithVideoFields
+      ...RealizacjaCompleteFields
     }
   }
 `;
 
 // Query to get a single realizacja by slug
 export const GET_REALIZACJA_BY_SLUG = gql`
-  ${REALIZACJA_WITH_VIDEO_FRAGMENT}
+  ${REALIZACJA_COMPLETE_FRAGMENT}
   query GetRealizacjaBySlug($slug: String!) {
     realizacja(where: { slug: $slug }) {
-      ...RealizacjaWithVideoFields
+      ...RealizacjaCompleteFields
     }
   }
 `;
@@ -103,27 +92,12 @@ export const GET_ALL_REALIZACJAS_SLUGS = gql`
   }
 `;
 
-// Query to get realizacjas for grid - MINIMAL WORKING VERSION
+// Query to get realizacjas for grid
 export const GET_REALIZACJAS_FOR_GRID = gql`
+  ${REALIZACJA_GRID_FRAGMENT}
   query GetRealizacjasForGrid {
     realizacjas(orderBy: createdAt_DESC) {
-      id
-      title
-      description
-      client
-      year
-      category
-      location
-      area
-      scope
-      slug
-      services
-      image {
-        url
-      }
-      video {
-        url
-      }
+      ...RealizacjaGridFields
     }
   }
 `;
@@ -132,7 +106,3 @@ export const GET_REALIZACJAS_FOR_GRID = gql`
 export const GET_ALL_REALIZACJE = GET_ALL_REALIZACJAS;
 export const GET_ALL_REALIZACJE_SLUGS = GET_ALL_REALIZACJAS_SLUGS;
 export const GET_REALIZACJE_FOR_GRID = GET_REALIZACJAS_FOR_GRID;
-export const GET_REALIZACJE_FOR_GRID_SIMPLE = GET_REALIZACJAS_FOR_GRID;
-export const GET_REALIZACJE_FOR_GRID_MINIMAL = GET_REALIZACJAS_FOR_GRID;
-export const GET_REALIZACJA_BY_ID_SIMPLE = GET_REALIZACJA_BY_ID;
-export const GET_REALIZACJE_MINIMAL = GET_REALIZACJAS_MINIMAL;

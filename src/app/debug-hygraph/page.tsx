@@ -9,37 +9,7 @@ export default function HygraphDebugPage() {
   const [error, setError] = useState<string | null>(null);
 
   const testQueries = [
-    {
-      name: '🆕 Grid Query (Flat - No Fragment)',
-      query: `
-        query GetRealizacjasForGridFlat {
-          realizacjas(orderBy: createdAt_DESC) {
-            id
-            title
-            description
-            client
-            year
-            category
-            location
-            area
-            scope
-            slug
-            services
-            image {
-              url
-              width
-              height
-              alt
-            }
-            video {
-              url
-            }
-            createdAt
-            updatedAt
-          }
-        }
-      `
-    },
+  
     {
       name: '🆕 Grid Query (Minimal)',
       query: `
@@ -254,6 +224,110 @@ export default function HygraphDebugPage() {
             id
             title
             image {
+              url
+            }
+          }
+        }
+      `
+    },
+    {
+      name: 'Test slug query that fails',
+      query: `
+        query TestSlugQuery {
+          realizacja(where: { slug: "corab-stoisko-targowe-or-intersolar-europe-monachium-2024" }) {
+            id
+            title
+            slug
+          }
+        }
+      `
+    },
+    {
+      name: 'List all slugs to see what exists',
+      query: `
+        query ListAllSlugs {
+          realizacjas {
+            id
+            title
+            slug
+          }
+        }
+      `
+    },
+    {
+      name: 'Test simple slug query without fragment',
+      query: `
+        query TestSimpleSlugQuery {
+          realizacja(where: { slug: "corab-stoisko-targowe-or-intersolar-europe-monachium-2024" }) {
+            id
+            title
+            description
+            client
+            year
+            slug
+            image {
+              url
+            }
+            video {
+              url
+            }
+          }
+        }
+      `
+    },
+    {
+      name: 'Test each field individually - basic fields',
+      query: `
+        query TestBasicFields {
+          realizacja(where: { slug: "corab-stoisko-targowe-or-intersolar-europe-monachium-2024" }) {
+            id
+            title
+            description
+            client
+            year
+            category
+            location
+            area
+            scope
+            slug
+          }
+        }
+      `
+    },
+    {
+      name: 'Test services field',
+      query: `
+        query TestServicesField {
+          realizacja(where: { slug: "corab-stoisko-targowe-or-intersolar-europe-monachium-2024" }) {
+            id
+            title
+            services
+          }
+        }
+      `
+    },
+    {
+      name: 'Test fullDescription field',
+      query: `
+        query TestFullDescriptionField {
+          realizacja(where: { slug: "corab-stoisko-targowe-or-intersolar-europe-monachium-2024" }) {
+            id
+            title
+            fullDescription {
+              html
+            }
+          }
+        }
+      `
+    },
+    {
+      name: 'Test gallery field',
+      query: `
+        query TestGalleryField {
+          realizacja(where: { slug: "corab-stoisko-targowe-or-intersolar-europe-monachium-2024" }) {
+            id
+            title
+            gallery {
               url
             }
           }

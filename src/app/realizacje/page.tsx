@@ -101,7 +101,7 @@ export default function RealizacjePage() {
                 className="group h-full"
               >
                 <Link
-                  href={`/realizacje/${project.id}`}
+                  href={`/realizacje/${project.slug}`}
                   className="block h-full"
                 >
                   <Card className="h-full overflow-hidden p-0">
