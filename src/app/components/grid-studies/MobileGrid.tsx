@@ -1,12 +1,10 @@
-"use client";
-
 import { useState, useCallback, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { VideoFrame } from "./VideoFrame";
-import { type CaseStudy } from "../../../lib/realizacje-data";
+import { type Realizacja } from "../../../lib/realizacje-data";
 
 interface MobileGridProps {
-  caseStudies: CaseStudy[];
+  caseStudies: Realizacja[];
 }
 
 export function MobileGrid({ caseStudies }: MobileGridProps) {

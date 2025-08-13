@@ -3,9 +3,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { realizacje } from "@/lib/realizacje-data";
+import { getRealizacje, type Realizacja } from "@/lib/realizacje-data";
 import HeaderDetails from "@/app/components/ui/header-details";
 import Card from "@/app/components/ui/card";
+import { useState, useEffect } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,6 +33,39 @@ const itemVariants = {
 };
 
 export default function RealizacjePage() {
+  const [realizacje, setRealizacje] = useState<Realizacja[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadRealizacje() {
+      try {
+        setLoading(true);
+        const data = await getRealizacje();
+        setRealizacje(data);
+      } catch (error) {
+        console.error('Failed to load realizacje:', error);
+        // getRealizacje handles errors internally and returns empty array
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadRealizacje();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen lg:mt-20">
+        <div className="flex h-96 items-center justify-center">
+          <div className="text-center">
+            <div className="mb-4 text-2xl">⏳</div>
+            <p className="font-michroma text-sm text-gray-600">Loading realizacje...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen lg:mt-20">
       {/* Main Content */}

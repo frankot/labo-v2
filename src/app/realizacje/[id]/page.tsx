@@ -4,12 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { use } from "react";
-import { getRealizacjaById } from "@/lib/realizacje-data";
+import { use, useState, useEffect } from "react";
+import { getRealizacjaByIdAsync, type Realizacja } from "@/lib/realizacje-data";
 import { ArrowLeft, MapPin, Calendar, Ruler, Wrench } from "lucide-react";
 import Card from "@/app/components/ui/card";
 import ImageCarousel from "./ImageCarousel";
-import { useState } from "react";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -38,7 +37,43 @@ interface Props {
 
 export default function RealizacjaDetailPage({ params }: Props) {
   const resolvedParams = use(params);
-  const project = getRealizacjaById(resolvedParams.id);
+  const [project, setProject] = useState<Realizacja | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [carouselOpen, setCarouselOpen] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  useEffect(() => {
+    async function loadProject() {
+      try {
+        setLoading(true);
+        const projectData = await getRealizacjaByIdAsync(resolvedParams.id);
+        if (!projectData) {
+          notFound();
+        }
+        setProject(projectData);
+      } catch (error) {
+        console.error('Failed to load project:', error);
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProject();
+  }, [resolvedParams.id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
+        <div className="flex h-96 items-center justify-center">
+          <div className="text-center">
+            <div className="mb-4 text-2xl">⏳</div>
+            <p className="font-michroma text-sm text-gray-600">Loading project...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!project) {
     notFound();
@@ -66,9 +101,6 @@ export default function RealizacjaDetailPage({ params }: Props) {
       value: project.scope,
     },
   ];
-
-  const [carouselOpen, setCarouselOpen] = useState(false);
-  const [carouselIndex, setCarouselIndex] = useState(0);
 
   const openCarousel = (idx: number) => {
     setCarouselIndex(idx);
@@ -275,7 +307,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
             {/* Gallery */}
             <div className="mb-8 sm:mb-12">
               <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
-                {project.gallery.map((image, index) => (
+                {project.gallery?.map((image, index) => (
                   <motion.div
                     key={index}
                     className="group relative aspect-video cursor-pointer overflow-hidden rounded-lg sm:rounded-xl"
@@ -299,7 +331,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
         </div>
       </div>
       <AnimatePresence>
-        {carouselOpen && (
+        {carouselOpen && project.gallery && (
           <ImageCarousel
             images={project.gallery}
             initialIndex={carouselIndex}

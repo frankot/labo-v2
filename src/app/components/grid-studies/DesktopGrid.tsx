@@ -1,11 +1,9 @@
-"use client";
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { VideoFrame } from "./VideoFrame";
-import { type CaseStudy } from "../../../lib/realizacje-data";
+import { type Realizacja } from "../../../lib/realizacje-data";
 
 interface DesktopGridProps {
-  caseStudies: CaseStudy[];
+  caseStudies: Realizacja[];
 }
 
 export function DesktopGrid({ caseStudies }: DesktopGridProps) {
@@ -17,14 +15,28 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Hardcoded grid positions for 3x3 grid (9 items)
+  const getGridPosition = (index: number) => {
+    const positions = [
+      { row: 0, col: 0 }, // Top-left
+      { row: 0, col: 1 }, // Top-center
+      { row: 0, col: 2 }, // Top-right
+      { row: 1, col: 0 }, // Middle-left
+      { row: 1, col: 1 }, // Middle-center
+      { row: 1, col: 2 }, // Middle-right
+      { row: 2, col: 0 }, // Bottom-left
+      { row: 2, col: 1 }, // Bottom-center
+      { row: 2, col: 2 }, // Bottom-right
+    ];
+    return positions[index] || { row: 0, col: 0 };
+  };
+
   // Simple visibility on mount and set first video as hovered
   useEffect(() => {
     setIsVisible(true);
     // Set first video (index 0) as hovered by default
     if (caseStudies.length > 0) {
-      const firstCase = caseStudies[0];
-      const row = Math.floor(firstCase.defaultPos.y / 4);
-      const col = Math.floor(firstCase.defaultPos.x / 4);
+      const { row, col } = getGridPosition(0);
       setHovered({ row, col, index: 0 });
     }
   }, [caseStudies]);
@@ -117,8 +129,7 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
       }}
     >
       {caseStudies.map((caseStudy, index) => {
-        const row = Math.floor(caseStudy.defaultPos.y / 4);
-        const col = Math.floor(caseStudy.defaultPos.x / 4);
+        const { row, col } = getGridPosition(index);
         const cardState = getCardState(index, row, col);
         const isHovered = cardState === "hovered";
 
@@ -165,10 +176,7 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
               isHovered ? "z-20" : cardState === "adjacent" ? "z-5" : "z-10"
             }`}
             style={{
-              transformOrigin: getTransformOrigin(
-                caseStudy.defaultPos.x,
-                caseStudy.defaultPos.y,
-              ),
+              transformOrigin: getTransformOrigin(row, col),
               animationDelay: `${index * 50}ms`,
               transform: getCardTransform(),
               opacity: getCardOpacity(),
@@ -190,8 +198,8 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
   );
 }
 
-function getTransformOrigin(x: number, y: number): string {
-  const vertical = y === 0 ? "top" : y === 4 ? "center" : "bottom";
-  const horizontal = x === 0 ? "left" : x === 4 ? "center" : "right";
+function getTransformOrigin(row: number, col: number): string {
+  const vertical = row === 0 ? "top" : row === 1 ? "center" : "bottom";
+  const horizontal = col === 0 ? "left" : col === 1 ? "center" : "right";
   return `${horizontal} ${vertical}`;
 }
