@@ -130,9 +130,14 @@ const DesktopStatCard = ({
   );
 };
 
-
 // MobileStatItem: single stat for mobile view
-const MobileStatItem = ({ stat, index }: { stat: typeof stats[0]; index: number }) => {
+const MobileStatItem = ({
+  stat,
+  index,
+}: {
+  stat: (typeof stats)[0];
+  index: number;
+}) => {
   const Icon = stat.Icon;
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, {
@@ -169,9 +174,7 @@ const MobileStatItem = ({ stat, index }: { stat: typeof stats[0]; index: number 
         <Icon size={40} strokeWidth={0.5} className="text-stone-400" />
       </div>
       <div className="relative z-10 flex-1">
-        <dt className="text-xs leading-5 text-stone-300">
-          {stat.name}
-        </dt>
+        <dt className="text-xs leading-5 text-stone-300">{stat.name}</dt>
         <dd className="font-michroma text-xl font-semibold tracking-tight text-white">
           <motion.span>{rounded}</motion.span>
           {stat.suffix}

@@ -31,8 +31,8 @@ const Navbar = () => {
 
   return (
     <>
-  <DesktopNav isVisible={isScrolled} />
-  <MobileNav isVisible={isScrolled} />
+      <DesktopNav isVisible={isScrolled} />
+      <MobileNav isVisible={isScrolled} />
       {/* <ScrollArrow show={showArrow} onClick={handleArrowClick} /> */}
     </>
   );
