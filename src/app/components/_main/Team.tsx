@@ -2,196 +2,50 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { useInView } from "framer-motion";
 import { Michroma } from "next/font/google";
 import { Phone, Mail } from "lucide-react";
 import MobileSelect from "../ui/mobile-select";
 import Card from "../ui/card";
 import StickyHeader from "../ui/sticky-header";
 import { FadeInView } from "../../anim";
+import { getDepartmentNames } from "@/lib/team-service";
+import type { LegacyTeamData } from "@/lib/team-data";
 
 const michroma = Michroma({
   weight: "400",
   subsets: ["latin"],
 });
 
-// Team structure with categories
-const teamData = {
-  Właściciele: [
-    {
-      id: 1,
-      name: "Bartek Kowalski",
-      role: "CEO & Founder",
-      phone: "+48 123 456 789",
-      email: "bartek@company.com",
-      image: "/team/Bartek.jpg",
-      description: "Visionary leader driving innovation and strategic growth.",
-    },
-    {
-      id: 2,
-      name: "Robert Nowak",
-      role: "Co-Founder & CTO",
-      phone: "+48 123 456 788",
-      email: "robert@company.com",
-      image: "/team/Robert.jpg",
-      description: "Tech architect building scalable solutions for the future.",
-    },
-  ],
-  PM: [
-    {
-      id: 3,
-      name: "Anna Wiśniewska",
-      role: "Senior Project Manager",
-      phone: "+48 123 456 787",
-      email: "anna@company.com",
-      image: "/team/Bartek.jpg",
-      description:
-        "Expert in coordinating complex projects and team workflows.",
-    },
-    {
-      id: 4,
-      name: "Michał Zieliński",
-      role: "Project Manager",
-      phone: "+48 123 456 786",
-      email: "michal@company.com",
-      image: "/team/Robert.jpg",
-      description:
-        "Ensuring seamless project delivery and client satisfaction.",
-    },
-  ],
-  "Dział Projektowy": [
-    {
-      id: 5,
-      name: "Katarzyna Dąbrowska",
-      role: "Lead Architect",
-      phone: "+48 123 456 785",
-      email: "katarzyna@company.com",
-      image: "/team/Bartek.jpg",
-      description: "Creating innovative architectural solutions and designs.",
-    },
-    {
-      id: 6,
-      name: "Piotr Lewandowski",
-      role: "Senior Developer",
-      phone: "+48 123 456 784",
-      email: "piotr@company.com",
-      image: "/team/Robert.jpg",
-      description: "Building robust applications with cutting-edge technology.",
-    },
-    {
-      id: 7,
-      name: "Magdalena Wójcik",
-      role: "Systems Analyst",
-      phone: "+48 123 456 783",
-      email: "magdalena@company.com",
-      image: "/team/Bartek.jpg",
-      description: "Analyzing complex systems and optimizing performance.",
-    },
-  ],
-  "Dział Kreatywny": [
-    {
-      id: 8,
-      name: "Jakub Kowalczyk",
-      role: "Creative Director",
-      phone: "+48 123 456 782",
-      email: "jakub@company.com",
-      image: "/team/Robert.jpg",
-      description: "Leading creative vision and brand development strategies.",
-    },
-    {
-      id: 9,
-      name: "Natalia Kamińska",
-      role: "UX/UI Designer",
-      phone: "+48 123 456 781",
-      email: "natalia@company.com",
-      image: "/team/Bartek.jpg",
-      description:
-        "Crafting intuitive user experiences and beautiful interfaces.",
-    },
-    {
-      id: 10,
-      name: "Tomasz Jankowski",
-      role: "Graphic Designer",
-      phone: "+48 123 456 780",
-      email: "tomasz@company.com",
-      image: "/team/Robert.jpg",
-      description: "Creating compelling visual content and brand materials.",
-    },
-  ],
-  Producenci: [
-    {
-      id: 11,
-      name: "Agnieszka Mazur",
-      role: "Production Manager",
-      phone: "+48 123 456 779",
-      email: "agnieszka@company.com",
-      image: "/team/Bartek.jpg",
-      description: "Overseeing production processes and quality control.",
-    },
-    {
-      id: 12,
-      name: "Łukasz Krawczyk",
-      role: "Technical Producer",
-      phone: "+48 123 456 778",
-      email: "lukasz@company.com",
-      image: "/team/Robert.jpg",
-      description: "Managing technical aspects of production workflows.",
-    },
-    {
-      id: 13,
-      name: "Monika Piotrowska",
-      role: "Quality Specialist",
-      phone: "+48 123 456 777",
-      email: "monika@company.com",
-      image: "/team/Bartek.jpg",
-      description: "Ensuring highest quality standards in all deliverables.",
-    },
-  ],
-  Logistyka: [
-    {
-      id: 14,
-      name: "Krzysztof Grabowski",
-      role: "Logistics Manager",
-      phone: "+48 123 456 776",
-      email: "krzysztof@company.com",
-      image: "/team/Robert.jpg",
-      description: "Coordinating supply chain and delivery operations.",
-    },
-    {
-      id: 15,
-      name: "Dorota Pawlak",
-      role: "Operations Coordinator",
-      phone: "+48 123 456 775",
-      email: "dorota@company.com",
-      image: "/team/Bartek.jpg",
-      description: "Streamlining operations and resource management.",
-    },
-    {
-      id: 16,
-      name: "Marcin Michalski",
-      role: "Supply Chain Specialist",
-      phone: "+48 123 456 774",
-      email: "marcin@company.com",
-      image: "/team/Robert.jpg",
-      description: "Optimizing supply chain efficiency and cost-effectiveness.",
-    },
-  ],
-};
 
 export default function TeamSection() {
   const containerRef = useRef(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const departmentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const [selectedDepartment, setSelectedDepartment] =
-    useState<string>("Właściciele");
-  // Mobile select no longer needs local dropdown open state
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("Właściciele");
+  const [teamData, setTeamData] = useState<LegacyTeamData>({});
+  const [isLoading, setIsLoading] = useState(true);
+  // Removed debug overlay state
 
-  const isInView = useInView(containerRef, {
-    once: true,
-    margin: "-20% 0px -20% 0px",
-  });
+  // Load team data on component mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const { loadTeamData } = await import("@/lib/team-service");
+        const { teamData: data, firstDepartment } = await loadTeamData();
+        setTeamData(data);
+        setSelectedDepartment(firstDepartment);
+      } catch (error) {
+        console.error('❌ Error in team data loading:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const departments = Object.keys(teamData);
+    loadData();
+  }, []);
+
+  const departments = getDepartmentNames(teamData);
 
   const scrollToDepartment = (department: string) => {
     const departmentElement = departmentRefs.current[department];
@@ -253,8 +107,28 @@ export default function TeamSection() {
     }
   }, [handleScroll]);
 
+  // Show loading state with same layout structure
+  if (isLoading) {
+    return (
+      <div id="team" className="relative">
+        <div className="relative w-full">
+          <StickyHeader title="TEAM" delay={0.2} />
+          
+          <FadeInView className="relative z-20 mx-auto -mt-20">
+            <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
+              <div className="relative overflow-hidden px-4 pb-20 text-white">
+                <div className="text-center text-white/60">Ładowanie danych zespołu...</div>
+              </div>
+            </div>
+          </FadeInView>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div id="team" className="relative">
+  <div id="team" className="relative">
+
       {/* Main Content */}
       <div className="relative w-full">
         <StickyHeader title="TEAM" delay={0.2} />
@@ -264,9 +138,7 @@ export default function TeamSection() {
           <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
             <div
               ref={containerRef}
-              className={`relative overflow-hidden px-4 pb-20 text-white transition-opacity duration-600 ${
-                isInView ? "opacity-100" : "opacity-0"
-              }`}
+              className="relative overflow-hidden px-4 pb-20 text-white"
             >
               {/* Department Selector */}
               <div className="mb-12 flex justify-center">
@@ -315,8 +187,9 @@ export default function TeamSection() {
                         }}
                         className="flex gap-6"
                       >
-                        {teamData[department as keyof typeof teamData].map(
-                          (member) => (
+                        {teamData[department]?.map((member) => {
+                          const imgSrc = member.image && member.image.trim().length > 0 ? member.image : "/logo-small.png";
+                          return (
                             <Card
                               key={member.id}
                               className="group relative w-80 flex-shrink-0 overflow-hidden p-0 md:w-80"
@@ -324,7 +197,7 @@ export default function TeamSection() {
                               {/* Image Section */}
                               <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl">
                                 <Image
-                                  src={member.image}
+                                  src={imgSrc}
                                   alt={member.name}
                                   fill
                                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -343,40 +216,30 @@ export default function TeamSection() {
                               <div className="space-y-3 p-4">
                                 {/* Name and Role */}
                                 <div>
-                                  <h4
-                                    className={`${michroma.className} mb-1 text-lg font-medium text-white`}
-                                  >
+                                  <h4 className={`${michroma.className} mb-1 text-lg font-medium text-white`}>
                                     {member.name}
                                   </h4>
-                                  <p className="text-sm font-medium text-gray-400">
-                                    {member.role}
-                                  </p>
+                                  <p className="text-sm font-medium text-gray-400">{member.role}</p>
                                 </div>
 
                                 {/* Description */}
-                                <p className="text-sm leading-relaxed text-gray-300">
-                                  {member.description}
-                                </p>
+                                <p className="text-sm leading-relaxed text-gray-300">{member.description}</p>
 
                                 {/* Contact Info */}
                                 <div className="space-y-2 border-t border-white/10 pt-2">
                                   <div className="flex items-center gap-2 text-sm text-gray-400">
                                     <Phone className="h-4 w-4 flex-shrink-0" />
-                                    <span className="truncate">
-                                      {member.phone}
-                                    </span>
+                                    <span className="truncate">{member.phone}</span>
                                   </div>
                                   <div className="flex items-center gap-2 text-sm text-gray-400">
                                     <Mail className="h-4 w-4 flex-shrink-0" />
-                                    <span className="truncate">
-                                      {member.email}
-                                    </span>
+                                    <span className="truncate">{member.email}</span>
                                   </div>
                                 </div>
                               </div>
                             </Card>
-                          ),
-                        )}
+                          );
+                        })}
                       </div>
 
                       {/* Vertical Divider - Hidden on mobile */}
@@ -390,6 +253,7 @@ export default function TeamSection() {
             </div>
           </div>
         </FadeInView>
+  {/* CMS probe removed for production */}
       </div>
 
       <style jsx>{`
@@ -404,3 +268,5 @@ export default function TeamSection() {
     </div>
   );
 }
+
+

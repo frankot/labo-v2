@@ -19,9 +19,8 @@ export const REALIZACJA_COMPLETE_FRAGMENT = gql`
     }
     image {
       url
-      width
-      height
-      alt
+  width
+  height
     }
     video {
       url
@@ -106,3 +105,93 @@ export const GET_REALIZACJAS_FOR_GRID = gql`
 export const GET_ALL_REALIZACJE = GET_ALL_REALIZACJAS;
 export const GET_ALL_REALIZACJE_SLUGS = GET_ALL_REALIZACJAS_SLUGS;
 export const GET_REALIZACJE_FOR_GRID = GET_REALIZACJAS_FOR_GRID;
+
+// Team-related fragments and queries
+export const SECTION_FRAGMENT = gql`
+  fragment SectionFields on Section {
+    id
+    name
+    slug
+    description
+    displayOrder
+  }
+`;
+
+export const WORKER_FRAGMENT = gql`
+  fragment WorkerFields on Worker {
+    id
+    name
+    role
+    phone
+    email
+    description
+    createdAt
+    image {
+      url
+  width
+  height
+    }
+  }
+`;
+
+// Query to get all sections and workers separately (since relationship is Worker->Section)
+export const GET_ALL_SECTIONS_WITH_WORKERS = gql`
+  ${SECTION_FRAGMENT}
+  ${WORKER_FRAGMENT}
+  query GetAllSectionsWithWorkers {
+    sections(orderBy: displayOrder_ASC) {
+      ...SectionFields
+    }
+    workers(orderBy: createdAt_DESC) {
+      ...WorkerFields
+      section { # multi-reference returns array of Section
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
+// Query to get all sections (without workers)
+export const GET_ALL_SECTIONS = gql`
+  ${SECTION_FRAGMENT}
+  query GetAllSections {
+    sections(orderBy: displayOrder_ASC) {
+      ...SectionFields
+    }
+  }
+`;
+
+// Query to get workers by section slug
+export const GET_WORKERS_BY_SECTION = gql`
+  ${WORKER_FRAGMENT}
+  query GetWorkersBySection($sectionSlug: String!) {
+    workers(
+      where: { section_some: { slug: $sectionSlug } }
+      orderBy: createdAt_DESC
+    ) {
+      ...WorkerFields
+      section {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
+// Query to get all workers
+export const GET_ALL_WORKERS = gql`
+  ${WORKER_FRAGMENT}
+  query GetAllWorkers {
+    workers(orderBy: createdAt_DESC) {
+      ...WorkerFields
+      section {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;

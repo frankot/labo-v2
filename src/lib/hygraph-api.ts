@@ -4,6 +4,7 @@ import {
   GET_REALIZACJA_BY_ID,
   GET_ALL_REALIZACJAS_SLUGS,
   GET_REALIZACJAS_FOR_GRID,
+  GET_ALL_SECTIONS_WITH_WORKERS,
 } from './hygraph-queries';
 import { Realizacja } from './realizacje-data';
 import { parseServicesString } from './services-utils';
@@ -206,6 +207,130 @@ export async function fetchRealizacjeForGrid(): Promise<Realizacja[]> {
 
   } catch (error) {
     console.error('Error fetching realizacje for grid:', error);
+    return [];
+  }
+}
+
+// Team/Worker types - Fixed relationship: Worker belongs to Section
+export interface HygraphSectionResponse {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  displayOrder: number;
+}
+
+export interface HygraphWorkerResponse {
+  id: string;
+  name: string;
+  role: string;
+  phone: string;
+  email: string;
+  description: string;
+  createdAt: string;
+  image?: {
+    url: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  };
+}
+
+// Our clean team interfaces
+export interface TeamSection {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  displayOrder: number;
+  workers: TeamWorker[];
+}
+
+export interface TeamWorker {
+  id: string;
+  name: string;
+  role: string;
+  phone: string;
+  email: string;
+  image: string;
+  description: string;
+  createdAt: string;
+}
+
+// GraphQL response types for team queries
+interface SectionsWithWorkersResponse {
+  sections: HygraphSectionResponse[];
+  workers: HygraphWorkerResponseWithSection[];
+}
+
+interface HygraphWorkerResponseWithSection extends HygraphWorkerResponse {
+  section?: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}
+
+// Transform functions for team data
+function transformHygraphToTeamSection(hygraphData: HygraphSectionResponse): TeamSection {
+  return {
+    id: hygraphData.id,
+    name: hygraphData.name,
+    slug: hygraphData.slug,
+    description: hygraphData.description || '',
+    displayOrder: hygraphData.displayOrder,
+    workers: [], // Will be populated separately
+  };
+}
+
+function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse): TeamWorker {
+  return {
+    id: hygraphData.id,
+    name: hygraphData.name,
+    role: hygraphData.role,
+    phone: hygraphData.phone,
+    email: hygraphData.email,
+    image: hygraphData.image?.url || '',
+    description: hygraphData.description,
+    createdAt: hygraphData.createdAt,
+  };
+}
+
+// Team API functions
+export async function fetchAllSections(): Promise<TeamSection[]> {
+  try {
+    const data = await hygraphClient.request<SectionsWithWorkersResponse>(GET_ALL_SECTIONS_WITH_WORKERS);
+    
+    // Transform sections
+    const sections = data.sections.map(transformHygraphToTeamSection);
+    
+    // Group workers by section and add them to sections
+    const workersBySection = new Map<string, TeamWorker[]>();
+    
+    data.workers.forEach((worker) => {
+      if (worker.section && Array.isArray(worker.section)) {
+        const transformed = transformHygraphToTeamWorker(worker);
+        worker.section.forEach((sectionRef) => {
+          const sectionId = sectionRef.id;
+          if (!workersBySection.has(sectionId)) {
+            workersBySection.set(sectionId, []);
+          }
+          workersBySection.get(sectionId)!.push(transformed);
+        });
+      }
+    });
+    
+    // Add workers to their respective sections
+    sections.forEach(section => {
+      const workers = workersBySection.get(section.id) || [];
+      section.workers = workers.sort((a, b) => 
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    });
+    
+    return sections;
+  } catch (error) {
+    console.error('Error fetching sections:', error);
     return [];
   }
 }
