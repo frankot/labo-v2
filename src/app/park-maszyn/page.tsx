@@ -24,8 +24,9 @@ export default function ParkMaszynPage() {
           subtitle="Zaawansowane technologie produkcyjne"
           backgroundImage="/scene.jpg"
           description={[
-            "Dysponujemy nowoczesnym parkiem maszynowym, który umożliwia nam realizację projektów na najwyższym poziomie. Nasze zaawansowane technologie produkcyjne pozwalają na precyzyjne wykonanie elementów scenograficznych z różnorodnych materiałów.",
-            "Od cięcia CNC po druk 3D - każda maszyna została dobrana pod kątem maksymalnej jakości i efektywności produkcji, zapewniając naszym klientom doskonałe rezultaty.",
+            "Dysponujemy nowoczesnym parkiem maszynowym, który umożliwia nam realizację projektów na najwyższym poziomie. Nasze zaawansowane technologie produkcyjne pozwalają na precyzyjne wykonanie elementów scenograficznych z różnorodnych materiałów – od cięcia CNC, przez druk 3D, po specjalistyczną obróbkę metalu i drewna.",
+            "Część naszego wyposażenia została zaprojektowana i zbudowana bezpośrednio przez nasz zespół inżynierów, aby idealnie odpowiadać wymaganiom realizowanych projektów. Każda maszyna została dobrana i dostosowana pod kątem maksymalnej jakości i efektywności produkcji, gwarantując doskonałe rezultaty.",
+            "Uzupełnieniem naszego parku są dziesiątki innych niezbędnych narzędzi i urządzeń, takich jak piły ukośne, zagłębiarki, szlifierki oscylacyjne, gwoździarki, wyrzynarki, piły tarczowe oraz małe drukarki 3D, które dają nam pełną swobodę w realizacji nawet najbardziej wymagających projektów.",
           ]}
           onLoad={true}
         />
