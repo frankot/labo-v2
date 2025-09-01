@@ -110,7 +110,7 @@ export default function Contact() {
                       </div>
                       <p className="text-xs text-stone-400">
                         <AnimatedText
-                          text="ul. Przemysłowa 34, 04-001 Warszawa"
+                          text="ul. Kaczorowa 26B, 03-046 Warszawa"
                           delay={0.2}
                         />
                       </p>
@@ -134,7 +134,7 @@ export default function Contact() {
                         </h4>
                       </div>
                       <p className="text-xs text-stone-400">
-                        <AnimatedText text="biuro@labo.com.pl" delay={0.6} />
+                        <AnimatedText text="biuro@labopracownia.com" delay={0.6} />
                       </p>
                     </div>
                     <div className="space-y-2">
@@ -195,7 +195,7 @@ export default function Contact() {
                 <div className="h-full w-full overflow-hidden rounded-lg">
                   <iframe
                     className="h-full w-full border-0 grayscale transition-all duration-300 hover:grayscale-0"
-                    src="https://www.google.com/maps?q=ul.+Przemys%C5%82owa+34,+04-001+Warszawa&output=embed&z=15"
+                    src="https://www.google.com/maps?q=ul.+Kaczorowa+26B,+03-046+Warszawa&output=embed&z=15"
                     allowFullScreen={true}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"

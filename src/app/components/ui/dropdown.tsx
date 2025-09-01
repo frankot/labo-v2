@@ -148,7 +148,9 @@ const Dropdown = ({
               ? "w-[800px]"
               : label === "Usługi"
                 ? "w-[600px]"
-                : "w-[400px] md:w-[500px] lg:w-[600px]"
+                : label === "Realizacje"
+                  ? "w-[900px]"
+                  : "w-[400px] md:w-[500px] lg:w-[600px]"
         }`}
       >
         <ul
@@ -159,7 +161,9 @@ const Dropdown = ({
                 ? "grid-cols-3"
                 : label === "Usługi"
                   ? "grid-cols-3"
-                  : "md:grid-cols-2"
+                  : label === "Realizacje"
+                    ? "grid-cols-3"
+                    : "md:grid-cols-2"
           }`}
         >
           {items.map((item, index) => (
@@ -179,7 +183,7 @@ const Dropdown = ({
                 }
                 className="block space-y-2 rounded-md p-3 leading-none text-stone-200 transition-colors hover:bg-neutral-800 hover:text-white focus:bg-neutral-800 focus:text-white focus:outline-none"
               >
-                {hasClickableHeader && item.image && (
+                {hasClickableHeader && item.image && label !== "Realizacje" && (
                   <div className="relative aspect-[4/3] overflow-hidden rounded">
                     <Image
                       src={item.image}
@@ -190,7 +194,7 @@ const Dropdown = ({
                   </div>
                 )}
                 <div className="space-y-1">
-                  {hasClickableHeader && item.category && (
+                  {(hasClickableHeader || label === "Realizacje") && item.category && (
                     <span className="text-xs tracking-wide text-neutral-500 uppercase">
                       {item.category}
                     </span>
@@ -200,7 +204,7 @@ const Dropdown = ({
                   </div>
                   <p
                     className={`text-sm leading-snug text-neutral-400 ${
-                      hasClickableHeader ? "line-clamp-2" : "line-clamp-2"
+                      hasClickableHeader || label === "Realizacje" ? "line-clamp-2" : "line-clamp-2"
                     }`}
                   >
                     {item.description}

@@ -15,12 +15,12 @@ const serviceCategories = [
       {
         title: "Tworzenie koncepcji scenograficznych",
         description:
-          "Kompleksowe koncepcje wizualne 3D, layouty, projektowanie elementów na podstawie briefu lub wstępnych założeń klienta",
+          "Kompleksowe koncepcje wizualne 3D, projektowanie elementów na podstawie briefu lub wstępnych założeń klienta",
       },
       {
         title: "Rozwiązania techniczne",
         description:
-          "Opracowanie konstrukcji, dobór materiałów i technologii, dostosowanie do wymagań technicznych wydarzenia, optymalizacja projektowa",
+          " Opracowanie koncepcji i dokumentacji technicznej, dobór odpowiednich materiałów i technologii, przygotowanie rysunków technicznych i konstrukcyjnych, optymalizacja projektowa",
       },
       {
         title: "Kosztorysowanie i harmonogramy",
@@ -44,14 +44,14 @@ const serviceCategories = [
           "Własny park maszynowy: CNC, stolarnia, druk 3D, lakiernia, ślusarnia",
       },
       {
+        title: "Scenografia eventowa, festiwalowa, teatralna i telewizyjna",
+        description:
+          "Konstrukcje plenerowe, scenografie do planów zdjęciowych, koncertów, spektakli teatralnych, produkcji filmowych, teledysków, reklam i programów telewizyjnych, oprawy sceniczne",
+      },
+      {
         title: "Zabudowy sceniczne i wystawiennicze",
         description:
           "Realizacja stoisk targowych, stref eventowych, przestrzeni ekspozycyjnych",
-      },
-      {
-        title: "Scenografia eventowa, festiwalowa i telewizyjna",
-        description:
-          "Konstrukcje plenerowe, scenografie do planów zdjęciowych i koncertów, oprawy sceniczne",
       },
       {
         title: "Instalacje promocyjne i multimedialne",

@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { Instagram, Facebook } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -42,23 +42,13 @@ export default function Footer() {
   const socialLinks = [
     {
       icon: <Instagram className="h-5 w-5" />,
-      href: "https://instagram.com",
+      href: "https://www.instagram.com/labopracownia/",
       label: "Instagram",
     },
     {
       icon: <Facebook className="h-5 w-5" />,
-      href: "https://facebook.com",
+      href: "https://www.facebook.com/labopracownia/?locale=pl_PL",
       label: "Facebook",
-    },
-    {
-      icon: <Mail className="h-5 w-5" />,
-      href: "mailto:contact@labo.com",
-      label: "Email",
-    },
-    {
-      icon: <MapPin className="h-5 w-5" />,
-      href: "https://maps.google.com",
-      label: "Location",
     },
   ];
 
@@ -113,10 +103,10 @@ export default function Footer() {
           <motion.div variants={itemVariants} className="space-y-4">
             <h4 className="font-michroma text-sm text-neutral-200">KONTAKT</h4>
             <ul className="space-y-2 text-sm text-neutral-400">
-              <li>+48 123 456 789</li>
-              <li>contact@labo.com</li>
-              <li>ul. Przykładowa 1</li>
-              <li>00-000 Warszawa</li>
+              <li>+48 500 123 456</li>
+              <li>biuro@labopracownia.com</li>
+              <li>ul. Kaczorowa 26B</li>
+              <li>03-046 Warszawa</li>
             </ul>
           </motion.div>
 
