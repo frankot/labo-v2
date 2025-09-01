@@ -6,7 +6,7 @@ import {
   Warehouse,
   Factory,
   Users2,
-  Clock,
+  Globe,
 } from "lucide-react";
 import Card from "../ui/card";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
@@ -57,11 +57,11 @@ const stats = [
   },
   {
     id: 6,
-    name: "Średni czas realizacji",
-    value: 14,
-    suffix: " dni",
-    description: "Od akceptacji wizualizacji do montażu",
-    Icon: Clock,
+    name: "Zasięg geograficzny",
+    value: 16,
+    suffix: " krajów",
+    description: "Nasze realizacje obecne są w całej Europie, a także coraz częściej poza jej granicami",
+    Icon: Globe,
   },
 ];
 
