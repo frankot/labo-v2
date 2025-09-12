@@ -3,9 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Michroma } from "next/font/google";
-import { Phone, Mail } from "lucide-react";
 import MobileSelect from "../ui/mobile-select";
-import Card from "../ui/card";
 import StickyHeader from "../ui/sticky-header";
 import { FadeInView } from "../../anim";
 import { getDepartmentNames } from "@/lib/team-service";
@@ -174,7 +172,7 @@ export default function TeamSection() {
               {/* Team Members */}
               <div
                 ref={scrollContainerRef}
-                className="scrollbar-hide overflow-x-auto pb-4"
+                className="scrollbar-hide overflow-x-auto pb-4 pt-6 "
               >
                 <div className="flex min-w-max gap-8">
                   {departments.map((department, departmentIndex) => (
@@ -190,54 +188,45 @@ export default function TeamSection() {
                         {teamData[department]?.map((member) => {
                           const imgSrc = member.image && member.image.trim().length > 0 ? member.image : "/logo-small.png";
                           return (
-                            <Card
+                            <div
                               key={member.id}
-                              className="group relative w-80 flex-shrink-0 overflow-hidden p-0 md:w-80"
+                              className="relative w-80 h-96 flex-shrink-0 rounded-2xl shadow-lg"
+                              style={{
+                                backgroundImage: 'url(/wall-grunge.jpg)',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
+                              }}
                             >
-                              {/* Image Section */}
-                              <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl">
+                              {/* Full Size Image - Enlarged to overflow */}
+                              <div className="absolute -top-4 -left-4 -right-4 bottom-0 z-10">
                                 <Image
                                   src={imgSrc}
                                   alt={member.name}
                                   fill
-                                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                  className="object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
-
-                                {/* Department Badge */}
-                                <div className="absolute top-3 left-3">
-                                  <div className="rounded-full border border-white/20 bg-black/50 px-2 py-1 text-xs font-medium text-white/90 backdrop-blur-sm">
-                                    {department}
-                                  </div>
-                                </div>
                               </div>
-
-                              {/* Content Section */}
-                              <div className="space-y-3 p-4">
-                                {/* Name and Role */}
-                                <div>
-                                  <h4 className={`${michroma.className} mb-1 text-lg font-medium text-white`}>
+                              
+                              {/* Bottom White Overlay - 1/3 height */}
+                              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-white/80 backdrop-blur-sm z-20 rounded-b-2xl">
+                                <div className="p-4 h-full flex flex-col justify-center">
+                                  {/* Name */}
+                                  <h4 className={`${michroma.className} text-lg font-medium text-gray-900 mb-1`}>
                                     {member.name}
                                   </h4>
-                                  <p className="text-sm font-medium text-gray-400">{member.role}</p>
-                                </div>
-
-                                {/* Description */}
-                                <p className="text-sm leading-relaxed text-gray-300">{member.description}</p>
-
-                                {/* Contact Info */}
-                                <div className="space-y-2 border-t border-white/10 pt-2">
-                                  <div className="flex items-center gap-2 text-sm text-gray-400">
-                                    <Phone className="h-4 w-4 flex-shrink-0" />
-                                    <span className="truncate">{member.phone}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-sm text-gray-400">
-                                    <Mail className="h-4 w-4 flex-shrink-0" />
-                                    <span className="truncate">{member.email}</span>
-                                  </div>
+                                  
+                                  {/* Role */}
+                                  <p className="text-sm text-gray-600 mb-2">
+                                    {member.role}
+                                  </p>
+                                  
+                                  {/* Description */}
+                                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    {member.description}
+                                  </p>
                                 </div>
                               </div>
-                            </Card>
+                            </div>
                           );
                         })}
                       </div>
