@@ -207,21 +207,21 @@ export default function TeamSection() {
                                 />
                               </div>
                               
-                              {/* Bottom White Overlay - 1/3 height */}
-                              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-white/80 backdrop-blur-sm z-20 rounded-b-2xl">
+                              {/* Bottom Black Overlay - 1/3 height */}
+                              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-black/70 z-20 rounded-b-2xl">
                                 <div className="p-4 h-full flex flex-col text-center justify-center">
                                   {/* Name */}
-                                  <h4 className={`${michroma.className} text-lg font-medium text-gray-900 mb-1`}>
+                                  <h4 className={`${michroma.className} text-lg font-medium text-white mb-1`}>
                                     {member.name}
                                   </h4>
                                   
                                   {/* Role */}
-                                  <p className="text-sm text-gray-600 mb-2">
+                                  <p className="text-sm text-white/90 mb-2">
                                     {member.role}
                                   </p>
                                   
                                   {/* Description */}
-                                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                  <p className="text-xs text-white/80 leading-relaxed line-clamp-2">
                                     {member.description}
                                   </p>
                                 </div>
