@@ -172,25 +172,25 @@ export default function TeamSection() {
               {/* Team Members */}
               <div
                 ref={scrollContainerRef}
-                className="scrollbar-hide overflow-x-auto pb-4 pt-6 "
+                className="scrollbar-hide overflow-x-auto  p-14  "
               >
-                <div className="flex min-w-max gap-8">
+                <div className="flex min-w-max gap-8 ">
                   {departments.map((department, departmentIndex) => (
-                    <div key={department} className="flex gap-6">
+                    <div key={department} className="flex gap-6 ">
                       <div
                         ref={(el) => {
                           if (el) {
                             departmentRefs.current[department] = el;
                           }
                         }}
-                        className="flex gap-6"
+                        className="flex gap-8"
                       >
                         {teamData[department]?.map((member) => {
                           const imgSrc = member.image && member.image.trim().length > 0 ? member.image : "/logo-small.png";
                           return (
                             <div
                               key={member.id}
-                              className="relative w-80 h-96 flex-shrink-0 rounded-2xl shadow-lg"
+                              className="relative w-80 h-[26rem] flex-shrink-0 rounded-2xl shadow-lg"
                               style={{
                                 backgroundImage: 'url(/wall-grunge.jpg)',
                                 backgroundSize: 'cover',
@@ -209,7 +209,7 @@ export default function TeamSection() {
                               
                               {/* Bottom White Overlay - 1/3 height */}
                               <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-white/80 backdrop-blur-sm z-20 rounded-b-2xl">
-                                <div className="p-4 h-full flex flex-col justify-center">
+                                <div className="p-4 h-full flex flex-col text-center justify-center">
                                   {/* Name */}
                                   <h4 className={`${michroma.className} text-lg font-medium text-gray-900 mb-1`}>
                                     {member.name}
