@@ -136,7 +136,7 @@ export default function TeamSection() {
           <div className="mx-auto mt-24 max-w-7xl lg:mt-10">
             <div
               ref={containerRef}
-              className="relative overflow-hidden px-4 pb-20 text-white"
+              className="relative px-4 pb-20 text-white"
             >
               {/* Department Selector */}
               <div className="mb-12 flex justify-center">
@@ -172,9 +172,9 @@ export default function TeamSection() {
               {/* Team Members */}
               <div
                 ref={scrollContainerRef}
-                className="scrollbar-hide overflow-x-auto  p-14  "
+                className="scrollbar-hide overflow-x-auto p-8"
               >
-                <div className="flex min-w-max gap-8 ">
+                <div className="flex min-w-max gap-8">
                   {departments.map((department, departmentIndex) => (
                     <div key={department} className="flex gap-6 ">
                       <div
@@ -190,12 +190,8 @@ export default function TeamSection() {
                           return (
                             <div
                               key={member.id}
-                              className="relative w-80 h-[26rem] flex-shrink-0 rounded-2xl shadow-lg"
-                              style={{
-                                backgroundImage: 'url(/wall-grunge.jpg)',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                              }}
+                              className="relative w-80 h-[26rem] flex-shrink-0 rounded-2xl shadow-lg bg-stone-50"
+                              
                             >
                               {/* Full Size Image - Enlarged to overflow */}
                               <div className="absolute -top-4 -left-4 -right-4 bottom-0 z-10">
