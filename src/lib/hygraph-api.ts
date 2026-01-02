@@ -8,6 +8,7 @@ import {
 } from './hygraph-queries';
 import { Realizacja } from './realizacje-data';
 import { parseServicesString } from './services-utils';
+import type { TeamWorker, TeamSection } from './team-data';
 
 // Types based on Hygraph response
 export interface HygraphAsset {
@@ -27,12 +28,16 @@ export interface HygraphRealizacjaResponse {
   title: string;
   description?: string;
   client?: string;
-  year?: string | number; // Can be number from CMS
+  clientLogo?: {
+    url: string;
+  };
+  yearString?: string; // New string field
   category?: string;
   location?: string;
   area?: string;
   scope?: string;
   services?: string; // Simple string field with comma-separated values
+  order?: number; // Order in grid
   fullDescription?: HygraphRichText; // Changed back to HygraphRichText for Rich Text field
   slug?: string;
   image?: {
@@ -74,7 +79,8 @@ function transformHygraphToRealizacja(hygraphData: HygraphRealizacjaResponse): R
     title: hygraphData.title,
     description: hygraphData.description || '',
     client: hygraphData.client || '',
-    year: (hygraphData.year || '').toString(), // Convert number to string
+    clientLogo: hygraphData.clientLogo?.url || undefined,
+    year: hygraphData.yearString || '', // Now a string field
     category: hygraphData.category || '',
     image: hygraphData.image?.url || '',
     location: hygraphData.location || '',
@@ -85,6 +91,7 @@ function transformHygraphToRealizacja(hygraphData: HygraphRealizacjaResponse): R
     gallery: hygraphData.gallery?.map(asset => asset.url) || [], // Gallery as asset array
     video: videoUrl, // Video CDN URL from asset
     slug: hygraphData.slug || '',
+    order: hygraphData.order, // Order field (optional, defaults to 9999 if missing)
   };
 }
 
@@ -123,7 +130,10 @@ export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | 
           title
           description
           client
-          year
+          clientLogo {
+            url
+          }
+          yearString
           category
           location
           area
@@ -155,7 +165,7 @@ export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | 
     // Handle the data properly - extract HTML from Rich Text field
     const hygraphData = {
       ...data.realizacja,
-      year: data.realizacja.year?.toString() || '',
+      yearString: data.realizacja.yearString || '',
       category: data.realizacja.category || '',
       location: data.realizacja.location || '',
       area: data.realizacja.area || '',
@@ -228,6 +238,7 @@ export interface HygraphWorkerResponse {
   email: string;
   description: string;
   createdAt: string;
+  workerOrder?: number; // Order within section
   image?: {
     url: string;
     width?: number;
@@ -237,24 +248,9 @@ export interface HygraphWorkerResponse {
 }
 
 // Our clean team interfaces
-export interface TeamSection {
-  id: string;
-  name: string;
-  slug: string;
-  description?: string;
-  displayOrder: number;
+// Hygraph team section extends the basic team section with workers array
+export interface HygraphTeamSection extends TeamSection {
   workers: TeamWorker[];
-}
-
-export interface TeamWorker {
-  id: string;
-  name: string;
-  role: string;
-  phone: string;
-  email: string;
-  image: string;
-  description: string;
-  createdAt: string;
 }
 
 // GraphQL response types for team queries
@@ -272,7 +268,7 @@ interface HygraphWorkerResponseWithSection extends HygraphWorkerResponse {
 }
 
 // Transform functions for team data
-function transformHygraphToTeamSection(hygraphData: HygraphSectionResponse): TeamSection {
+function transformHygraphToTeamSection(hygraphData: HygraphSectionResponse): HygraphTeamSection {
   return {
     id: hygraphData.id,
     name: hygraphData.name,
@@ -283,7 +279,7 @@ function transformHygraphToTeamSection(hygraphData: HygraphSectionResponse): Tea
   };
 }
 
-function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse): TeamWorker {
+function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse, sectionId?: string): Omit<TeamWorker, 'sectionId'> & { sectionId?: string } {
   return {
     id: hygraphData.id,
     name: hygraphData.name,
@@ -293,11 +289,13 @@ function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse): TeamW
     image: hygraphData.image?.url || '',
     description: hygraphData.description,
     createdAt: hygraphData.createdAt,
+    workerOrder: hygraphData.workerOrder,
+    ...(sectionId && { sectionId }),
   };
 }
 
 // Team API functions
-export async function fetchAllSections(): Promise<TeamSection[]> {
+export async function fetchAllSections(): Promise<HygraphTeamSection[]> {
   try {
     const data = await hygraphClient.request<SectionsWithWorkersResponse>(GET_ALL_SECTIONS_WITH_WORKERS);
     
@@ -309,9 +307,9 @@ export async function fetchAllSections(): Promise<TeamSection[]> {
     
     data.workers.forEach((worker) => {
       if (worker.section && Array.isArray(worker.section)) {
-        const transformed = transformHygraphToTeamWorker(worker);
         worker.section.forEach((sectionRef) => {
           const sectionId = sectionRef.id;
+          const transformed = transformHygraphToTeamWorker(worker, sectionId) as TeamWorker;
           if (!workersBySection.has(sectionId)) {
             workersBySection.set(sectionId, []);
           }
@@ -323,9 +321,18 @@ export async function fetchAllSections(): Promise<TeamSection[]> {
     // Add workers to their respective sections
     sections.forEach(section => {
       const workers = workersBySection.get(section.id) || [];
-      section.workers = workers.sort((a, b) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      section.workers = workers.sort((a, b) => {
+        // Sort by workerOrder field first (1 is first, higher numbers later)
+        const orderA = a.workerOrder ?? 9999;
+        const orderB = b.workerOrder ?? 9999;
+        
+        if (orderA !== orderB) {
+          return orderA - orderB;
+        }
+        
+        // If order is the same, sort by createdAt (newest first)
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      });
     });
     
     return sections;

@@ -15,6 +15,14 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Sort case studies by order field (1 is first, higher numbers appear later)
+  // Items without order are placed at the end
+  const sortedCaseStudies = [...caseStudies].sort((a, b) => {
+    const orderA = a.order ?? 9999;
+    const orderB = b.order ?? 9999;
+    return orderA - orderB;
+  });
+
   // Hardcoded grid positions for 3x3 grid (9 items)
   const getGridPosition = (index: number) => {
     const positions = [
@@ -35,11 +43,11 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
   useEffect(() => {
     setIsVisible(true);
     // Set first video (index 0) as hovered by default
-    if (caseStudies.length > 0) {
+    if (sortedCaseStudies.length > 0) {
       const { row, col } = getGridPosition(0);
       setHovered({ row, col, index: 0 });
     }
-  }, [caseStudies]);
+  }, [sortedCaseStudies.length]);
 
   const getOrganicRowSizes = useCallback(() => {
     if (hovered === null) return "1fr 1fr 1fr";
@@ -128,7 +136,7 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
         contain: "layout style", // Performance optimization
       }}
     >
-      {caseStudies.map((caseStudy, index) => {
+      {sortedCaseStudies.map((caseStudy, index) => {
         const { row, col } = getGridPosition(index);
         const cardState = getCardState(index, row, col);
         const isHovered = cardState === "hovered";

@@ -423,7 +423,7 @@ const MobileProcess = () => {
         clearInterval(autoScrollIntervalRef.current);
       }
     };
-  }, [isInView, isAutoScrolling]);
+  }, [isInView, isAutoScrolling, startAutoScroll]);
 
   return (
     <div className="py-12 lg:py-44 xl:hidden" ref={ref}>

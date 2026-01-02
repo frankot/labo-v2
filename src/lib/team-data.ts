@@ -11,6 +11,7 @@ export interface TeamWorker {
   description: string;
   createdAt: string;
   sectionId: string; // Worker belongs to a section
+  workerOrder?: number; // Order within section (1 is first, higher numbers appear later)
 }
 
 // Core team section interface
@@ -279,7 +280,18 @@ export const fallbackTeamData: TeamData = {
 export function getWorkersBySection(teamData: TeamData, sectionId: string): TeamWorker[] {
   return teamData.workers
     .filter(worker => worker.sectionId === sectionId)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    .sort((a, b) => {
+      // Sort by workerOrder field first (1 is first, higher numbers later)
+      const orderA = a.workerOrder ?? 9999;
+      const orderB = b.workerOrder ?? 9999;
+      
+      if (orderA !== orderB) {
+        return orderA - orderB;
+      }
+      
+      // If order is the same, sort by createdAt (newest first)
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 }
 
 /**

@@ -1,5 +1,5 @@
 import { fetchAllSections } from './hygraph-api';
-import type { TeamSection as HygraphTeamSection } from './hygraph-api';
+import type { HygraphTeamSection } from './hygraph-api';
 import { 
   fallbackTeamData, 
   convertToLegacyFormat,
@@ -38,6 +38,7 @@ function transformCMSToTeamData(cmsSections: HygraphTeamSection[]): TeamData {
           image: cmsWorker.image || '',
           description: cmsWorker.description,
           createdAt: cmsWorker.createdAt,
+          workerOrder: cmsWorker.workerOrder,
           sectionId: cmsSection.id,
         });
       });

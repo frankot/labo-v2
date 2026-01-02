@@ -15,6 +15,14 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
 
+  // Sort case studies by order field (1 is first, higher numbers appear later)
+  // Items without order are placed at the end
+  const sortedCaseStudies = [...caseStudies].sort((a, b) => {
+    const orderA = a.order ?? 9999;
+    const orderB = b.order ?? 9999;
+    return orderA - orderB;
+  });
+
   // Simple visibility on mount
   useEffect(() => {
     setIsVisible(true);
@@ -23,18 +31,18 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
   const goToNext = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % caseStudies.length);
+    setCurrentIndex((prev) => (prev + 1) % sortedCaseStudies.length);
     setTimeout(() => setIsTransitioning(false), 300);
-  }, [caseStudies.length, isTransitioning]);
+  }, [sortedCaseStudies.length, isTransitioning]);
 
   const goToPrevious = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex(
-      (prev) => (prev - 1 + caseStudies.length) % caseStudies.length,
+      (prev) => (prev - 1 + sortedCaseStudies.length) % sortedCaseStudies.length,
     );
     setTimeout(() => setIsTransitioning(false), 300);
-  }, [caseStudies.length, isTransitioning]);
+  }, [sortedCaseStudies.length, isTransitioning]);
 
   // Touch handlers for swipe gestures
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -74,7 +82,7 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToNext, goToPrevious]);
 
-  const currentCaseStudy = caseStudies[currentIndex];
+  const currentCaseStudy = sortedCaseStudies[currentIndex];
 
   return (
     <div

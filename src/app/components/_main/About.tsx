@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Wrench } from "lucide-react";
 import StickyHeader from "../ui/sticky-header";
@@ -12,17 +11,8 @@ import { aboutData } from "../../../lib/about-data";
 export default function About() {
   return (
     <div id="about" className="relative">
-      {/* Hero Image Section */}
-      <FadeInView className="relative h-[60vh] w-full">
-        <Image
-          src={aboutData.heroImage.src}
-          alt={aboutData.heroImage.alt}
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black" />
-      </FadeInView>
+      {/* Hero Section - Plain Black */}
+      <FadeInView className="relative h-[60vh] w-full bg-black"><div /></FadeInView>
 
       {/* Main Content */}
       <div className="relative container mx-auto w-full">

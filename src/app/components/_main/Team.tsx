@@ -3,17 +3,96 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Michroma } from "next/font/google";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import MobileSelect from "../ui/mobile-select";
 import StickyHeader from "../ui/sticky-header";
 import { FadeInView } from "../../anim";
 import { getDepartmentNames } from "@/lib/team-service";
-import type { LegacyTeamData } from "@/lib/team-data";
+import type { LegacyTeamData, TeamWorker } from "@/lib/team-data";
 
 const michroma = Michroma({
   weight: "400",
   subsets: ["latin"],
 });
 
+type MichromaFont = ReturnType<typeof Michroma>;
+
+// Team Member Card Component
+function TeamMemberCard({ member, michroma }: { member: TeamWorker, michroma: MichromaFont }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const imgSrc = member.image && member.image.trim().length > 0 ? member.image : "/logo-small.png";
+
+  return (
+    <div
+      className="relative w-80 h-[26rem] flex-shrink-0 rounded-2xl shadow-lg bg-stone-50"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Full Size Image - Enlarged to overflow */}
+      <div className="absolute -top-4 -left-4 -right-4 bottom-0 z-10">
+        <Image
+          src={imgSrc}
+          alt={member.name}
+          fill
+          className="object-cover"
+        />
+      </div>
+      
+      {/* Description Overlay - Appears on hover, slides from bottom */}
+      <div className={`absolute left-0 right-0 bottom-[33.33%] bg-black/70 z-20 transition-all duration-300 ${
+        isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
+      }`}>
+        <div className="p-6">
+          <p className="text-sm text-white/90 leading-relaxed text-center">
+            {member.description}
+          </p>
+        </div>
+      </div>
+      
+      {/* Bottom Black Overlay - 1/3 height */}
+      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-black/70 z-20 rounded-b-2xl">
+        <div className="p-4 h-full flex flex-col text-center justify-center">
+          {/* Name */}
+          <h4 className={`${michroma.className} text-lg font-medium text-white mb-1`}>
+            {member.name}
+          </h4>
+          
+          {/* Role */}
+          <p className="text-sm text-white/90 mb-2">
+            {member.role}
+          </p>
+          
+          {/* Contact Info */}
+          <div className="space-y-1 mb-2">
+            {member.email && (
+              <a
+                href={`mailto:${member.email}`}
+                className="block text-xs text-white/80 hover:text-white transition-colors"
+              >
+                {member.email}
+              </a>
+            )}
+            {member.phone && (
+              <a
+                href={`tel:${member.phone}`}
+                className="block text-xs text-white/80 hover:text-white transition-colors"
+              >
+                {member.phone}
+              </a>
+            )}
+          </div>
+          
+          {/* Description - Hidden on hover since it shows on top */}
+          {!isHovered && (
+            <p className="text-xs text-white/70 leading-relaxed line-clamp-2">
+              {member.description}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function TeamSection() {
   const containerRef = useRef(null);
@@ -65,6 +144,24 @@ export default function TeamSection() {
   const handleDepartmentChange = (department: string) => {
     setSelectedDepartment(department);
     scrollToDepartment(department);
+  };
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -400,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: 400,
+        behavior: "smooth",
+      });
+    }
   };
 
   const handleScroll = useCallback(() => {
@@ -169,70 +266,72 @@ export default function TeamSection() {
                 </div>
               </div>
 
-              {/* Team Members */}
-              <div
-                ref={scrollContainerRef}
-                className="scrollbar-hide overflow-x-auto p-8"
-              >
-                <div className="flex min-w-max gap-8">
-                  {departments.map((department, departmentIndex) => (
-                    <div key={department} className="flex gap-6 ">
-                      <div
-                        ref={(el) => {
-                          if (el) {
-                            departmentRefs.current[department] = el;
-                          }
-                        }}
-                        className="flex gap-8"
-                      >
-                        {teamData[department]?.map((member) => {
-                          const imgSrc = member.image && member.image.trim().length > 0 ? member.image : "/logo-small.png";
-                          return (
-                            <div
-                              key={member.id}
-                              className="relative w-80 h-[26rem] flex-shrink-0 rounded-2xl shadow-lg bg-stone-50"
-                              
-                            >
-                              {/* Full Size Image - Enlarged to overflow */}
-                              <div className="absolute -top-4 -left-4 -right-4 bottom-0 z-10">
-                                <Image
-                                  src={imgSrc}
-                                  alt={member.name}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                              
-                              {/* Bottom Black Overlay - 1/3 height */}
-                              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-black/70 z-20 rounded-b-2xl">
-                                <div className="p-4 h-full flex flex-col text-center justify-center">
-                                  {/* Name */}
-                                  <h4 className={`${michroma.className} text-lg font-medium text-white mb-1`}>
-                                    {member.name}
-                                  </h4>
-                                  
-                                  {/* Role */}
-                                  <p className="text-sm text-white/90 mb-2">
-                                    {member.role}
-                                  </p>
-                                  
-                                  {/* Description */}
-                                  <p className="text-xs text-white/80 leading-relaxed line-clamp-2">
-                                    {member.description}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+              {/* Team Members with Scroll Buttons */}
+              <div className="relative">
+                {/* Left Scroll Button */}
+                <button
+                  onClick={scrollLeft}
+                  className="hidden md:flex absolute left-0 top-0 bottom-0 z-30 w-16 bg-gradient-to-r from-black/50 to-transparent backdrop-blur-sm transition-all duration-300 hover:from-black/70 items-center justify-start pl-2"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft size={32} />
+                </button>
 
-                      {/* Vertical Divider - Hidden on mobile */}
-                      {departmentIndex < departments.length - 1 && (
-                        <div className="hidden h-96 w-[2px] flex-shrink-0 self-center bg-gradient-to-b from-transparent via-white/50 to-transparent md:block" />
-                      )}
-                    </div>
-                  ))}
+                {/* Right Scroll Button */}
+                <button
+                  onClick={scrollRight}
+                  className="hidden md:flex absolute right-0 top-0 bottom-0 z-30 w-16 bg-gradient-to-l from-black/50 to-transparent backdrop-blur-sm transition-all duration-300 hover:from-black/70 items-center justify-end pr-2"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight size={32} />
+                </button>
+
+                {/* Team Members Carousel */}
+                <div
+                  ref={scrollContainerRef}
+                  className="scrollbar-hide overflow-x-auto p-8 px-16 pl-32 pr-32"
+                >
+                  <div className="flex min-w-max gap-8">
+                    {departments.map((department, departmentIndex) => (
+                      <div key={department} className="flex gap-6 ">
+                        <div
+                          ref={(el) => {
+                            if (el) {
+                              departmentRefs.current[department] = el;
+                            }
+                          }}
+                          className="flex gap-8"
+                        >
+                          {teamData[department]
+                            ?.sort((a, b) => {
+                              // Sort by workerOrder field first (1 is first, higher numbers appear later)
+                              // Items without workerOrder default to 9999
+                              const orderA = a.workerOrder ?? 9999;
+                              const orderB = b.workerOrder ?? 9999;
+                              
+                              if (orderA !== orderB) {
+                                return orderA - orderB;
+                              }
+                              
+                              // If order is the same or both are null, sort by createdAt date (newest first)
+                              return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+                            })
+                            .map((member) => (
+                            <TeamMemberCard 
+                              key={member.id}
+                              member={member}
+                              michroma={michroma}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Vertical Divider - Hidden on mobile */}
+                        {departmentIndex < departments.length - 1 && (
+                          <div className="hidden h-96 w-[2px] flex-shrink-0 self-center bg-gradient-to-b from-transparent via-white/50 to-transparent md:block" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

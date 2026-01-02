@@ -7,13 +7,17 @@ export const REALIZACJA_COMPLETE_FRAGMENT = gql`
     title
     description
     client
-    year
+    clientLogo {
+      url
+    }
+    yearString
     category
     location
     area
     scope
     slug
     services
+    order
     fullDescription {
       html
     }
@@ -38,10 +42,11 @@ export const REALIZACJA_GRID_FRAGMENT = gql`
     title
     description
     client
-    year
+    yearString
     category
     slug
     services
+    order
     image {
       url
     }
@@ -126,6 +131,7 @@ export const WORKER_FRAGMENT = gql`
     email
     description
     createdAt
+    workerOrder
     image {
       url
   width

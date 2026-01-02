@@ -88,7 +88,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
     {
       icon: Calendar,
       label: "Rok realizacji",
-      value: project.year.toString(),
+      value: project.year,
     },
     {
       icon: Ruler,
@@ -163,7 +163,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, type: "spring", stiffness: 70 }}
               >
-                <h1 className="font-michroma mb-4 text-3xl font-bold tracking-tight text-white sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+                <h1 className="font-michroma mb-4 text-3xl font-bold tracking-tight text-white sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-3xl">
                   {project.title}
                 </h1>
               </motion.div>
@@ -191,9 +191,20 @@ export default function RealizacjaDetailPage({ params }: Props) {
                     <p className="text-left text-xs font-light tracking-wide text-stone-400 uppercase">
                       Klient
                     </p>
-                    <p className="text-left text-base font-medium tracking-wide text-white sm:text-lg">
+                    <p className="text-left text-base font-medium tracking-wide text-white sm:text-lg mb-3">
                       {project.client}
                     </p>
+                    {project.clientLogo && (
+                      <div className="mt-2 flex justify-center">
+                        <Image
+                          src={project.clientLogo}
+                          alt={`${project.client} logo`}
+                          width={160}
+                          height={60}
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
                   </div>
                 </Card>
               </motion.div>
@@ -221,9 +232,20 @@ export default function RealizacjaDetailPage({ params }: Props) {
                     <p className="text-xs font-light tracking-wide text-stone-400 uppercase">
                       Klient
                     </p>
-                    <p className="text-base font-medium tracking-wide text-white sm:text-lg">
+                    <p className="text-base font-medium tracking-wide text-white sm:text-lg mb-3">
                       {project.client}
                     </p>
+                    {project.clientLogo && (
+                      <div className="mt-2 flex justify-center">
+                        <Image
+                          src={project.clientLogo}
+                          alt={`${project.client} logo`}
+                          width={160}
+                          height={60}
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
                   </div>
                 </Card>
               </motion.div>

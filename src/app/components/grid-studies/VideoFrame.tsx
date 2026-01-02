@@ -22,12 +22,11 @@ interface VideoFrameProps {
 export function VideoFrame({
   video,
   className = "",
-  isMobile = false,
   isHovered = false,
   caseStudy,
   cardState = "normal",
 }: VideoFrameProps) {
-  const { videoRef, play, pause } = useVideoPlayer();
+  const { videoRef } = useVideoPlayer();
   const [isPlaying, setIsPlaying] = useState(false);
   
   // Check if this is a placeholder item
@@ -61,23 +60,27 @@ export function VideoFrame({
     };
   }, [videoRef, isPlaceholder]);
 
-  // Handle play/pause for both desktop and mobile
-  React.useEffect(() => {
-    if (isPlaceholder) return;
-    
-    if (!isMobile) {
-      // Desktop: hover to play, but keep playing when pointer leaves
-      if (isHovered) {
-        play();
+  // Autoplay videos on mount
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || isPlaceholder || !isValidVideoUrl) return;
+
+    // Ensure video plays on load
+    const playVideo = async () => {
+      try {
+        await video.play();
+      } catch (error) {
+        console.log('Autoplay prevented:', error);
       }
-      // Note: no pause() when leaving hover - video continues playing
+    };
+
+    // Try to play when video metadata is loaded
+    if (video.readyState >= 2) {
+      playVideo();
     } else {
-      // Mobile: only play when clicked/expanded, don't stop others
-      if (isHovered) {
-        play();
-      }
+      video.addEventListener('loadedmetadata', playVideo, { once: true });
     }
-  }, [isHovered, isMobile, play, pause, isPlaceholder]);
+  }, [videoRef, isPlaceholder, isValidVideoUrl]);
 
   // Get video transform and filter based on card state - no darkening overlays
   const getVideoStyles = () => {
@@ -110,81 +113,100 @@ export function VideoFrame({
   };
 
   return (
-    <div
-      className={`relative h-full w-full overflow-hidden rounded-lg border-6 border-black ${className}`}
-    >
-      <div
-        className="relative h-full w-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
-        style={getVideoStyles()}
-      >
-        {isPlaceholder || !isValidVideoUrl ? (
-          // Placeholder content for missing data
-          <div className="flex h-full w-full items-center justify-center bg-gray-100">
-            <div className="text-center p-6">
-              <div className="mb-4 text-4xl text-gray-400">📄</div>
-              <h3 className="font-michroma text-sm font-medium text-gray-600 mb-2">
-                Data Missing
-              </h3>
-              <p className="font-michroma text-xs text-gray-500 max-w-[200px]">
-                {caseStudy?.client ? 
-                  `Video missing for ${caseStudy.client}` : 
-                  'Add more content in Hygraph CMS to fill this position'}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <video
-            ref={videoRef}
-            className="h-full w-full object-cover"
-            src={video}
-            loop
-            muted
-            playsInline
-            autoPlay={false}
-            preload="metadata"
-            controls={false}
-            disablePictureInPicture
-          />
-        )}
+    <>
+      {!isPlaceholder ? (
+        <Link href={`/realizacje/${getRealizacjaSlug(caseStudy!)}`} className='block h-full w-full'>
+          <div
+            className={`relative h-full w-full overflow-hidden rounded-lg border-6 border-black ${className} cursor-pointer`}
+          >
+            <div
+              className="relative h-full w-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+              style={getVideoStyles()}
+            >
+              {!isValidVideoUrl ? (
+                // Placeholder content for missing data
+                <div className="flex h-full w-full items-center justify-center bg-gray-100">
+                  <div className="text-center p-6">
+                    <div className="mb-4 text-4xl text-gray-400">📄</div>
+                    <h3 className="font-michroma text-sm font-medium text-gray-600 mb-2">
+                      Data Missing
+                    </h3>
+                    <p className="font-michroma text-xs text-gray-500 max-w-[200px]">
+                      {caseStudy?.client ? 
+                        `Video missing for ${caseStudy.client}` : 
+                        'Add more content in Hygraph CMS to fill this position'}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <video
+                  ref={videoRef}
+                  className="h-full w-full object-cover"
+                  src={video}
+                  loop
+                  muted
+                  playsInline
+                  autoPlay={false}
+                  preload="metadata"
+                  controls={false}
+                  disablePictureInPicture
+                />
+              )}
 
-        {/* Company name overlay - shown when video is not playing or for placeholders */}
-        {caseStudy && !isPlaceholder && !isPlaying && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
-            <h2 className="font-michroma text-lg font-medium tracking-wide text-white uppercase">
-              {caseStudy.client}
-            </h2>
-          </div>
-        )}
-      </div>
-
-      {/* Company and year badge using Card component - only for real content */}
-      {caseStudy && !isPlaceholder && (
-        <div
-          className={`absolute right-0 bottom-3 left-0 mx-4 w-1/3 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-            isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-          }`}
-        >
-          <Link href={`/realizacje/${getRealizacjaSlug(caseStudy)}`}>
-            <Card className="cursor-pointer p-3 backdrop-blur-2xl transition-colors hover:bg-white/10">
-              <div className="flex items-center justify-between">
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-michroma truncate text-xs font-medium text-white">
+              {/* Company name overlay - shown when video is not playing */}
+              {caseStudy && !isPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                  <h2 className="font-michroma text-lg font-medium tracking-wide text-white uppercase">
                     {caseStudy.client}
+                  </h2>
+                </div>
+              )}
+            </div>
+
+            {/* Title badge using Card component */}
+            {caseStudy && (
+              <div
+                className={`absolute right-0 bottom-3 left-0 mx-4 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                  isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                }`}
+              >
+                <Card className="pointer-events-none p-3 backdrop-blur-2xl">
+                  <div className="flex items-center justify-center">
+                    <h3 className="font-michroma text-xs font-medium text-white text-center">
+                      {caseStudy.title}
+                    </h3>
+                  </div>
+                </Card>
+              </div>
+            )}
+          </div>
+        </Link>
+      ) : (
+        <div className='block h-full w-full'>
+          <div
+            className={`relative h-full w-full overflow-hidden rounded-lg border-6 border-black ${className}`}
+          >
+            <div
+              className="relative h-full w-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+              style={getVideoStyles()}
+            >
+              <div className="flex h-full w-full items-center justify-center bg-gray-100">
+                <div className="text-center p-6">
+                  <div className="mb-4 text-4xl text-gray-400">📄</div>
+                  <h3 className="font-michroma text-sm font-medium text-gray-600 mb-2">
+                    {caseStudy?.title || 'Data Missing'}
                   </h3>
-                  <p className="font-michroma text-[10px] tracking-wide text-white/60">
-                    {caseStudy.year}
+                  <p className="font-michroma text-xs text-gray-500 max-w-[200px]">
+                    {caseStudy?.client ? 
+                      `Video missing for ${caseStudy.client}` : 
+                      'Add more content in Hygraph CMS to fill this position'}
                   </p>
                 </div>
-                <div className="ml-3 flex-shrink-0">
-                  <span className="font-michroma text-xs text-white/70 transition-all duration-300 hover:translate-x-0.5 hover:text-white">
-                    →
-                  </span>
-                </div>
               </div>
-            </Card>
-          </Link>
+            </div>
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

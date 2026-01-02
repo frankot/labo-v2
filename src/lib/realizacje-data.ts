@@ -11,6 +11,7 @@ export interface Realizacja {
   title: string;
   description: string;
   client: string;
+  clientLogo?: string;
   year: string;
   category: string;
   location: string;
@@ -22,6 +23,7 @@ export interface Realizacja {
   image: string;
   video: string;
   gallery?: string[];
+  order?: number; // Order in grid (1 is first, higher numbers appear later)
   // Grid layout properties (hardcoded in components)
   // defaultPos: { x: number; y: number; w: number; h: number }; // Removed - now hardcoded
 }
@@ -43,6 +45,7 @@ export interface HygraphRealizacja {
   location: string;
   area: string;
   scope: string;
+  order?: number; // Order in grid
   fullDescription?: {
     html: string;
   };
