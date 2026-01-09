@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown, Phone } from "lucide-react";
-import { navLinks } from "./navigation-data";
+import { NavLink } from "./navigation-data";
 
 const handleSmoothScroll = (
   e: React.MouseEvent<HTMLAnchorElement>,
@@ -25,9 +25,10 @@ const handleSmoothScroll = (
 
 interface MobileNavProps {
   isVisible: boolean;
+  navLinks: NavLink[];
 }
 
-const MobileNav = ({ isVisible }: MobileNavProps) => {
+const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSections, setOpenSections] = useState<string[]>([]);
 

@@ -103,7 +103,7 @@ export default function Footer() {
           <motion.div variants={itemVariants} className="space-y-4">
             <h4 className="font-michroma text-sm text-neutral-200">KONTAKT</h4>
             <ul className="space-y-2 text-sm text-neutral-400">
-              <li>+48 500 123 456</li>
+          
               <li>biuro@labopracownia.com</li>
               <li>ul. Kaczorowa 26B</li>
               <li>03-046 Warszawa</li>

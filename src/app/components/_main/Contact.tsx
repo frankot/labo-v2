@@ -46,7 +46,7 @@ export default function Contact() {
   return (
     <section id="contact" className="relative mt-20">
       <StickyHeader
-        className="px-2 md:ml-0 md:px-0"
+        className="px-2 md:ml-0 md:px-0 "
         title="KONTAKT"
         delay={0.2}
       />
@@ -98,7 +98,7 @@ export default function Contact() {
             {/* Right side - Two cards stacked (50% width) */}
             <motion.div variants={itemVariants} className="space-y-6">
               {/* Contact Info Card - 1/3 height */}
-              <Card className="h-[200px] cursor-default p-4">
+              <Card className="h-[150px] cursor-default p-4">
                 <div className="space-y-4 text-stone-300">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -115,17 +115,7 @@ export default function Contact() {
                         />
                       </p>
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-stone-400" />
-                        <h4 className="text-sm font-medium text-stone-200">
-                          <AnimatedText text="Telefon" delay={0.3} />
-                        </h4>
-                      </div>
-                      <p className="text-xs text-stone-400">
-                        <AnimatedText text="+48 500 123 456" delay={0.4} />
-                      </p>
-                    </div>
+           
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Mail className="h-4 w-4 text-stone-400" />
@@ -148,13 +138,8 @@ export default function Contact() {
                         <AnimatedText text="Pn-Pt: 9:00-17:00" delay={0.8} />
                       </p>
                     </div>
-                  </div>
-
-                  {/* Social Media */}
-                  <div className="flex items-center justify-between border-t border-white/10 pt-4">
-                    <span className="text-xs text-stone-400">
-                      <AnimatedText text="Social Media" delay={0.9} />
-                    </span>
+                             <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                
                     <div className="flex space-x-2">
                       {[
                         {
@@ -187,6 +172,10 @@ export default function Contact() {
                       })}
                     </div>
                   </div>
+                  </div>
+
+                  {/* Social Media */}
+         
                 </div>
               </Card>
 

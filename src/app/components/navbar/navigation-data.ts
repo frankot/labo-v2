@@ -236,6 +236,40 @@ export const realizacjeDropdownItems: DropdownItem[] = staticRealizacjeForNav
     // Remove image property to display without photos
   }));
 
+// Function to create realizacje dropdown items from fetched data
+export function createRealizacjeDropdownItems(
+  realizacje: Array<{ id: string; title: string; description: string; slug: string }>
+): DropdownItem[] {
+  return realizacje.map((realizacja) => ({
+    href: `/realizacje/${realizacja.slug}`,
+    label: realizacja.title,
+    description: realizacja.description,
+    // Remove image property to display without photos
+  }));
+}
+
+// Function to build nav links with dynamic realizacje dropdown
+export function buildNavLinks(realizacjeItems: DropdownItem[]): NavLink[] {
+  return [
+    { href: "/#about", label: "O nas" },
+    {
+      label: "Usługi",
+      href: "/#services",
+      hasClickableHeader: true,
+      items: servicesDropdownItems,
+    },
+    {
+      label: "Realizacje",
+      href: "/realizacje",
+      hasClickableHeader: true,
+      items: realizacjeItems,
+    },
+    { href: "/park-maszyn", label: "Park maszynowy" },
+    { href: "/#team", label: "Ekipa" },
+    { href: "/#contact", label: "Kontakt" },
+  ];
+}
+
 export const contactComponents: NavigationItem[] = [
   {
     title: "Email",
@@ -297,3 +331,6 @@ export const navLinks: NavLink[] = [
   { href: "/#team", label: "Ekipa" },
   { href: "/#contact", label: "Kontakt" },
 ];
+
+// Default nav links for static fallback (when data can't be loaded)
+export const defaultNavLinks = navLinks;

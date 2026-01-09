@@ -106,6 +106,26 @@ export const GET_REALIZACJAS_FOR_GRID = gql`
   }
 `;
 
+// Fragment for navbar (title and description only, limited to 9)
+export const REALIZACJA_NAVBAR_FRAGMENT = gql`
+  fragment RealizacjaNavbarFields on Realizacja {
+    id
+    title
+    description
+    slug
+  }
+`;
+
+// Query to get realizacjas for navbar dropdown (9 items)
+export const GET_REALIZACJAS_FOR_NAVBAR = gql`
+  ${REALIZACJA_NAVBAR_FRAGMENT}
+  query GetRealizacjasForNavbar {
+    realizacjas(first: 9, orderBy: createdAt_DESC) {
+      ...RealizacjaNavbarFields
+    }
+  }
+`;
+
 // Legacy exports for backward compatibility
 export const GET_ALL_REALIZACJE = GET_ALL_REALIZACJAS;
 export const GET_ALL_REALIZACJE_SLUGS = GET_ALL_REALIZACJAS_SLUGS;

@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Dropdown from "../ui/dropdown";
-import { navLinks } from "./navigation-data";
+import { NavLink } from "./navigation-data";
 
 interface DesktopNavProps {
   isVisible: boolean;
+  navLinks: NavLink[];
 }
 
 const handleSmoothScroll = (
@@ -27,7 +28,7 @@ const handleSmoothScroll = (
   }
 };
 
-const DesktopNav = ({ isVisible }: DesktopNavProps) => {
+const DesktopNav = ({ isVisible, navLinks }: DesktopNavProps) => {
   const pathname = usePathname();
 
   return (

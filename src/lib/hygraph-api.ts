@@ -4,6 +4,7 @@ import {
   GET_REALIZACJA_BY_ID,
   GET_ALL_REALIZACJAS_SLUGS,
   GET_REALIZACJAS_FOR_GRID,
+  GET_REALIZACJAS_FOR_NAVBAR,
   GET_ALL_SECTIONS_WITH_WORKERS,
 } from './hygraph-queries';
 import { Realizacja } from './realizacje-data';
@@ -217,6 +218,29 @@ export async function fetchRealizacjeForGrid(): Promise<Realizacja[]> {
 
   } catch (error) {
     console.error('Error fetching realizacje for grid:', error);
+    return [];
+  }
+}
+
+// Fetch realizacje for navbar dropdown (9 items with title and description only)
+export async function fetchRealizacjeForNavbar(): Promise<Array<{ id: string; title: string; description: string; slug: string }>> {
+  try {
+    const data = await hygraphClient.request<RealizacjeResponse>(GET_REALIZACJAS_FOR_NAVBAR);
+    
+    if (!data.realizacjas || !Array.isArray(data.realizacjas)) {
+      return [];
+    }
+    
+    // Map to minimal data needed for navbar dropdown
+    return data.realizacjas.map((item) => ({
+      id: item.id,
+      title: item.title,
+      description: item.description || '',
+      slug: item.slug || '',
+    }));
+
+  } catch (error) {
+    console.error('Error fetching realizacje for navbar:', error);
     return [];
   }
 }
