@@ -168,7 +168,7 @@ export const GET_ALL_SECTIONS_WITH_WORKERS = gql`
     sections(orderBy: displayOrder_ASC) {
       ...SectionFields
     }
-    workers(orderBy: createdAt_DESC) {
+    workers(first: 100, orderBy: createdAt_DESC) {
       ...WorkerFields
       section { # multi-reference returns array of Section
         id
