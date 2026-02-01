@@ -65,8 +65,7 @@ export default function Footer() {
           <motion.div variants={itemVariants} className="space-y-4">
             <h3 className="font-michroma text-2xl text-white">LABO</h3>
             <p className="text-sm text-neutral-400">
-              Tworzymy wyjątkowe przestrzenie sceniczne, które zachwycają i
-              inspirują.
+              Tworzymy wyjątkowe przestrzenie sceniczne, które działają.
             </p>
           </motion.div>
 
@@ -104,7 +103,7 @@ export default function Footer() {
             <h4 className="font-michroma text-sm text-neutral-200">KONTAKT</h4>
             <ul className="space-y-2 text-sm text-neutral-400">
           
-              <li>biuro@labopracownia.com</li>
+              <li>biuro@labopracownia.pl</li>
               <li>ul. Kaczorowa 26B</li>
               <li>03-046 Warszawa</li>
             </ul>

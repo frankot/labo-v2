@@ -59,7 +59,7 @@ export default function RealizacjePage() {
         <div className="flex h-96 items-center justify-center">
           <div className="text-center">
             <div className="mb-4 text-2xl">⏳</div>
-            <p className="font-michroma text-sm text-gray-600">Loading realizacje...</p>
+            <p className="font-michroma text-sm text-gray-600">Ładowanie realizacji...</p>
           </div>
         </div>
       </div>
@@ -72,11 +72,11 @@ export default function RealizacjePage() {
       <div className="relative">
         <HeaderDetails
           title="NASZE REALIZACJE"
-          subtitle="Kreatywne projekty scenograficzne"
+          subtitle="Scenografia eventowa i produkcyjna bez kompromisów"
           backgroundImage="/scene.jpg"
           description={[
-            "Poznaj nasze najnowsze realizacje scenograficzne, które łączą innowacyjne technologie z kreatywnym designem. Każdy projekt to unikalne wyzwanie, które realizujemy z pasją i precyzją.",
-            "Od scenografii teatralnych po wystawy muzealne - nasze projekty wyróżniają się wysoką jakością wykonania i dbałością o każdy detal.",
+            "Poznaj nasze najnowsze i najbardziej spektakularne realizacje scenograficzne dla eventów, festiwali, produkcji specjalnych i marek, które chcą się wyróżnić.",
+            "Łączymy techniczne know-how z kreatywnym designem, dostarczając rozwiązania dopasowane do skali, miejsca i charakteru wydarzenia.",
           ]}
           onLoad={true}
         />

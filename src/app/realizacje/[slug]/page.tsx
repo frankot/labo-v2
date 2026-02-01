@@ -321,7 +321,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
             <div className="mb-8 sm:mb-12">
               <Card>
                 <div 
-                  className="text-base leading-relaxed text-stone-300 sm:text-lg prose prose-invert max-w-none"
+                  className="text-base leading-relaxed text-justify text-stone-300 sm:text-lg prose prose-invert max-w-none"
                   dangerouslySetInnerHTML={{ __html: project.fullDescription || '' }}
                 />
               </Card>

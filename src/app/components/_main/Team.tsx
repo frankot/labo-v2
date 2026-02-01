@@ -271,19 +271,19 @@ export default function TeamSection() {
                 {/* Left Scroll Button */}
                 <button
                   onClick={scrollLeft}
-                  className="hidden md:flex absolute left-0 top-0 bottom-0 z-30 w-16 bg-gradient-to-r from-black/50 to-transparent backdrop-blur-sm transition-all duration-300 hover:from-black/70 items-center justify-start pl-2"
+                  className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-black/70 hover:bg-black/90 rounded-full items-center justify-center transition-all duration-300"
                   aria-label="Scroll left"
                 >
-                  <ChevronLeft size={32} />
+                  <ChevronLeft size={24} />
                 </button>
 
                 {/* Right Scroll Button */}
                 <button
                   onClick={scrollRight}
-                  className="hidden md:flex absolute right-0 top-0 bottom-0 z-30 w-16 bg-gradient-to-l from-black/50 to-transparent backdrop-blur-sm transition-all duration-300 hover:from-black/70 items-center justify-end pr-2"
+                  className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-black/70 hover:bg-black/90 rounded-full items-center justify-center transition-all duration-300"
                   aria-label="Scroll right"
                 >
-                  <ChevronRight size={32} />
+                  <ChevronRight size={24} />
                 </button>
 
                 {/* Team Members Carousel */}

@@ -124,7 +124,7 @@ export default function Contact() {
                         </h4>
                       </div>
                       <p className="text-xs text-stone-400">
-                        <AnimatedText text="biuro@labopracownia.com" delay={0.6} />
+                        <AnimatedText text="biuro@labopracownia.pl" delay={0.6} />
                       </p>
                     </div>
                     <div className="space-y-2">

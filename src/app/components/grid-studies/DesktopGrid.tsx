@@ -39,15 +39,10 @@ export function DesktopGrid({ caseStudies }: DesktopGridProps) {
     return positions[index] || { row: 0, col: 0 };
   };
 
-  // Simple visibility on mount and set first video as hovered
+  // Simple visibility on mount
   useEffect(() => {
     setIsVisible(true);
-    // Set first video (index 0) as hovered by default
-    if (sortedCaseStudies.length > 0) {
-      const { row, col } = getGridPosition(0);
-      setHovered({ row, col, index: 0 });
-    }
-  }, [sortedCaseStudies.length]);
+  }, []);
 
   const getOrganicRowSizes = useCallback(() => {
     if (hovered === null) return "1fr 1fr 1fr";

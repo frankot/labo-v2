@@ -14,7 +14,7 @@ export const machinesData: Machine[] = [
   {
     id: 1,
     name: "PLOTER FREZUJĄCY 2040 SPECIAL",
-    shortName: "CNC Plotter",
+    shortName: "Ploter CNC",
     workArea: "210 × 410 cm",
     manufacturer: "Polska Grupa CNC",
     description:
@@ -36,12 +36,12 @@ export const machinesData: Machine[] = [
       "Dibond, Laminaty",
       "Papier, styropian",
     ],
-    image: "/park-maszyn/drukarka-3d.png",
+    image: "/park-maszyn/ploter.png",
   },
   {
     id: 2,
     name: "DRUKARKA 3D WIELKOFORMATOWA",
-    shortName: "Large Format 3D",
+    shortName: "Drukarka 3D",
     workArea: "250 × 125 × 100 cm",
     manufacturer: "PROTOTYP POLSKIEJ GRUPY CNC",
     description:
@@ -67,7 +67,7 @@ export const machinesData: Machine[] = [
   {
     id: 3,
     name: "LASER CO₂ 100 W",
-    shortName: "CO2 Laser",
+    shortName: "Laser CO₂",
     workArea: "100 × 140 cm",
     manufacturer: "Moc tuby: 100 W",
     description:
@@ -91,7 +91,7 @@ export const machinesData: Machine[] = [
   {
     id: 4,
     name: "WYCINARKA PLAZMOWA",
-    shortName: "Plasma Cutter",
+    shortName: "Wycinarka Plazmowa",
     workArea: "200 × 100 cm",
     manufacturer: "",
     description:
@@ -111,7 +111,7 @@ export const machinesData: Machine[] = [
   {
     id: 5,
     name: "PIŁY FORMATOWE I PIŁA PIONOWA",
-    shortName: "Format Saws",
+    shortName: "Piły Formatowe",
     workArea: "",
     manufacturer: "",
     description:
@@ -131,7 +131,7 @@ export const machinesData: Machine[] = [
   {
     id: 6,
     name: "Okleiniarka prostoliniowa G380",
-    shortName: "Edge Bander G380",
+    shortName: "Okleiniarka G380",
     workArea: "",
     manufacturer: "Felder",
     description:
@@ -150,7 +150,7 @@ export const machinesData: Machine[] = [
   {
     id: 7,
     name: "Termoformiarka",
-    shortName: "Thermoforming",
+    shortName: "Termoformiarka",
     workArea: "100 × 200 cm",
     manufacturer: "",
     description:
@@ -168,7 +168,7 @@ export const machinesData: Machine[] = [
   {
     id: 8,
     name: "LAKIERNIA FRONTÓW MEBLOWYCH",
-    shortName: "Paint Shop",
+    shortName: "Lakiernia",
     workArea: "",
     manufacturer: "",
     description:
@@ -189,7 +189,7 @@ export const machinesData: Machine[] = [
   {
     id: 9,
     name: "SPAWALNIA",
-    shortName: "Welding Station",
+    shortName: "Spawalnia",
     workArea: "",
     manufacturer: "",
     description:
