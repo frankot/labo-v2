@@ -65,7 +65,7 @@ export default function Footer() {
           <motion.div variants={itemVariants} className="space-y-4">
             <h3 className="font-michroma text-2xl text-white">LABO</h3>
             <p className="text-sm text-neutral-400">
-              Tworzymy wyjątkowe przestrzenie sceniczne, które działają.
+             Tworzymy przestrzenie, które działają.
             </p>
           </motion.div>
 

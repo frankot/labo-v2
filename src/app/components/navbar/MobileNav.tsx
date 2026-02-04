@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronDown, Phone } from "lucide-react";
 import { NavLink } from "./navigation-data";
 
@@ -75,20 +76,12 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
         className="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-center bg-black lg:hidden"
         style={{ boxShadow: "none", border: "none" }}
       >
-        {/* Centered LABO text with Michroma font, only when isVisible */}
+        {/* Centered LABO logo, only when isVisible */}
         <div
           className={`absolute left-1/2 flex -translate-x-1/2 items-center justify-center transition-opacity duration-500 ${isVisible || isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
         >
-          <Link href="/">
-            <h3
-              className="font-michroma text-2xl tracking-wide text-white"
-              style={{
-                fontFamily: "Michroma, sans-serif",
-                letterSpacing: "0.1em",
-              }}
-            >
-              LABO
-            </h3>
+          <Link href="/" className="flex overflow-hidden">
+            <Image src="/labo-hor-white.png" alt="LABO" width={90} height={45} />
           </Link>
         </div>
         {/* Burger/X Button */}

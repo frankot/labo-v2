@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Dropdown from "../ui/dropdown";
 import { NavLink } from "./navigation-data";
@@ -38,8 +39,8 @@ const DesktopNav = ({ isVisible, navLinks }: DesktopNavProps) => {
       }`}
     >
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center">
-          <h1 className="font-michroma text-4xl font-bold text-white">LABO</h1>
+        <Link href="/" className="flex items-center overflow-hidden">
+          <Image src="/labo-hor-white.png" alt="LABO" width={140} height={70} />
         </Link>
 
         <div className="flex items-center space-x-2">
