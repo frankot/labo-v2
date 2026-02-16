@@ -39,7 +39,8 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex(
-      (prev) => (prev - 1 + sortedCaseStudies.length) % sortedCaseStudies.length,
+      (prev) =>
+        (prev - 1 + sortedCaseStudies.length) % sortedCaseStudies.length,
     );
     setTimeout(() => setIsTransitioning(false), 300);
   }, [sortedCaseStudies.length, isTransitioning]);
