@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, Phone } from "lucide-react";
+import { ChevronDown, Mail, MapPin, Clock, Building, Instagram, Facebook } from "lucide-react";
 import { NavLink } from "./navigation-data";
 
 const handleSmoothScroll = (
@@ -204,44 +204,65 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
         {/* Bottom Contact & Info Section */}
         <div className="mt-8 w-full border-t border-white/20 bg-black px-6 pt-4 pb-6">
           <div className="grid grid-cols-2 gap-6 text-sm">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-white">
-                <Phone size={16} />
-                <span>+48 123 456 789</span>
-              </div>
+            <div className="space-y-3">
               <div>
-                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                  Zastępca Szeryfa
-                </h4>
-                <p className="text-neutral-400">+48 987 654 321</p>
-              </div>
-              <div>
-                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                  Email
-                </h4>
-                <p className="text-neutral-400">kontakt@labo.pl</p>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div>
-                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                  Godziny pracy
-                </h4>
-                <p className="text-neutral-400">Pon-Pt: 8:00-16:00</p>
-              </div>
-              <div>
-                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                  Adres
-                </h4>
+                <div className="mb-1 flex items-center gap-2">
+                  <Building className="h-4 w-4 text-neutral-500" />
+                  <h4 className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                    Adres
+                  </h4>
+                </div>
                 <p className="text-neutral-400">
-                  ul. Przykładowa 123, Warszawa
+                  ul. Kaczorowa 26B, 03-046 Warszawa
                 </p>
               </div>
               <div>
-                <h4 className="mb-1 text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                  Social
+                <div className="mb-1 flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-neutral-500" />
+                  <h4 className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                    Email
+                  </h4>
+                </div>
+                <p className="text-neutral-400">biuro@labopracownia.pl</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <div className="mb-1 flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-neutral-500" />
+                  <h4 className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                    Godziny pracy
+                  </h4>
+                </div>
+                <p className="text-neutral-400">Pn-Pt: 9:00-17:00</p>
+              </div>
+              <div>
+                <h4 className="mb-2 text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                  Social Media
                 </h4>
-                <p className="text-neutral-400">@labo_official</p>
+                <div className="flex space-x-2">
+                  <a
+                    href="https://instagram.com"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 transition-all hover:border-white/40 hover:bg-white/20"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="h-4 w-4 text-neutral-400" />
+                  </a>
+                  <a
+                    href="https://facebook.com"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 transition-all hover:border-white/40 hover:bg-white/20"
+                    aria-label="Facebook"
+                  >
+                    <Facebook className="h-4 w-4 text-neutral-400" />
+                  </a>
+                  <a
+                    href="https://maps.google.com"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 transition-all hover:border-white/40 hover:bg-white/20"
+                    aria-label="Location"
+                  >
+                    <MapPin className="h-4 w-4 text-neutral-400" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
