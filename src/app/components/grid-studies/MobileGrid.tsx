@@ -113,6 +113,7 @@ export function MobileGrid({ caseStudies }: MobileGridProps) {
             }`}
           >
             <VideoFrame
+              key={currentCaseStudy.id}
               video={currentCaseStudy.video}
               isMobile={true}
               className="h-full w-full"

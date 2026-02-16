@@ -7,7 +7,6 @@ import {
   Facebook,
   Mail,
   MapPin,
-  Phone,
   Clock,
   Building,
 } from "lucide-react";
