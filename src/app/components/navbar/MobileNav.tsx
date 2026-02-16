@@ -3,7 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, Mail, MapPin, Clock, Building, Instagram, Facebook } from "lucide-react";
+import {
+  ChevronDown,
+  Mail,
+  MapPin,
+  Clock,
+  Building,
+  Instagram,
+  Facebook,
+} from "lucide-react";
 import { NavLink } from "./navigation-data";
 
 const handleSmoothScroll = (
