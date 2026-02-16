@@ -122,7 +122,7 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
           marginTop: "4rem",
         }}
       >
-        <div className="px-6 pt-6 pb-32">
+        <div className="px-6 pt-6 pb-6">
           <nav className="space-y-2">
             {navLinks.map((link) => (
               <div key={link.label}>
@@ -197,7 +197,7 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
         </div>
 
         {/* Bottom Contact & Info Section */}
-        <div className="absolute bottom-0 left-0 w-full border-t border-white/20 bg-black px-6 pt-4 pb-6">
+        <div className="mt-8 w-full border-t border-white/20 bg-black px-6 pt-4 pb-6">
           <div className="grid grid-cols-2 gap-6 text-sm">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-white">
