@@ -81,7 +81,12 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
           className={`absolute left-1/2 flex -translate-x-1/2 items-center justify-center transition-opacity duration-500 ${isVisible || isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
         >
           <Link href="/" className="flex overflow-hidden">
-            <Image src="/labo-hor-white.png" alt="LABO" width={90} height={45} />
+            <Image
+              src="/labo-hor-white.png"
+              alt="LABO"
+              width={90}
+              height={45}
+            />
           </Link>
         </div>
         {/* Burger/X Button */}
