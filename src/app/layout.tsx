@@ -17,8 +17,51 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "labo2",
-  description: "labo2",
+  title: {
+    default: "Labo Pracownia – Scenografia i elementy przestrzenne",
+    template: "%s | Labo Pracownia",
+  },
+  description:
+    "Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, festiwali, targów, wystaw i produkcji multimedialnych – zarówno w Polsce jak i poza jej granicami.",
+  keywords: [
+    "scenografia",
+    "elementy przestrzenne",
+    "eventy",
+    "festiwale",
+    "targi",
+    "wystawy",
+    "produkcje multimedialne",
+    "scenografia eventowa",
+    "pracownia scenograficzna",
+    "Labo Pracownia",
+    "realizacja scenografii",
+    "agencje eventowe",
+    "studia kreatywne",
+    "instytucje kultury",
+    "producenci wydarzeń",
+    "rozwiązania scenograficzne",
+  ],
+  authors: [{ name: "Labo Pracownia" }],
+  creator: "Labo Pracownia",
+  metadataBase: new URL("https://labopracownia.pl"),
+  openGraph: {
+    type: "website",
+    locale: "pl_PL",
+    siteName: "Labo Pracownia",
+    title: "Labo Pracownia – Scenografia i elementy przestrzenne",
+    description:
+      "Zespół projektowo-wykonawczy specjalizujący się w kompleksowej realizacji scenografii oraz elementów przestrzennych. Ponad 20 lat doświadczenia w eventach, festiwalach, targach i wystawach.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Labo Pracownia – Scenografia i elementy przestrzenne",
+    description:
+      "Zespół projektowo-wykonawczy specjalizujący się w kompleksowej realizacji scenografii oraz elementów przestrzennych.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
