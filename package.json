@@ -10,7 +10,10 @@
     "format": "prettier --write .",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare deploy"
+    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:pages:build": "opennextjs-cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js",
+    "cf:pages:deploy": "wrangler pages deploy .open-next/assets --project-name labo-v2",
+    "cf:pages:deploy:preview": "wrangler pages deploy .open-next/assets --project-name labo-v2 --branch preview"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
