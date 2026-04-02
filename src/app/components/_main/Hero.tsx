@@ -77,14 +77,16 @@ export default function Hero() {
     <FadeInView className="mt-12 flex h-[80vh] w-full flex-col items-center justify-center px-8 text-white lg:mt-0 lg:h-[45rem]">
       {/* Centered Logo */}
       <div className="mb-12">
-        <div className="relative size-[280px] lg:size-[400px]">
+        <div className="flex items-center justify-center">
           <Image
             src="/logo.png"
-            alt="Logo"
-            fill
-            className="object-contain"
+            alt="LABO"
+            width={400}
+            height={400}
+            sizes="(max-width: 1024px) 280px, 400px"
+            className="h-[280px] w-[280px] object-contain lg:h-[400px] lg:w-[400px]"
             priority
-            quality={80}
+            unoptimized
           />
         </div>
       </div>
@@ -92,9 +94,9 @@ export default function Hero() {
       {/* Horizontal Services List */}
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:gap-8">
         {services.map((text, index) => (
-          <div key={text} className="flex items-center cursor-pointer">
+          <div key={text} className="flex cursor-pointer items-center">
             <StaggeredElement staggerDelay={0.02}>
-              <span className="font-michroma lg::text-xl font-light tracking-wider text-gray-300 uppercase transition-all duration-300 hover:text-white md:text-lg">
+              <span className="font-michroma font-light tracking-wider text-gray-300 uppercase transition-all duration-300 hover:text-white md:text-lg lg:text-xl">
                 {text.split("").map((char, charIndex) => (
                   <StaggeredChar key={charIndex} char={char} />
                 ))}
