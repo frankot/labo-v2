@@ -1,4 +1,4 @@
-import { hygraphClient } from './hygraph-client';
+import { getHygraphClient, isHygraphConfigured } from './hygraph-client';
 import {
   GET_ALL_REALIZACJAS,
   GET_REALIZACJA_BY_ID,
@@ -10,6 +10,34 @@ import {
 import { Realizacja } from './realizacje-data';
 import { parseServicesString } from './services-utils';
 import type { TeamWorker, TeamSection } from './team-data';
+
+let hasLoggedMissingHygraphConfig = false;
+
+function logMissingHygraphConfig() {
+  if (hasLoggedMissingHygraphConfig) {
+    return;
+  }
+
+  console.warn(
+    'Hygraph environment variables are missing. Set HYGRAPH_ENDPOINT or NEXT_PUBLIC_HYGRAPH_ENDPOINT, plus HYGRAPH_TOKEN when required.'
+  );
+  hasLoggedMissingHygraphConfig = true;
+}
+
+async function requestHygraph<T>(query: string, variables?: Record<string, unknown>): Promise<T | null> {
+  if (!isHygraphConfigured()) {
+    logMissingHygraphConfig();
+    return null;
+  }
+
+  const client = getHygraphClient();
+  if (!client) {
+    logMissingHygraphConfig();
+    return null;
+  }
+
+  return client.request<T>(query, variables);
+}
 
 // Types based on Hygraph response
 export interface HygraphAsset {
@@ -99,7 +127,10 @@ function transformHygraphToRealizacja(hygraphData: HygraphRealizacjaResponse): R
 // Fetch all realizacje
 export async function fetchAllRealizacje(): Promise<Realizacja[]> {
   try {
-    const data = await hygraphClient.request<RealizacjeResponse>(GET_ALL_REALIZACJAS);
+    const data = await requestHygraph<RealizacjeResponse>(GET_ALL_REALIZACJAS);
+    if (!data) {
+      return [];
+    }
     return data.realizacjas.map(transformHygraphToRealizacja);
   } catch (error) {
     console.error('Error fetching realizacje:', error);
@@ -111,8 +142,8 @@ export async function fetchAllRealizacje(): Promise<Realizacja[]> {
 // Fetch realizacja by ID
 export async function fetchRealizacjaById(id: string): Promise<Realizacja | null> {
   try {
-    const data = await hygraphClient.request<RealizacjaResponse>(GET_REALIZACJA_BY_ID, { id });
-    if (!data.realizacja) return null;
+    const data = await requestHygraph<RealizacjaResponse>(GET_REALIZACJA_BY_ID, { id });
+    if (!data || !data.realizacja) return null;
     return transformHygraphToRealizacja(data.realizacja);
   } catch (error) {
     console.error('Error fetching realizacja by ID:', error);
@@ -157,9 +188,9 @@ export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | 
       }
     `;
     
-    const data = await hygraphClient.request<RealizacjaResponse>(completeSlugQuery, { slug });
+    const data = await requestHygraph<RealizacjaResponse>(completeSlugQuery, { slug });
     
-    if (!data.realizacja) {
+    if (!data || !data.realizacja) {
       return null;
     }
     
@@ -186,7 +217,10 @@ export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | 
 // Fetch all slugs for static generation
 export async function fetchAllRealizacjeSlugs(): Promise<string[]> {
   try {
-    const data = await hygraphClient.request<RealizacjeSlugsResponse>(GET_ALL_REALIZACJAS_SLUGS);
+    const data = await requestHygraph<RealizacjeSlugsResponse>(GET_ALL_REALIZACJAS_SLUGS);
+    if (!data) {
+      return [];
+    }
     return data.realizacjas.map((item) => item.slug);
   } catch (error) {
     console.error('Error fetching realizacje slugs:', error);
@@ -198,7 +232,10 @@ export async function fetchAllRealizacjeSlugs(): Promise<string[]> {
 export async function fetchRealizacjeForGrid(): Promise<Realizacja[]> {
   try {
     // Use the minimal query that was confirmed working in debug
-    const data = await hygraphClient.request<RealizacjeResponse>(GET_REALIZACJAS_FOR_GRID);
+    const data = await requestHygraph<RealizacjeResponse>(GET_REALIZACJAS_FOR_GRID);
+    if (!data) {
+      return [];
+    }
     
     // Check if we actually got realizacjas data
     if (!data.realizacjas || !Array.isArray(data.realizacjas)) {
@@ -225,7 +262,10 @@ export async function fetchRealizacjeForGrid(): Promise<Realizacja[]> {
 // Fetch realizacje for navbar dropdown (9 items with title and description only)
 export async function fetchRealizacjeForNavbar(): Promise<Array<{ id: string; title: string; description: string; slug: string }>> {
   try {
-    const data = await hygraphClient.request<RealizacjeResponse>(GET_REALIZACJAS_FOR_NAVBAR);
+    const data = await requestHygraph<RealizacjeResponse>(GET_REALIZACJAS_FOR_NAVBAR);
+    if (!data) {
+      return [];
+    }
     
     if (!data.realizacjas || !Array.isArray(data.realizacjas)) {
       return [];
@@ -321,7 +361,10 @@ function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse, sectio
 // Team API functions
 export async function fetchAllSections(): Promise<HygraphTeamSection[]> {
   try {
-    const data = await hygraphClient.request<SectionsWithWorkersResponse>(GET_ALL_SECTIONS_WITH_WORKERS);
+    const data = await requestHygraph<SectionsWithWorkersResponse>(GET_ALL_SECTIONS_WITH_WORKERS);
+    if (!data) {
+      return [];
+    }
     
     // Transform sections
     const sections = data.sections.map(transformHygraphToTeamSection);

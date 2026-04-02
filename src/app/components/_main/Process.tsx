@@ -2,7 +2,7 @@
 
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import Card from "@/app/components/ui/card";
 
 interface ProcessStep {
@@ -364,7 +364,7 @@ const MobileProcess = () => {
   };
 
   // Auto-scroll functionality
-  const startAutoScroll = () => {
+  const startAutoScroll = useCallback(() => {
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
@@ -387,7 +387,7 @@ const MobileProcess = () => {
         }
       }
     }, 2000);
-  };
+  }, [isAutoScrolling]);
 
   const stopAutoScroll = () => {
     if (autoScrollIntervalRef.current) {
