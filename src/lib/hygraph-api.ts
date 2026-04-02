@@ -1,4 +1,4 @@
-import { getHygraphClient, isHygraphConfigured } from './hygraph-client';
+import { getHygraphClient, isHygraphConfigured } from "./hygraph-client";
 import {
   GET_ALL_REALIZACJAS,
   GET_REALIZACJA_BY_ID,
@@ -6,10 +6,10 @@ import {
   GET_REALIZACJAS_FOR_GRID,
   GET_REALIZACJAS_FOR_NAVBAR,
   GET_ALL_SECTIONS_WITH_WORKERS,
-} from './hygraph-queries';
-import { Realizacja } from './realizacje-data';
-import { parseServicesString } from './services-utils';
-import type { TeamWorker, TeamSection } from './team-data';
+} from "./hygraph-queries";
+import { Realizacja } from "./realizacje-data";
+import { parseServicesString } from "./services-utils";
+import type { TeamWorker, TeamSection } from "./team-data";
 
 let hasLoggedMissingHygraphConfig = false;
 
@@ -19,12 +19,15 @@ function logMissingHygraphConfig() {
   }
 
   console.warn(
-    'Hygraph environment variables are missing. Set HYGRAPH_ENDPOINT or NEXT_PUBLIC_HYGRAPH_ENDPOINT, plus HYGRAPH_TOKEN when required.'
+    "Hygraph environment variables are missing. Set HYGRAPH_ENDPOINT or NEXT_PUBLIC_HYGRAPH_ENDPOINT, plus HYGRAPH_TOKEN when required.",
   );
   hasLoggedMissingHygraphConfig = true;
 }
 
-async function requestHygraph<T>(query: string, variables?: Record<string, unknown>): Promise<T | null> {
+async function requestHygraph<T>(
+  query: string,
+  variables?: Record<string, unknown>,
+): Promise<T | null> {
   if (!isHygraphConfigured()) {
     logMissingHygraphConfig();
     return null;
@@ -99,27 +102,29 @@ interface RealizacjeSlugsResponse {
 }
 
 // Transform Hygraph data to match our existing interface
-function transformHygraphToRealizacja(hygraphData: HygraphRealizacjaResponse): Realizacja {
+function transformHygraphToRealizacja(
+  hygraphData: HygraphRealizacjaResponse,
+): Realizacja {
   // Extract video URL with fallback - handle potentially missing fields
-  const videoUrl = hygraphData.video?.url || '';
-  
+  const videoUrl = hygraphData.video?.url || "";
+
   return {
     id: hygraphData.id,
     title: hygraphData.title,
-    description: hygraphData.description || '',
-    client: hygraphData.client || '',
+    description: hygraphData.description || "",
+    client: hygraphData.client || "",
     clientLogo: hygraphData.clientLogo?.url || undefined,
-    year: hygraphData.yearString || '', // Now a string field
-    category: hygraphData.category || '',
-    image: hygraphData.image?.url || '',
-    location: hygraphData.location || '',
-    area: hygraphData.area || '',
-    scope: hygraphData.scope || '',
-    services: parseServicesString(hygraphData.services || ''), // Parse comma-separated services
-    fullDescription: hygraphData.fullDescription?.html || '', // Extract HTML from Rich Text
-    gallery: hygraphData.gallery?.map(asset => asset.url) || [], // Gallery as asset array
+    year: hygraphData.yearString || "", // Now a string field
+    category: hygraphData.category || "",
+    image: hygraphData.image?.url || "",
+    location: hygraphData.location || "",
+    area: hygraphData.area || "",
+    scope: hygraphData.scope || "",
+    services: parseServicesString(hygraphData.services || ""), // Parse comma-separated services
+    fullDescription: hygraphData.fullDescription?.html || "", // Extract HTML from Rich Text
+    gallery: hygraphData.gallery?.map((asset) => asset.url) || [], // Gallery as asset array
     video: videoUrl, // Video CDN URL from asset
-    slug: hygraphData.slug || '',
+    slug: hygraphData.slug || "",
     order: hygraphData.order, // Order field (optional, defaults to 9999 if missing)
   };
 }
@@ -133,26 +138,33 @@ export async function fetchAllRealizacje(): Promise<Realizacja[]> {
     }
     return data.realizacjas.map(transformHygraphToRealizacja);
   } catch (error) {
-    console.error('Error fetching realizacje:', error);
+    console.error("Error fetching realizacje:", error);
     // Return empty array as fallback
     return [];
   }
 }
 
 // Fetch realizacja by ID
-export async function fetchRealizacjaById(id: string): Promise<Realizacja | null> {
+export async function fetchRealizacjaById(
+  id: string,
+): Promise<Realizacja | null> {
   try {
-    const data = await requestHygraph<RealizacjaResponse>(GET_REALIZACJA_BY_ID, { id });
+    const data = await requestHygraph<RealizacjaResponse>(
+      GET_REALIZACJA_BY_ID,
+      { id },
+    );
     if (!data || !data.realizacja) return null;
     return transformHygraphToRealizacja(data.realizacja);
   } catch (error) {
-    console.error('Error fetching realizacja by ID:', error);
+    console.error("Error fetching realizacja by ID:", error);
     return null;
   }
 }
 
 // Fetch realizacja by slug
-export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | null> {
+export async function fetchRealizacjaBySlug(
+  slug: string,
+): Promise<Realizacja | null> {
   try {
     // Query with all available fields from the schema
     const completeSlugQuery = `
@@ -187,29 +199,31 @@ export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | 
         }
       }
     `;
-    
-    const data = await requestHygraph<RealizacjaResponse>(completeSlugQuery, { slug });
-    
+
+    const data = await requestHygraph<RealizacjaResponse>(completeSlugQuery, {
+      slug,
+    });
+
     if (!data || !data.realizacja) {
       return null;
     }
-    
+
     // Handle the data properly - extract HTML from Rich Text field
     const hygraphData = {
       ...data.realizacja,
-      yearString: data.realizacja.yearString || '',
-      category: data.realizacja.category || '',
-      location: data.realizacja.location || '',
-      area: data.realizacja.area || '',
-      scope: data.realizacja.scope || '',
-      services: data.realizacja.services || '', // Services as string from CMS
-      fullDescription: data.realizacja.fullDescription || { html: '' }, // Ensure Rich Text structure
+      yearString: data.realizacja.yearString || "",
+      category: data.realizacja.category || "",
+      location: data.realizacja.location || "",
+      area: data.realizacja.area || "",
+      scope: data.realizacja.scope || "",
+      services: data.realizacja.services || "", // Services as string from CMS
+      fullDescription: data.realizacja.fullDescription || { html: "" }, // Ensure Rich Text structure
       gallery: data.realizacja.gallery || [],
     };
-    
+
     return transformHygraphToRealizacja(hygraphData);
   } catch (error) {
-    console.error('Error fetching realizacja by slug:', error);
+    console.error("Error fetching realizacja by slug:", error);
     return null;
   }
 }
@@ -217,13 +231,15 @@ export async function fetchRealizacjaBySlug(slug: string): Promise<Realizacja | 
 // Fetch all slugs for static generation
 export async function fetchAllRealizacjeSlugs(): Promise<string[]> {
   try {
-    const data = await requestHygraph<RealizacjeSlugsResponse>(GET_ALL_REALIZACJAS_SLUGS);
+    const data = await requestHygraph<RealizacjeSlugsResponse>(
+      GET_ALL_REALIZACJAS_SLUGS,
+    );
     if (!data) {
       return [];
     }
     return data.realizacjas.map((item) => item.slug);
   } catch (error) {
-    console.error('Error fetching realizacje slugs:', error);
+    console.error("Error fetching realizacje slugs:", error);
     return [];
   }
 }
@@ -232,55 +248,61 @@ export async function fetchAllRealizacjeSlugs(): Promise<string[]> {
 export async function fetchRealizacjeForGrid(): Promise<Realizacja[]> {
   try {
     // Use the minimal query that was confirmed working in debug
-    const data = await requestHygraph<RealizacjeResponse>(GET_REALIZACJAS_FOR_GRID);
+    const data = await requestHygraph<RealizacjeResponse>(
+      GET_REALIZACJAS_FOR_GRID,
+    );
     if (!data) {
       return [];
     }
-    
+
     // Check if we actually got realizacjas data
     if (!data.realizacjas || !Array.isArray(data.realizacjas)) {
       return [];
     }
-    
-    // Map with better error handling for individual items
-    const mappedItems = data.realizacjas.map((item) => {
-      try {
-        return transformHygraphToRealizacja(item);
-      } catch {
-        return null;
-      }
-    }).filter((item): item is Realizacja => item !== null);
-    
-    return mappedItems;
 
+    // Map with better error handling for individual items
+    const mappedItems = data.realizacjas
+      .map((item) => {
+        try {
+          return transformHygraphToRealizacja(item);
+        } catch {
+          return null;
+        }
+      })
+      .filter((item): item is Realizacja => item !== null);
+
+    return mappedItems;
   } catch (error) {
-    console.error('Error fetching realizacje for grid:', error);
+    console.error("Error fetching realizacje for grid:", error);
     return [];
   }
 }
 
 // Fetch realizacje for navbar dropdown (9 items with title and description only)
-export async function fetchRealizacjeForNavbar(): Promise<Array<{ id: string; title: string; description: string; slug: string }>> {
+export async function fetchRealizacjeForNavbar(): Promise<
+  Array<{ id: string; title: string; description: string; slug: string }>
+> {
   try {
-    const data = await requestHygraph<RealizacjeResponse>(GET_REALIZACJAS_FOR_NAVBAR);
+    const data = await requestHygraph<RealizacjeResponse>(
+      GET_REALIZACJAS_FOR_NAVBAR,
+    );
     if (!data) {
       return [];
     }
-    
+
     if (!data.realizacjas || !Array.isArray(data.realizacjas)) {
       return [];
     }
-    
+
     // Map to minimal data needed for navbar dropdown
     return data.realizacjas.map((item) => ({
       id: item.id,
       title: item.title,
-      description: item.description || '',
-      slug: item.slug || '',
+      description: item.description || "",
+      slug: item.slug || "",
     }));
-
   } catch (error) {
-    console.error('Error fetching realizacje for navbar:', error);
+    console.error("Error fetching realizacje for navbar:", error);
     return [];
   }
 }
@@ -332,25 +354,30 @@ interface HygraphWorkerResponseWithSection extends HygraphWorkerResponse {
 }
 
 // Transform functions for team data
-function transformHygraphToTeamSection(hygraphData: HygraphSectionResponse): HygraphTeamSection {
+function transformHygraphToTeamSection(
+  hygraphData: HygraphSectionResponse,
+): HygraphTeamSection {
   return {
     id: hygraphData.id,
     name: hygraphData.name,
     slug: hygraphData.slug,
-    description: hygraphData.description || '',
+    description: hygraphData.description || "",
     displayOrder: hygraphData.displayOrder,
     workers: [], // Will be populated separately
   };
 }
 
-function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse, sectionId?: string): Omit<TeamWorker, 'sectionId'> & { sectionId?: string } {
+function transformHygraphToTeamWorker(
+  hygraphData: HygraphWorkerResponse,
+  sectionId?: string,
+): Omit<TeamWorker, "sectionId"> & { sectionId?: string } {
   return {
     id: hygraphData.id,
     name: hygraphData.name,
     role: hygraphData.role,
     phone: hygraphData.phone,
     email: hygraphData.email,
-    image: hygraphData.image?.url || '',
+    image: hygraphData.image?.url || "",
     description: hygraphData.description,
     createdAt: hygraphData.createdAt,
     workerOrder: hygraphData.workerOrder,
@@ -361,22 +388,27 @@ function transformHygraphToTeamWorker(hygraphData: HygraphWorkerResponse, sectio
 // Team API functions
 export async function fetchAllSections(): Promise<HygraphTeamSection[]> {
   try {
-    const data = await requestHygraph<SectionsWithWorkersResponse>(GET_ALL_SECTIONS_WITH_WORKERS);
+    const data = await requestHygraph<SectionsWithWorkersResponse>(
+      GET_ALL_SECTIONS_WITH_WORKERS,
+    );
     if (!data) {
       return [];
     }
-    
+
     // Transform sections
     const sections = data.sections.map(transformHygraphToTeamSection);
-    
+
     // Group workers by section and add them to sections
     const workersBySection = new Map<string, TeamWorker[]>();
-    
+
     data.workers.forEach((worker) => {
       if (worker.section && Array.isArray(worker.section)) {
         worker.section.forEach((sectionRef) => {
           const sectionId = sectionRef.id;
-          const transformed = transformHygraphToTeamWorker(worker, sectionId) as TeamWorker;
+          const transformed = transformHygraphToTeamWorker(
+            worker,
+            sectionId,
+          ) as TeamWorker;
           if (!workersBySection.has(sectionId)) {
             workersBySection.set(sectionId, []);
           }
@@ -384,31 +416,33 @@ export async function fetchAllSections(): Promise<HygraphTeamSection[]> {
         });
       }
     });
-    
+
     // Add workers to their respective sections
-    sections.forEach(section => {
+    sections.forEach((section) => {
       const workers = workersBySection.get(section.id) || [];
       section.workers = workers.sort((a, b) => {
         // Sort by workerOrder field first (1 is first, higher numbers later)
         const orderA = a.workerOrder ?? 9999;
         const orderB = b.workerOrder ?? 9999;
-        
+
         if (orderA !== orderB) {
           return orderA - orderB;
         }
-        
+
         // If order is the same, sort by createdAt (newest first)
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       });
     });
-    
+
     return sections;
   } catch (error) {
-    console.error('Error fetching sections:', error);
+    console.error("Error fetching sections:", error);
     return [];
   }
 }
 
 // Re-export types for backward compatibility
-export type { Realizacja } from './realizacje-data';
+export type { Realizacja } from "./realizacje-data";
 export type CaseStudy = Realizacja;

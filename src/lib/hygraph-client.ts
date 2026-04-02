@@ -1,9 +1,11 @@
-import { GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from "graphql-request";
 
 let cachedClient: GraphQLClient | null | undefined;
 
 function getHygraphEndpoint(): string | undefined {
-  return process.env.HYGRAPH_ENDPOINT || process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT;
+  return (
+    process.env.HYGRAPH_ENDPOINT || process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT
+  );
 }
 
 export function isHygraphConfigured(): boolean {
