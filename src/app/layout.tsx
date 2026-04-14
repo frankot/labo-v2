@@ -72,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body
-        className={`overflow-x-hidden scroll-smooth ${michroma.variable} ${quicksand.className}`}
+        className={`overflow-x-hidden scroll-smooth antialiased ${michroma.variable} ${quicksand.className}`}
       >
         <Navbar />
         {children}

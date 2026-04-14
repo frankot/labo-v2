@@ -52,7 +52,7 @@ const historyEvents = [
 // Desktop History Component (existing)
 const DesktopHistory = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-55% 0px -55% 0px" });
+  const isInView = useInView(ref, { once: true, margin: "-300px 0px -300px 0px" });
   const controls = useAnimation();
 
   useEffect(() => {
