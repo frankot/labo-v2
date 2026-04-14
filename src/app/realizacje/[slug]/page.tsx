@@ -8,6 +8,7 @@ import { use, useState, useEffect } from "react";
 import { getRealizacjaBySlugAsync, type Realizacja } from "@/lib/realizacje-data";
 import { ArrowLeft, MapPin, Calendar, Ruler, Wrench } from "lucide-react";
 import Card from "@/app/components/ui/card";
+import DOMPurify from "isomorphic-dompurify";
 import ImageCarousel from "./ImageCarousel";
 
 const fadeIn = {
@@ -322,7 +323,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
               <Card>
                 <div 
                   className="text-base leading-relaxed text-justify text-stone-300 sm:text-lg prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: project.fullDescription || '' }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.fullDescription || '') }}
                 />
               </Card>
             </div>

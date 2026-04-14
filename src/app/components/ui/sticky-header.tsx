@@ -16,7 +16,7 @@ export default function StickyHeader({
   staggerDelay = 0.04,
 }: StickyHeaderProps) {
   const defaultClasses =
-    "font-michroma sticky top-0 z-0 font-bold tracking-tight text-center pointer-events-none text-[3rem] text-white/20 lg:text-[5rem] xl:text-[11rem]";
+    "font-michroma sticky top-[5px] z-0 font-bold tracking-tight text-center pointer-events-none text-[3rem] text-white/20 lg:text-[5rem] xl:text-[11rem]";
 
   return (
     <h1 className={`${defaultClasses} ${className}`}>
