@@ -5,14 +5,14 @@ import Navbar from "./components/navbar";
 import Footer from "./components/_main/Footer";
 
 const michroma = Michroma({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400"],
   variable: "--font-michroma",
   display: "swap",
 });
 
 const quicksand = Quicksand({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-quicksand",
   display: "swap",
