@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useVideoPlayer } from "./hooks/useVideoPlayer";
 import { Realizacja } from "../../../lib/realizacje-data";
@@ -28,6 +28,8 @@ export function VideoFrame({
 }: VideoFrameProps) {
   const { videoRef } = useVideoPlayer();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Check if this is a placeholder item
   const isPlaceholder =
@@ -45,6 +47,25 @@ export function VideoFrame({
   const getRealizacjaSlug = (caseStudy: Realizacja): string => {
     return caseStudy.slug || caseStudy.id;
   };
+
+  // Lazy load: only set video src when in viewport
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || isPlaceholder || !isValidVideoUrl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isPlaceholder, isValidVideoUrl]);
 
   // Track video playing state
   useEffect(() => {
@@ -66,12 +87,11 @@ export function VideoFrame({
     };
   }, [videoRef, isPlaceholder]);
 
-  // Autoplay videos on mount
+  // Autoplay videos once src is set (isInView)
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || isPlaceholder || !isValidVideoUrl) return;
+    if (!video || isPlaceholder || !isValidVideoUrl || !isInView) return;
 
-    // Ensure video plays on load
     const playVideo = async () => {
       try {
         await video.play();
@@ -80,13 +100,12 @@ export function VideoFrame({
       }
     };
 
-    // Try to play when video metadata is loaded
     if (video.readyState >= 2) {
       playVideo();
     } else {
       video.addEventListener("loadedmetadata", playVideo, { once: true });
     }
-  }, [videoRef, isPlaceholder, isValidVideoUrl]);
+  }, [videoRef, isPlaceholder, isValidVideoUrl, isInView]);
 
   // Get video transform and filter based on card state - no darkening overlays
   const getVideoStyles = () => {
@@ -126,6 +145,7 @@ export function VideoFrame({
           className="block h-full w-full"
         >
           <div
+            ref={containerRef}
             className={`relative h-full w-full overflow-hidden rounded-lg border-6 border-black ${className} cursor-pointer`}
           >
             <div
@@ -151,12 +171,12 @@ export function VideoFrame({
                 <video
                   ref={videoRef}
                   className="h-full w-full object-cover"
-                  src={video}
+                  src={isInView ? video : undefined}
                   loop
                   muted
                   playsInline
                   autoPlay={false}
-                  preload="metadata"
+                  preload={isInView ? "metadata" : "none"}
                   controls={false}
                   disablePictureInPicture
                 >
