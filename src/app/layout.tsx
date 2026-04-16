@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Labo Pracownia",
   },
   description:
-    "Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, festiwali, targów, wystaw i produkcji multimedialnych – zarówno w Polsce jak i poza jej granicami.",
+    "Projektujemy i realizujemy scenografie oraz elementy przestrzenne dla eventów, festiwali, targów i wystaw w Polsce oraz za granicą.",
   keywords: [
     "scenografia",
     "elementy przestrzenne",
@@ -46,6 +46,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Labo Pracownia" }],
   creator: "Labo Pracownia",
   metadataBase: new URL("https://labopracownia.pl"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "pl_PL",
@@ -80,11 +83,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Labo Pracownia",
+    url: "https://labopracownia.pl",
+    email: "biuro@labopracownia.pl",
+    sameAs: [
+      "https://www.instagram.com/labopracownia/",
+      "https://www.facebook.com/labopracownia/?locale=pl_PL",
+    ],
+  };
+
   return (
     <html lang="pl">
       <head>
         <link rel="preconnect" href="https://eu-west-2.cdn.hygraph.com" />
         <link rel="dns-prefetch" href="https://eu-west-2.cdn.hygraph.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
       </head>
       <body
         className={`overflow-x-hidden scroll-smooth antialiased ${michroma.variable} ${quicksand.className}`}

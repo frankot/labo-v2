@@ -17,6 +17,7 @@ const containerVariants = {
 export default function ParkMaszynPage() {
   return (
     <main className="min-h-screen lg:mt-20">
+      <h1 className="sr-only">Park maszyn Labo Pracownia</h1>
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails

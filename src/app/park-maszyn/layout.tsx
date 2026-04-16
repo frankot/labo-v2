@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Park Maszyn",
   description:
-    "Nowoczesny park maszynowy Labo Pracownia – zaawansowane technologie produkcyjne umożliwiające realizację projektów scenograficznych na najwyższym poziomie. CNC, druk 3D, obróbka metalu i drewna.",
+    "Nowoczesny park maszynowy Labo Pracownia: CNC, druk 3D oraz obróbka metalu i drewna dla precyzyjnej produkcji scenografii.",
+  alternates: {
+    canonical: "/park-maszyn",
+  },
   openGraph: {
     title: "Park Maszyn | Labo Pracownia",
     description:

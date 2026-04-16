@@ -68,6 +68,7 @@ export default function RealizacjePage() {
 
   return (
     <main className="min-h-screen lg:mt-20">
+      <h1 className="sr-only">Realizacje Labo Pracownia</h1>
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails

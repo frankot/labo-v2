@@ -11,7 +11,10 @@ import Contact from "./components/_main/Contact";
 export const metadata: Metadata = {
   title: "Labo Pracownia – Scenografia i elementy przestrzenne",
   description:
-    "Jesteśmy zespołem projektowo-wykonawczym specjalizującym się w kompleksowej realizacji scenografii oraz elementów przestrzennych na potrzeby eventów, festiwali, targów, wystaw i produkcji multimedialnych.",
+    "Labo Pracownia projektuje i realizuje scenografie oraz elementy przestrzenne dla eventów, festiwali, targów i wystaw.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Labo Pracownia – Scenografia i elementy przestrzenne",
     description:
@@ -22,6 +25,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="h">
+      <h1 className="sr-only">
+        Labo Pracownia - scenografia i elementy przestrzenne
+      </h1>
       <Hero />
       <div className="mt-20 h-[350px] w-full lg:mt-0 lg:h-screen">
         <FrameLayout />

@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Realizacje",
   description:
     "Portfolio realizacji Labo Pracownia – scenografie eventowe, festiwalowe, targowe i wystawiennicze. Projekty zrealizowane w Polsce i za granicą.",
+  alternates: {
+    canonical: "/realizacje",
+  },
   openGraph: {
     title: "Realizacje | Labo Pracownia",
     description:

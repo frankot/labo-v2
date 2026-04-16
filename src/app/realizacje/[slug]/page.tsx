@@ -108,8 +108,38 @@ export default function RealizacjaDetailPage({ params }: Props) {
     setCarouselOpen(true);
   };
 
+  const canonicalUrl = `https://labopracownia.pl/realizacje/${resolvedParams.slug}`;
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Strona główna",
+        item: "https://labopracownia.pl/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Realizacje",
+        item: "https://labopracownia.pl/realizacje",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.title,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero Image */}
       <motion.div
         className="relative h-[60vh] w-full sm:h-[70vh]"
@@ -257,6 +287,27 @@ export default function RealizacjaDetailPage({ params }: Props) {
 
       {/* Main Content */}
       <div className="container mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <nav aria-label="Okruszki" className="mb-8 text-sm text-stone-300">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li>
+              <Link href="/" className="transition-colors hover:text-white">
+                Strona główna
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <Link
+                href="/realizacje"
+                className="transition-colors hover:text-white"
+              >
+                Realizacje
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li className="text-white">{project.title}</li>
+          </ol>
+        </nav>
+
         <div className="grid grid-cols-1 gap-12 sm:gap-16 lg:grid-cols-3">
           {/* Details Card - Mobile First, Desktop Sidebar */}
           <motion.div
