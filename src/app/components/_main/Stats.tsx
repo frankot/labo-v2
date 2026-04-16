@@ -113,7 +113,7 @@ const DesktopStatCard = ({
           />
         </div>
 
-        <div className="relative z-10 space-y-2 sm:space-y-3">
+        <dl className="relative z-10 space-y-2 sm:space-y-3">
           <dt className="text-xs leading-5 text-stone-300 sm:text-sm sm:leading-6">
             {stat.name}
           </dt>
@@ -121,10 +121,10 @@ const DesktopStatCard = ({
             <motion.span>{rounded}</motion.span>
             {stat.suffix}
           </dd>
-          <p className="mt-1 text-xs leading-relaxed text-stone-400 sm:mt-2 sm:text-sm">
+          <dd className="mt-1 text-xs leading-relaxed text-stone-400 sm:mt-2 sm:text-sm">
             {stat.description}
-          </p>
-        </div>
+          </dd>
+        </dl>
       </Card>
     </motion.div>
   );
@@ -173,16 +173,16 @@ const MobileStatItem = ({
       <div className="absolute top-2 right-2 z-0 opacity-20">
         <Icon size={40} strokeWidth={0.5} className="text-stone-400" />
       </div>
-      <div className="relative z-10 flex-1">
+      <dl className="relative z-10 flex-1">
         <dt className="text-xs leading-5 text-stone-300">{stat.name}</dt>
         <dd className="font-michroma text-xl font-semibold tracking-tight text-white">
           <motion.span>{rounded}</motion.span>
           {stat.suffix}
         </dd>
-        <p className="mt-1 text-xs leading-relaxed text-stone-400">
+        <dd className="mt-1 text-xs leading-relaxed text-stone-400">
           {stat.description}
-        </p>
-      </div>
+        </dd>
+      </dl>
     </motion.div>
   );
 };
@@ -191,11 +191,11 @@ const MobileStatItem = ({
 const MobileStats = () => {
   return (
     <Card className="p-4 sm:p-6">
-      <dl className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {stats.map((stat, index) => (
           <MobileStatItem key={stat.id} stat={stat} index={index} />
         ))}
-      </dl>
+      </div>
     </Card>
   );
 };
@@ -203,11 +203,11 @@ const MobileStats = () => {
 // Desktop Stats Layout
 const DesktopStats = () => {
   return (
-    <dl className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
+    <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
       {stats.map((stat, index) => (
         <DesktopStatCard key={stat.id} stat={stat} index={index} />
       ))}
-    </dl>
+    </div>
   );
 };
 

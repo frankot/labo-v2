@@ -65,14 +65,14 @@ export default function RealizacjaDetailPage({ params }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
+      <main className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
         <div className="flex h-96 items-center justify-center">
           <div className="text-center">
             <div className="mb-4 text-2xl">⏳</div>
             <p className="font-michroma text-sm text-gray-600">Loading project...</p>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -109,7 +109,7 @@ export default function RealizacjaDetailPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
+    <main className="min-h-screen bg-black text-white sm:mt-20 lg:mt-16">
       {/* Hero Image */}
       <motion.div
         className="relative h-[60vh] w-full sm:h-[70vh]"
@@ -363,6 +363,6 @@ export default function RealizacjaDetailPage({ params }: Props) {
           />
         )}
       </AnimatePresence>
-    </div>
+    </main>
   );
 }

@@ -8,12 +8,14 @@ const michroma = Michroma({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-michroma",
+  display: "swap",
 });
 
 const quicksand = Quicksand({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-quicksand",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -71,6 +73,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
+      <head>
+        <link rel="preconnect" href="https://eu-west-2.cdn.hygraph.com" />
+        <link rel="dns-prefetch" href="https://eu-west-2.cdn.hygraph.com" />
+      </head>
       <body
         className={`overflow-x-hidden scroll-smooth antialiased ${michroma.variable} ${quicksand.className}`}
       >

@@ -16,7 +16,7 @@ const containerVariants = {
 
 export default function ParkMaszynPage() {
   return (
-    <div className="min-h-screen lg:mt-20">
+    <main className="min-h-screen lg:mt-20">
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails
@@ -41,6 +41,6 @@ export default function ParkMaszynPage() {
           <MachinesGridEntry />
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }

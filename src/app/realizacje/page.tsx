@@ -55,19 +55,19 @@ export default function RealizacjePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen lg:mt-20">
+      <main className="min-h-screen lg:mt-20">
         <div className="flex h-96 items-center justify-center">
           <div className="text-center">
             <div className="mb-4 text-2xl">⏳</div>
             <p className="font-michroma text-sm text-gray-600">Ładowanie realizacji...</p>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen lg:mt-20">
+    <main className="min-h-screen lg:mt-20">
       {/* Main Content */}
       <div className="relative">
         <HeaderDetails
@@ -159,6 +159,6 @@ export default function RealizacjePage() {
           </motion.div>
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }

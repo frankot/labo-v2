@@ -74,8 +74,8 @@ export default function Hero() {
   const services = ["Scenografia", "Produkcja", "Montaż", "Design"];
 
   return (
-    <FadeInView className="mt-12 flex h-[80vh] w-full flex-col items-center justify-center px-8 text-white lg:mt-0 lg:h-[45rem]">
-      {/* Centered Logo */}
+    <div className="mt-12 flex h-[80vh] w-full flex-col items-center justify-center px-8 text-white lg:mt-0 lg:h-[45rem]">
+      {/* Centered Logo — outside FadeInView so it paints immediately for LCP */}
       <div className="mb-12">
         <div className="flex items-center justify-center">
           <Image
@@ -86,13 +86,13 @@ export default function Hero() {
             sizes="(max-width: 1024px) 280px, 400px"
             className="h-[280px] w-[280px] object-contain lg:h-[400px] lg:w-[400px]"
             priority
-            unoptimized
+            fetchPriority="high"
           />
         </div>
       </div>
 
-      {/* Horizontal Services List */}
-      <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:gap-8">
+      {/* Horizontal Services List — animations preserved */}
+      <FadeInView className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:gap-8">
         {services.map((text, index) => (
           <div key={text} className="flex cursor-pointer items-center">
             <StaggeredElement staggerDelay={0.02}>
@@ -105,7 +105,7 @@ export default function Hero() {
             {index < 3 && <StaggeredDivider />}
           </div>
         ))}
-      </div>
-    </FadeInView>
+      </FadeInView>
+    </div>
   );
 }

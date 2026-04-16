@@ -152,6 +152,8 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
                         </Link>
                         <button
                           onClick={() => toggleSection(link.label)}
+                          aria-label={`Rozwiń ${link.label}`}
+                          aria-expanded={openSections.includes(link.label)}
                           className="px-3 py-3 text-white"
                         >
                           <ChevronDown
@@ -167,6 +169,8 @@ const MobileNav = ({ isVisible, navLinks }: MobileNavProps) => {
                     ) : (
                       <button
                         onClick={() => toggleSection(link.label)}
+                        aria-label={`Rozwiń ${link.label}`}
+                        aria-expanded={openSections.includes(link.label)}
                         className="flex w-full items-center justify-between border-b border-neutral-800 py-3 text-white"
                       >
                         {link.label}

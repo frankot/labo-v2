@@ -16,7 +16,9 @@ const ScrollArrow = ({ show, onClick }: ScrollArrowProps) => {
           : "pointer-events-none -translate-y-5 opacity-0"
       }`}
     >
-      <div
+      <button
+        type="button"
+        aria-label="Przewiń do następnej sekcji"
         className="animate-bounce-custom cursor-pointer"
         onClick={onClick}
         style={{
@@ -24,7 +26,7 @@ const ScrollArrow = ({ show, onClick }: ScrollArrowProps) => {
         }}
       >
         <ChevronDown className="size-14 text-white/70 drop-shadow-lg transition-colors duration-300 hover:text-white" />
-      </div>
+      </button>
 
       <style jsx global>{`
         @keyframes bounce-custom {

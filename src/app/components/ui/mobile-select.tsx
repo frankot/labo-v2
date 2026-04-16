@@ -95,7 +95,7 @@ export default function MobileSelect<T = string | number>({
         )}
       >
         <span
-          className={cn("text-sm font-medium", !current && "text-white/40")}
+          className={cn("text-sm font-medium", !current && "text-white/60")}
         >
           {current ? current.label : placeholder}
         </span>
@@ -114,42 +114,42 @@ export default function MobileSelect<T = string | number>({
           listClassName,
         )}
         role="listbox"
+        aria-label={ariaLabel || placeholder}
       >
-        <ul className="max-h-80 overflow-auto py-1">
+        <div className="max-h-80 overflow-auto py-1">
           {options.map((opt) => {
             const selected = opt.value === value;
             return (
-              <li key={String(opt.value)}>
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={selected}
-                  onClick={() => handleSelect(opt)}
-                  className={cn(
-                    "w-full px-4 py-3 text-left text-sm transition-colors",
-                    selected
-                      ? "bg-white/15 font-semibold text-white"
-                      : "text-white/70 hover:bg-white/10 hover:text-white",
-                    optionClassName,
-                  )}
-                >
-                  {renderOption ? (
-                    renderOption(opt, selected)
-                  ) : (
-                    <div className="flex flex-col">
-                      <span>{opt.label}</span>
-                      {opt.description && (
-                        <span className="mt-0.5 line-clamp-2 text-[11px] font-normal text-white/50">
-                          {opt.description}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </button>
-              </li>
+              <button
+                key={String(opt.value)}
+                type="button"
+                role="option"
+                aria-selected={selected}
+                onClick={() => handleSelect(opt)}
+                className={cn(
+                  "w-full px-4 py-3 text-left text-sm transition-colors",
+                  selected
+                    ? "bg-white/15 font-semibold text-white"
+                    : "text-white/70 hover:bg-white/10 hover:text-white",
+                  optionClassName,
+                )}
+              >
+                {renderOption ? (
+                  renderOption(opt, selected)
+                ) : (
+                  <div className="flex flex-col">
+                    <span>{opt.label}</span>
+                    {opt.description && (
+                      <span className="mt-0.5 line-clamp-2 text-[11px] font-normal text-white/60">
+                        {opt.description}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </button>
             );
           })}
-        </ul>
+        </div>
       </div>
     </div>
   );

@@ -28,12 +28,18 @@ export function VideoFrame({
 }: VideoFrameProps) {
   const { videoRef } = useVideoPlayer();
   const [isPlaying, setIsPlaying] = useState(false);
-  
+
   // Check if this is a placeholder item
-  const isPlaceholder = !video || video === "" || video === undefined || caseStudy?.id?.startsWith('placeholder-');
-  
+  const isPlaceholder =
+    !video ||
+    video === "" ||
+    video === undefined ||
+    caseStudy?.id?.startsWith("placeholder-");
+
   // Safety checks to ensure video is valid
-  const isValidVideoUrl = Boolean(video && typeof video === 'string' && video.startsWith('http'));
+  const isValidVideoUrl = Boolean(
+    video && typeof video === "string" && video.startsWith("http"),
+  );
 
   // Use the slug directly from CMS data
   const getRealizacjaSlug = (caseStudy: Realizacja): string => {
@@ -70,7 +76,7 @@ export function VideoFrame({
       try {
         await video.play();
       } catch (error) {
-        console.log('Autoplay prevented:', error);
+        console.log("Autoplay prevented:", error);
       }
     };
 
@@ -78,7 +84,7 @@ export function VideoFrame({
     if (video.readyState >= 2) {
       playVideo();
     } else {
-      video.addEventListener('loadedmetadata', playVideo, { once: true });
+      video.addEventListener("loadedmetadata", playVideo, { once: true });
     }
   }, [videoRef, isPlaceholder, isValidVideoUrl]);
 
@@ -115,7 +121,10 @@ export function VideoFrame({
   return (
     <>
       {!isPlaceholder ? (
-        <Link href={`/realizacje/${getRealizacjaSlug(caseStudy!)}`} className='block h-full w-full'>
+        <Link
+          href={`/realizacje/${getRealizacjaSlug(caseStudy!)}`}
+          className="block h-full w-full"
+        >
           <div
             className={`relative h-full w-full overflow-hidden rounded-lg border-6 border-black ${className} cursor-pointer`}
           >
@@ -126,15 +135,15 @@ export function VideoFrame({
               {!isValidVideoUrl ? (
                 // Placeholder content for missing data
                 <div className="flex h-full w-full items-center justify-center bg-gray-100">
-                  <div className="text-center p-6">
+                  <div className="p-6 text-center">
                     <div className="mb-4 text-4xl text-gray-400">📄</div>
-                    <h3 className="font-michroma text-sm font-medium text-gray-600 mb-2">
+                    <h3 className="font-michroma mb-2 text-sm font-medium text-gray-600">
                       Data Missing
                     </h3>
-                    <p className="font-michroma text-xs text-gray-500 max-w-[200px]">
-                      {caseStudy?.client ? 
-                        `Video missing for ${caseStudy.client}` : 
-                        'Add more content in Hygraph CMS to fill this position'}
+                    <p className="font-michroma max-w-[200px] text-xs text-gray-500">
+                      {caseStudy?.client
+                        ? `Video missing for ${caseStudy.client}`
+                        : "Add more content in Hygraph CMS to fill this position"}
                     </p>
                   </div>
                 </div>
@@ -150,7 +159,9 @@ export function VideoFrame({
                   preload="metadata"
                   controls={false}
                   disablePictureInPicture
-                />
+                >
+                  <track kind="captions" />
+                </video>
               )}
 
               {/* Company name overlay - shown when video is not playing */}
@@ -167,12 +178,14 @@ export function VideoFrame({
             {caseStudy && (
               <div
                 className={`absolute right-0 bottom-3 left-0 mx-4 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                  isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                  isHovered
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-2 opacity-0"
                 }`}
               >
                 <Card className="pointer-events-none p-3 backdrop-blur-2xl">
                   <div className="flex items-center justify-center">
-                    <h3 className="font-michroma text-xs font-medium text-white text-center">
+                    <h3 className="font-michroma text-center text-xs font-medium text-white">
                       {caseStudy.title}
                     </h3>
                   </div>
@@ -182,7 +195,7 @@ export function VideoFrame({
           </div>
         </Link>
       ) : (
-        <div className='block h-full w-full'>
+        <div className="block h-full w-full">
           <div
             className={`relative h-full w-full overflow-hidden rounded-lg border-6 border-black ${className}`}
           >
@@ -191,15 +204,15 @@ export function VideoFrame({
               style={getVideoStyles()}
             >
               <div className="flex h-full w-full items-center justify-center bg-gray-100">
-                <div className="text-center p-6">
+                <div className="p-6 text-center">
                   <div className="mb-4 text-4xl text-gray-400">📄</div>
-                  <h3 className="font-michroma text-sm font-medium text-gray-600 mb-2">
-                    {caseStudy?.title || 'Data Missing'}
+                  <h3 className="font-michroma mb-2 text-sm font-medium text-gray-600">
+                    {caseStudy?.title || "Data Missing"}
                   </h3>
-                  <p className="font-michroma text-xs text-gray-500 max-w-[200px]">
-                    {caseStudy?.client ? 
-                      `Video missing for ${caseStudy.client}` : 
-                      'Add more content in Hygraph CMS to fill this position'}
+                  <p className="font-michroma max-w-[200px] text-xs text-gray-500">
+                    {caseStudy?.client
+                      ? `Video missing for ${caseStudy.client}`
+                      : "Add more content in Hygraph CMS to fill this position"}
                   </p>
                 </div>
               </div>
